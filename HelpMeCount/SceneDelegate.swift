@@ -6,23 +6,42 @@
 //
 
 import UIKit
+import Swinject
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    let container = Container()
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 
-//        guard let windowScene = (scene as? UIWindowScene) else { return }
-//
-//        window = UIWindow(windowScene: windowScene)
-//
-//        let initialViewController = LoginViewController()
-//        let navigationController = UINavigationController(rootViewController: initialViewController)
-//
-//        window?.rootViewController = navigationController
-//        window?.makeKeyAndVisible()
+        container.register(LocalDataStorage.self) { _ in SwiftDataStorage() }
+        container.register(NetworkService.self) { _ in
+            AppNetworkService()
+        }
+
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+
+        window = UIWindow(windowScene: windowScene)
+
+        let dataStorage = container.resolve(LocalDataStorage.self)
+        let loggedUser = dataStorage?.getLoggedUser()
+
+        let initialViewController: UIViewController
+        if loggedUser == nil {
+            let configurator = LoginConfigurator(container: container)
+            let controller = LoginViewController()
+            configurator.configure(view: controller)
+            initialViewController = controller
+        } else {
+            initialViewController = ActionsViewController()
+        }
+
+        let navigationController = UINavigationController(rootViewController: initialViewController)
+
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

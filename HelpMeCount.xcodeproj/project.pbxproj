@@ -8,12 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		9167EAB62EAF32980089FEBD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9167EAB52EAF32980089FEBD /* SnapKit */; };
+		91A973F62EC0E3DD0087591C /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 91A973F52EC0E3DD0087591C /* Swinject */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		91B625F72EA8B30200345880 /* HelpMeCount.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelpMeCount.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		91E110D82EB5D9B100F32FB2 /* PersistendDataStorage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PersistendDataStorage; path = Modules/PersistendDataStorage; sourceTree = "<group>"; };
-		91E110D92EB5DB2600F32FB2 /* CommonModels */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CommonModels; path = Modules/CommonModels; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -43,6 +42,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9167EAB62EAF32980089FEBD /* SnapKit in Frameworks */,
+				91A973F62EC0E3DD0087591C /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,8 +52,6 @@
 		91B625EE2EA8B30200345880 = {
 			isa = PBXGroup;
 			children = (
-				91E110D92EB5DB2600F32FB2 /* CommonModels */,
-				91E110D82EB5D9B100F32FB2 /* PersistendDataStorage */,
 				91B625F92EA8B30200345880 /* HelpMeCount */,
 				91B625F82EA8B30200345880 /* Products */,
 			);
@@ -88,6 +86,7 @@
 			name = HelpMeCount;
 			packageProductDependencies = (
 				9167EAB52EAF32980089FEBD /* SnapKit */,
+				91A973F52EC0E3DD0087591C /* Swinject */,
 			);
 			productName = HelpMeCount;
 			productReference = 91B625F72EA8B30200345880 /* HelpMeCount.app */;
@@ -119,6 +118,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				9167EAB42EAF32980089FEBD /* XCRemoteSwiftPackageReference "SnapKit" */,
+				91A973F42EC0E3DD0087591C /* XCRemoteSwiftPackageReference "Swinject" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 91B625F82EA8B30200345880 /* Products */;
@@ -360,6 +360,14 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		91A973F42EC0E3DD0087591C /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.10.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -367,6 +375,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9167EAB42EAF32980089FEBD /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		91A973F52EC0E3DD0087591C /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 91A973F42EC0E3DD0087591C /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
