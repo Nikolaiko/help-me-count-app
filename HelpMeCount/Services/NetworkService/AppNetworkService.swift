@@ -21,7 +21,6 @@ struct AppNetworkService: NetworkService {
         switch result {
         case .success(let data):
             let token = try? JSONDecoder().decode(UserToken.self, from: data)
-            print(token)
             return token
         case .failure(let error):
             print(error)

@@ -22,7 +22,7 @@ class LoginInteractor {
     func login(username: String, password: String) -> Void {
         Task {
             if let token = await networkService.loginRequest(login: username, password: password),
-               let savedtoken = dbService.saveLoggedUser(DBToken(token: token.token)) {
+               dbService.saveLoggedUser(DBToken(token: token.token)) != nil {
                 presenter.loginResult(result: true)
             } else {
                 presenter.loginResult(result: false)

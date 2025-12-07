@@ -70,7 +70,11 @@ final class LoginViewController: UIViewController {
     }
 
     func onLoginResult(success: Bool) {
-        print(success)
+        if success {
+            UILabelError.isHidden = true
+        } else {
+            UILabelError.isHidden = false
+        }
     }
 }
 
@@ -90,6 +94,8 @@ private extension LoginViewController {
         UIButtonLogin.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loginCallback)))
 
         UIButtonRegister.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(registerCallback)))
+
+        UILabelError.isHidden = true
     }
 
     func setupConstraints() {
