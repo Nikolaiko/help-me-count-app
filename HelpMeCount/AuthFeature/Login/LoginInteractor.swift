@@ -13,16 +13,34 @@ class LoginInteractor {
     private let networkService: NetworkService
     private let dbService: LocalDataStorage
 
+    private var userLogin: String = ""
+    private var password: String = ""
+
     init(presenter: LoginPresenter, networkService: NetworkService, storage: LocalDataStorage) {
         self.presenter = presenter
         self.networkService = networkService
         self.dbService = storage
     }
-    
-    func login(username: String, password: String) -> Void {
+
+    func updateLogin(newLogin: String) {
+        self.userLogin = newLogin
+        updateFieldsState()
+    }
+
+    func updatePassword(newPassword: String) {
+        self.password = newPassword
+        updateFieldsState()
+    }
+
+    func login() -> Void {
+        presenter.setIsLoading(isLoading: true)
         Task {
-            if let token = await networkService.loginRequest(login: username, password: password),
-               dbService.saveLoggedUser(DBToken(token: token.token)) != nil {
+            defer { presenter.setIsLoading(isLoading: false) }
+            
+            if let token = await networkService.loginRequest(
+                login: userLogin,
+                password: password
+            ), dbService.saveLoggedUser(DBToken(token: token.token)) != nil {
                 presenter.loginResult(result: true)
             } else {
                 presenter.loginResult(result: false)
@@ -39,5 +57,10 @@ class LoginInteractor {
                 presenter.loginResult(result: false)
             }
         }
+    }
+
+    private func updateFieldsState() {
+        //validation
+        presenter.setLoginButtonEnabled(isEnabled: !userLogin.isEmpty && !password.isEmpty)
     }
 }

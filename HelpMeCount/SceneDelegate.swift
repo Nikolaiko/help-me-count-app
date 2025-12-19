@@ -10,27 +10,26 @@ import Swinject
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
-    private static let container = Container()
+    private static let assebler = Assembler([
+        AuthAssembly()
+    ])
 
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 
-        SceneDelegate.container.register(LocalDataStorage.self) { _ in SwiftDataStorage() }
-        SceneDelegate.container.register(NetworkService.self) { _ in AppNetworkService() }
-
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         window = UIWindow(windowScene: windowScene)
 
-        let dataStorage = SceneDelegate.container.resolve(LocalDataStorage.self)
+        let dataStorage = SceneDelegate.assebler.resolver.resolve(LocalDataStorage.self)
         let loggedUser = dataStorage?.getLoggedUser()
 
         let initialViewController: UIViewController
         if loggedUser == nil {
-            let configurator = LoginConfigurator(container: SceneDelegate.container)
+            let configurator = SceneDelegate.assebler.resolver.resolve(AuthConfigurator.self)
             let controller = LoginViewController()
-            configurator.configure(view: controller)
+            try? configurator?.configure(view: controller)
             initialViewController = controller
         } else {
             initialViewController = ActionsViewController()

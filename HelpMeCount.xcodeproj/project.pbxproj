@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9167EAB62EAF32980089FEBD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9167EAB52EAF32980089FEBD /* SnapKit */; };
 		91A973F62EC0E3DD0087591C /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 91A973F52EC0E3DD0087591C /* Swinject */; };
+		91AC90312EF391C6002B5E91 /* UIKitNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 91AC90302EF391C6002B5E91 /* UIKitNavigation */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91AC90312EF391C6002B5E91 /* UIKitNavigation in Frameworks */,
 				9167EAB62EAF32980089FEBD /* SnapKit in Frameworks */,
 				91A973F62EC0E3DD0087591C /* Swinject in Frameworks */,
 			);
@@ -49,10 +51,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		91AC902D2EF39198002B5E91 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		91B625EE2EA8B30200345880 = {
 			isa = PBXGroup;
 			children = (
 				91B625F92EA8B30200345880 /* HelpMeCount */,
+				91AC902D2EF39198002B5E91 /* Frameworks */,
 				91B625F82EA8B30200345880 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -87,6 +97,7 @@
 			packageProductDependencies = (
 				9167EAB52EAF32980089FEBD /* SnapKit */,
 				91A973F52EC0E3DD0087591C /* Swinject */,
+				91AC90302EF391C6002B5E91 /* UIKitNavigation */,
 			);
 			productName = HelpMeCount;
 			productReference = 91B625F72EA8B30200345880 /* HelpMeCount.app */;
@@ -119,6 +130,7 @@
 			packageReferences = (
 				9167EAB42EAF32980089FEBD /* XCRemoteSwiftPackageReference "SnapKit" */,
 				91A973F42EC0E3DD0087591C /* XCRemoteSwiftPackageReference "Swinject" */,
+				91AC90282EF30E57002B5E91 /* XCRemoteSwiftPackageReference "swift-navigation" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 91B625F82EA8B30200345880 /* Products */;
@@ -376,6 +388,14 @@
 				minimumVersion = 2.10.0;
 			};
 		};
+		91AC90282EF30E57002B5E91 /* XCRemoteSwiftPackageReference "swift-navigation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-navigation";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.6.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -388,6 +408,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 91A973F42EC0E3DD0087591C /* XCRemoteSwiftPackageReference "Swinject" */;
 			productName = Swinject;
+		};
+		91AC90302EF391C6002B5E91 /* UIKitNavigation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 91AC90282EF30E57002B5E91 /* XCRemoteSwiftPackageReference "swift-navigation" */;
+			productName = UIKitNavigation;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

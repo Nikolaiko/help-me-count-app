@@ -14,6 +14,14 @@ class LoginPresenter {
         self.view = view
     }
 
+    func setLoginButtonEnabled(isEnabled: Bool) {
+        view.setLoginButtonEnabled(isEnabled: isEnabled)
+    }
+
+    func setIsLoading(isLoading: Bool) {
+        
+    }
+
     func loginResult(result: Bool) {
         view.onLoginResult(success: result)
     }
