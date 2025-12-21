@@ -11,58 +11,28 @@ import UIKitNavigation
 
 final class RegisterViewController: UIViewController {
 
-    private var loginLabel: UILabel = {
-        $0.text = "Login"
-        return $0
-    }(UILabel())
+    private var loginLabel: UILabel = .simpleLabel(text: "Email")
 
-    private var passwordLabel: UILabel = {
-        $0.text = "Password"
-        return $0
-    }(UILabel())
+    private var passwordLabel: UILabel = .simpleLabel(text: "Password")
 
-    private var errorLabel: UILabel = {
-        $0.text = "Error message"
-        $0.textColor = .red
-        $0.isHidden = true
-        return $0
-    }(UILabel())
+    private var errorLabel: UILabel = .errorLabel(text: "Error label")
 
     private var loginTextField: UITextField  = {
-        $0.placeholder = "imail"
-        $0.backgroundColor = .lightGray
-        $0.layer.cornerRadius = 24
-        $0.autocapitalizationType = .none
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        return $0
-    }(UITextField())
+        let login = UITextField.inputField()
+        login.placeholder = "email"
+        login.autocapitalizationType = .none
+        return login
+    }()
 
     private var passwordTextField: UITextField  = {
-        $0.placeholder = "password"
-        $0.backgroundColor = .lightGray
-        $0.layer.cornerRadius = 24
-        $0.autocapitalizationType = .none
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        return $0
-    }(UITextField())
-
-    private var backButton: UIButton = {
-        var config = UIButton.Configuration.filled()
-        config.title = "Back"
-
-        let button = UIButton(configuration: config)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+        let password = UITextField.inputField()
+        password.placeholder = "password"
+        password.autocapitalizationType = .none
+        return password
     }()
 
-    private var registerButton: UIButton = {
-        var config = UIButton.Configuration.filled()
-        config.title = "Register"
-
-        let button = UIButton(configuration: config)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    private var registerButton: UIButton = .authButton(title: "Register")
+    private var backButton: UIButton = .authButton(title: "Back")
 
     var interactor: RegisterInteractor?
     var router: AuthRouter?

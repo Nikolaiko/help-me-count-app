@@ -22,6 +22,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         window = UIWindow(windowScene: windowScene)
 
+        for family in UIFont.familyNames.sorted() {
+            let names = UIFont.fontNames(forFamilyName: family)
+            print("Family: \(family) Font names: \(names)")
+        }
+
         let dataStorage = SceneDelegate.assebler.resolver.resolve(LocalDataStorage.self)
         let loggedUser = dataStorage?.getLoggedUser()
 

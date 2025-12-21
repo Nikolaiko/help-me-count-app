@@ -1,0 +1,39 @@
+//
+//  Labels.swift
+//  HelpMeCount
+//
+//  Created by Nikolai Baklanov on 20.12.2025.
+//
+
+import UIKit
+
+extension UILabel {
+    public static func buttonLabel() -> UILabel {
+        let label = UILabel()
+        label.font = UIFont.Roboto.bold(size: 14.0)
+        label.textColor = .trueBlack
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }
+    
+    public static func simpleLabel(text: String) -> UILabel {
+        let label = UILabel()
+        label.font = UIFont.Roboto.regular(size: 16.0)
+        label.textColor = .trueBlack
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = text
+        
+        return label
+    }
+
+    public static func errorLabel(text: String) -> UILabel {
+        let label = UILabel()
+        label.font = UIFont.Roboto.bold(size: 14.0)
+        label.textColor = .trueBlack
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = text
+
+        return label
+    }
+}
