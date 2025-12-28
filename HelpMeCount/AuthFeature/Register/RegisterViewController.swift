@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import UIKitNavigation
 
-final class RegisterViewController: UIViewController {
+final class RegisterViewController: BaseController {
 
     private var loginLabel: UILabel = .simpleLabel(text: "Email")
 
@@ -42,17 +42,31 @@ final class RegisterViewController: UIViewController {
 
         setupViews()
         setupConstraints()
+
+        interactor?.updateLogin(newLogin: loginTextField.text ?? "")
+        interactor?.updatePassword(newPassword: passwordTextField.text ?? "")
     }
 
-    func onRegisterResult(success: Bool) {
-        if success {
-            errorLabel.isHidden = true
-        } else {
-            errorLabel.isHidden = false
+    func setIsLoginStatus(isLoading: Bool) {
+        DispatchQueue.main.async {
+            self.backButton.isEnabled = !isLoading
+            self.registerButton.isEnabled = !isLoading
         }
     }
 
-    func setLoginButtonEnabled(isEnabled: Bool) {
+    func onRegisterResult(success: Bool) {
+        DispatchQueue.main.async {
+            if success {
+                self.errorLabel.isHidden = true
+                self.navigateToMain()
+
+            } else {
+                self.errorLabel.isHidden = false
+            }
+        }
+    }
+
+    func setRegisterButtonEnabled(isEnabled: Bool) {
         registerButton.isEnabled = isEnabled
     }
 
@@ -62,6 +76,18 @@ final class RegisterViewController: UIViewController {
 }
 
 private extension RegisterViewController {
+
+    func navigateToMain() {
+        guard let parent = presentingViewController as? UINavigationController else { return }
+
+        do {
+            try router?.navigateToActions(parentController: parent)
+        } catch _ as DIError {
+            showAlert(title: "DI Error", message: "Навиагция к основному экрану")
+        } catch {
+            showAlertUnknownError()
+        }
+    }
 
     func setupViews() {
         view.backgroundColor = .white

@@ -15,19 +15,18 @@ final class SwiftDataStorage: LocalDataStorage {
 
     init() {
         let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
-        if let container = try? ModelContainer(for: DBToken.self, configurations: configuration) {
+        if let container = try? ModelContainer(for: DBUserToken.self, configurations: configuration) {
             self.container = container
             self.context = ModelContext(container)
         }
     }
 
-    func getLoggedUser() -> DBToken? {
-        let descriptor = FetchDescriptor<DBToken>()
+    func getLoggedUser() -> DBUserToken? {
+        let descriptor = FetchDescriptor<DBUserToken>()
         return try? context?.fetch(descriptor).first
     }
 
-    func saveLoggedUser(_ token: DBToken) -> DBToken? {
-        print(token)
+    func saveLoggedUser(_ token: DBUserToken) -> DBUserToken? {
         if let alreadyLoggedToken = getLoggedUser() {
             alreadyLoggedToken.token = token.token
             guard let result = try? context?.save() else { return nil }

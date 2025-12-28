@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import UIKitNavigation
 
-final class LoginViewController: UIViewController {
+final class LoginViewController: BaseController {
 
     private var loginLabel: UILabel = .simpleLabel(text: "Email")
 
@@ -42,13 +42,19 @@ final class LoginViewController: UIViewController {
 
         setupViews()
         setupConstraints()
+
+        interactor?.updateLogin(newLogin: loginTextField.text ?? "")
+        interactor?.updatePassword(newPassword: passwordTextField.text ?? "")
     }
 
     func onLoginResult(success: Bool) {
-        if success {
-            errorLabel.isHidden = true
-        } else {
-            errorLabel.isHidden = false
+        DispatchQueue.main.async {
+            if success {
+                self.errorLabel.isHidden = true
+                self.navigateToMainScreen()
+            } else {
+                self.errorLabel.isHidden = false
+            }
         }
     }
 
@@ -62,6 +68,18 @@ final class LoginViewController: UIViewController {
 }
 
 private extension LoginViewController {
+
+    func navigateToMainScreen() {
+        guard let parent = self.navigationController else { return }
+
+        do {
+            try router?.navigateToActions(parentController: parent)
+        } catch let error as DIError {
+            showAlert(title: "DI Error", message: "Навиагция к основному экрану")
+        } catch {
+            showAlertUnknownError()
+        }
+    }
 
     func setupViews() {
         view.backgroundColor = .white

@@ -8,7 +8,9 @@
 import UIKit
 import SnapKit
 
-class ActionsViewController: UIViewController {
+class ActionsViewController: BaseController {
+
+    var interactor: ActionsInteractor?
 
     private let actionsTable = UITableView()
     private var actions: [CountableAction] = []

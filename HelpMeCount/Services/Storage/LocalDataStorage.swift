@@ -8,6 +8,6 @@
 import Foundation
 
 protocol LocalDataStorage {
-    func getLoggedUser() -> DBToken?
-    func saveLoggedUser(_ token: DBToken) -> DBToken?
+    func getLoggedUser() -> DBUserToken?
+    func saveLoggedUser(_ token: DBUserToken) -> DBUserToken?
 }

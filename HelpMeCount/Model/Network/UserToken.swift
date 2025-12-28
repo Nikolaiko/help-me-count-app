@@ -9,4 +9,5 @@ import Foundation
 
 struct UserToken: Decodable {
     let token: String
+    let refreshToken: String
 }

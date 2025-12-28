@@ -17,11 +17,15 @@ struct AuthRouter {
         self.resolver = resolver
     }
 
-    func navigateToActions() {
-        guard let configurator = resolver.resolve(ActionsConfigurator.self) else { return }
+    func navigateToActions(parentController: UINavigationController) throws {
+        guard let configurator = resolver.resolve(ActionsConfigurator.self)
+        else { throw DIError.unableToResolveDependency }
 
         let actionsController = ActionsViewController()
-        
+        try configurator.configure(view: actionsController)
+
+        parentController.popViewController(animated: true)
+        parentController.pushViewController(actionsController, animated: true)
     }
 
     func navigateToRegister(source: UIViewController) throws {

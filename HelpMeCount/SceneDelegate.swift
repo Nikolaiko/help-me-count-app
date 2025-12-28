@@ -11,7 +11,9 @@ import Swinject
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private static let assebler = Assembler([
-        AuthAssembly()
+        ActionsAsssembly(),
+        AuthAssembly(),
+        RootAssembly()
     ])
 
     var window: UIWindow?
@@ -40,7 +42,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             initialViewController = ActionsViewController()
         }
 
-        let navigationController = UINavigationController(rootViewController: initialViewController)
+        let configurator = SceneDelegate.assebler.resolver.resolve(AppRootConfigurator.self)
+        let rootController = AppRootViewController()
+        try? configurator?.configure(view: rootController)
+
+        let navigationController = UINavigationController(rootViewController: rootController)
 
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()

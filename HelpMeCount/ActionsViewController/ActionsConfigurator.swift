@@ -10,13 +10,16 @@ import Swinject
 
 struct ActionsConfigurator {
 
-    private let container: Container
+    private let resolver: Resolver
 
-    public init(container: Container) {
-        self.container = container
+    init(resolver: Resolver) {
+        self.resolver = resolver
     }
 
-    public func configure(view: ActionsViewController) {
-        
+    public func configure(view: ActionsViewController) throws {
+        guard let interactor = resolver.resolve(ActionsInteractor.self)
+        else { throw DIError.unableToResolveDependency }
+
+        view.interactor = interactor
     }
 }

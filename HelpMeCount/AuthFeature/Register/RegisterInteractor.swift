@@ -23,6 +23,21 @@ class RegisterInteractor {
     }
 
     func register() {
+        presenter.setIsLoadingStatus(isLoading: true)
+
+        Task {
+            defer { presenter.setIsLoadingStatus(isLoading: false) }
+
+            if let result = await networkService.registerRequest(login: userLogin,
+                                                                 password: password),
+               let savedToken = dbService.saveLoggedUser(DBUserToken(token: result.token, refreshToken: result.refreshToken)){
+                presenter.setRegisterResult(success: true)
+            } else {
+                presenter.setRegisterResult(success: false)
+            }
+        }
+
+
 
     }
 
@@ -42,6 +57,6 @@ class RegisterInteractor {
 
     private func updateFieldsState() {
         //validation
-        //presenter.setLoginButtonEnabled(isEnabled: !userLogin.isEmpty && !password.isEmpty)
+        presenter.setRegisterButtonEnabled(isEnabled: !userLogin.isEmpty && !password.isEmpty)
     }
 }
