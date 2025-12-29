@@ -13,10 +13,13 @@ class ActionsViewController: BaseController {
     var interactor: ActionsInteractor?
 
     private let actionsTable = UITableView()
-    private var actions: [CountableAction] = []
+    private var actions: [CountableAction] = [CountableAction(id: 4, title: "Title", maxRepeates: 4, currentRepeats: 0)]
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        tabBarItem.title = "Actions"
+        view.backgroundColor = .red
 
         actionsTable.dataSource = self
         actionsTable.register(UITableViewCell.self, forCellReuseIdentifier: "defaultCell")

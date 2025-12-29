@@ -5,15 +5,17 @@
 //  Created by Nikolai Baklanov on 13.11.2025.
 //
 
-import Foundation
+import UIKit
 import Swinject
 
 struct ActionsConfigurator {
 
     private let resolver: Resolver
+    private let parentController: UINavigationController
 
-    init(resolver: Resolver) {
+    init(resolver: Resolver, parentController: UINavigationController) {
         self.resolver = resolver
+        self.parentController = parentController
     }
 
     public func configure(view: ActionsViewController) throws {

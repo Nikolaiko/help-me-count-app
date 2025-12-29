@@ -70,11 +70,9 @@ final class LoginViewController: BaseController {
 private extension LoginViewController {
 
     func navigateToMainScreen() {
-        guard let parent = self.navigationController else { return }
-
         do {
-            try router?.navigateToActions(parentController: parent)
-        } catch let error as DIError {
+            try router?.navigateToActions()
+        } catch _ as DIError {
             showAlert(title: "DI Error", message: "Навиагция к основному экрану")
         } catch {
             showAlertUnknownError()

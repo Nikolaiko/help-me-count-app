@@ -5,21 +5,23 @@
 //  Created by Nikolai Baklanov on 09.11.2025.
 //
 
-import Foundation
+import UIKit
 import Swinject
 
 class AuthConfigurator {
 
     private let resolver: Resolver
+    private let parentController: UINavigationController
 
-    init(resolver: Resolver) {
+    init(resolver: Resolver, parentController: UINavigationController) {
         self.resolver = resolver
+        self.parentController = parentController
     }
 
     func configure(view: LoginViewController) throws {
         guard let presenter = resolver.resolve(LoginPresenter.self, argument: view),
               let interactor = resolver.resolve(LoginInteractor.self, argument: presenter),
-              let router = resolver.resolve(AuthRouter.self)
+              let router = resolver.resolve(AuthRouter.self, argument: parentController)
         else { throw DIError.unableToResolveDependency }
 
         view.interactor = interactor

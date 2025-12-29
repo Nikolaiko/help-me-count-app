@@ -12,20 +12,25 @@ import UIKit
 struct AuthRouter {
 
     private let resolver: Resolver
+    private let parentController: UINavigationController
 
-    init(resolver: Resolver) {
+    init(resolver: Resolver, parentController: UINavigationController) {
         self.resolver = resolver
+        self.parentController = parentController
     }
 
-    func navigateToActions(parentController: UINavigationController) throws {
-        guard let configurator = resolver.resolve(ActionsConfigurator.self)
+    func navigateToActions() throws {
+        guard let configurator = resolver.resolve(AuthorizedControllerConfigurator.self, argument: parentController)
         else { throw DIError.unableToResolveDependency }
 
-        let actionsController = ActionsViewController()
-        try configurator.configure(view: actionsController)
+        let rootController = MainTabBarViewController(tabs: [UITab(title: "fdfd", image: nil, identifier: "dssdd", viewControllerProvider: { _ in
+            ActionsViewController()
+        })])
+        try configurator.configure(view: rootController)
+
 
         parentController.popViewController(animated: true)
-        parentController.pushViewController(actionsController, animated: true)
+        parentController.pushViewController(rootController, animated: true)
     }
 
     func navigateToRegister(source: UIViewController) throws {

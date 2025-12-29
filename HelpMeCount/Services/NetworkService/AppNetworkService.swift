@@ -47,4 +47,21 @@ struct AppNetworkService: NetworkService {
             return nil
         }
     }
+
+    func getAllActions(token: String) async -> [CountableAction] {
+        let bearer = "Bearer \(token)"
+        var request = URLRequest(url: URL(string: "\(AppNetworkService.baseAddress)/actions")!)
+        request.httpMethod = "GET"
+        request.setValue(bearer, forHTTPHeaderField: "Authorization")
+
+        let result = await httpLayer.makeRequest(urlRequest: request)
+        switch result {
+        case .success(let data):
+            let actions = try? JSONDecoder().decode([CountableAction].self, from: data)
+            return actions ?? []
+        case .failure(let error):
+            print(error)
+            return []
+        }
+    }
 }

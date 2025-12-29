@@ -18,7 +18,7 @@ struct AppRootRouter {
     }
 
     func navigateToLogin(navController: UINavigationController) throws {
-        guard let configurator = resolver.resolve(AuthConfigurator.self)
+        guard let configurator = resolver.resolve(AuthConfigurator.self, argument: navController)
         else { throw DIError.unableToResolveDependency }
 
         let loginController = LoginViewController()
@@ -27,12 +27,12 @@ struct AppRootRouter {
     }
 
     func navigateToMain(navController: UINavigationController) throws {
-        guard let configurator = resolver.resolve(ActionsConfigurator.self)
+        guard let configurator = resolver.resolve(AuthorizedControllerConfigurator.self, argument: navController)
         else { throw DIError.unableToResolveDependency }
 
-        let actionsController = ActionsViewController()
-        try configurator.configure(view: actionsController)
+        let mainTabController = MainTabBarViewController()
+        try configurator.configure(view: mainTabController)
 
-        navController.pushViewController(actionsController, animated: true)
+        navController.pushViewController(mainTabController, animated: true)
     }
 }

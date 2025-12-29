@@ -18,5 +18,7 @@ struct MockBackend: NetworkService {
         return UserToken(token: "1234", refreshToken: "5678")
     }
     
-
+    func getAllActions(token: String) async -> [CountableAction] {
+        []
+    }
 }

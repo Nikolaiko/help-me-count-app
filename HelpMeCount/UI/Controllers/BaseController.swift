@@ -13,6 +13,7 @@ class BaseController: UIViewController {
         super.viewDidLoad()
 
         navigationItem.hidesBackButton = true
+        view.backgroundColor = .white
     }
 
     public func showAlert(title: String, message: String? = nil) {

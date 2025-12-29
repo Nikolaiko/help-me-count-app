@@ -78,10 +78,8 @@ final class RegisterViewController: BaseController {
 private extension RegisterViewController {
 
     func navigateToMain() {
-        guard let parent = presentingViewController as? UINavigationController else { return }
-
         do {
-            try router?.navigateToActions(parentController: parent)
+            try router?.navigateToActions()
         } catch _ as DIError {
             showAlert(title: "DI Error", message: "Навиагция к основному экрану")
         } catch {

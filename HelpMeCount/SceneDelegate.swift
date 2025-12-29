@@ -13,7 +13,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private static let assebler = Assembler([
         ActionsAsssembly(),
         AuthAssembly(),
-        RootAssembly()
+        AuthorizedAssembly(),
+        RootAssembly(),
     ])
 
     var window: UIWindow?
@@ -27,19 +28,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         for family in UIFont.familyNames.sorted() {
             let names = UIFont.fontNames(forFamilyName: family)
             print("Family: \(family) Font names: \(names)")
-        }
-
-        let dataStorage = SceneDelegate.assebler.resolver.resolve(LocalDataStorage.self)
-        let loggedUser = dataStorage?.getLoggedUser()
-
-        let initialViewController: UIViewController
-        if loggedUser == nil {
-            let configurator = SceneDelegate.assebler.resolver.resolve(AuthConfigurator.self)
-            let controller = LoginViewController()
-            try? configurator?.configure(view: controller)
-            initialViewController = controller
-        } else {
-            initialViewController = ActionsViewController()
         }
 
         let configurator = SceneDelegate.assebler.resolver.resolve(AppRootConfigurator.self)

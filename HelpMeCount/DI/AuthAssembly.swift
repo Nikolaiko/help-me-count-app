@@ -10,12 +10,12 @@ import Swinject
 
 class AuthAssembly: Assembly {
     func assemble(container: Container) {
-        container.register(AuthConfigurator.self) { resolver in
-            AuthConfigurator(resolver: resolver)
+        container.register(AuthConfigurator.self) { resolver, controller in
+            AuthConfigurator(resolver: resolver, parentController: controller)
         }
 
-        container.register(AuthRouter.self) { resolver in
-            AuthRouter(resolver: resolver)
+        container.register(AuthRouter.self) { resolver, controller in
+            AuthRouter(resolver: resolver, parentController: controller)
         }
 
         registerLogin(container: container)

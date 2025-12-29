@@ -10,8 +10,8 @@ import Swinject
 
 class ActionsAsssembly: Assembly {
     func assemble(container: Container) {
-        container.register(ActionsConfigurator.self) { resolver in
-            ActionsConfigurator(resolver: resolver)
+        container.register(ActionsConfigurator.self) { resolver, controller in
+            ActionsConfigurator(resolver: resolver, parentController: controller)
         }
 
         container.register(ActionsInteractor.self) { _ in
