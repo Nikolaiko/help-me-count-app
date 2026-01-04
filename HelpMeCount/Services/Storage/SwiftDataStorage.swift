@@ -8,7 +8,7 @@
 import Foundation
 import SwiftData
 
-final class SwiftDataStorage: LocalDataStorage {
+final class SwiftDataStorage {
 
     private var container: ModelContainer?
     private var context: ModelContext?

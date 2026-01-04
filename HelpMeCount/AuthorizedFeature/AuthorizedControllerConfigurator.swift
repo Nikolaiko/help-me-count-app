@@ -18,12 +18,13 @@ class AuthorizedControllerConfigurator {
     }
 
     public func configure(view: MainTabBarViewController) throws {
+
+    }
+
+    public func configure(view: ActionsViewController) throws {
         guard let actionsConfigurator = resolver.resolve(ActionsConfigurator.self, argument: parentController)
         else { throw DIError.unableToResolveDependency }
 
-        let actionsController = ActionsViewController()
-        try actionsConfigurator.configure(view: actionsController)
-
-        view.childTabs = [actionsController, UIViewController()]
+        try actionsConfigurator.configure(view: view)
     }
 }

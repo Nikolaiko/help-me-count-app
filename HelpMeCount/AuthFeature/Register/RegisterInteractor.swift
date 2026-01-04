@@ -30,7 +30,7 @@ class RegisterInteractor {
 
             if let result = await networkService.registerRequest(login: userLogin,
                                                                  password: password),
-               let savedToken = dbService.saveLoggedUser(DBUserToken(token: result.token, refreshToken: result.refreshToken)){
+               let savedToken = dbService.saveLoggedUser(TokenData(token: result.token, refreshToken: result.refreshToken)){
                 presenter.setRegisterResult(success: true)
             } else {
                 presenter.setRegisterResult(success: false)

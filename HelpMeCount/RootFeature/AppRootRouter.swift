@@ -30,9 +30,14 @@ struct AppRootRouter {
         guard let configurator = resolver.resolve(AuthorizedControllerConfigurator.self, argument: navController)
         else { throw DIError.unableToResolveDependency }
 
-        let mainTabController = MainTabBarViewController()
-        try configurator.configure(view: mainTabController)
+        let actionsController = ActionsViewController()
+        try configurator.configure(view: actionsController)
 
+        let mainTabController = MainTabBarViewController(childTabs: [
+            actionsController
+        ])
+
+        try configurator.configure(view: mainTabController)
         navController.pushViewController(mainTabController, animated: true)
     }
 }

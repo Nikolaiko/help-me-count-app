@@ -11,6 +11,7 @@ import Swinject
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private static let assebler = Assembler([
+        ServicesAssembly(),
         ActionsAsssembly(),
         AuthAssembly(),
         AuthorizedAssembly(),

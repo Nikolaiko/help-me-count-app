@@ -14,8 +14,16 @@ class ActionsAsssembly: Assembly {
             ActionsConfigurator(resolver: resolver, parentController: controller)
         }
 
-        container.register(ActionsInteractor.self) { _ in
-            ActionsInteractor()
+        container.register(ActionsInteractor.self) { resolver, presenter in
+            ActionsInteractor(
+                presenter: presenter,
+                networkService: resolver.resolve(NetworkService.self)!,
+                localStorage: resolver.resolve(LocalDataStorage.self)!
+            )
+        }
+
+        container.register(ActionsPresenter.self) { _, controller in
+            ActionsPresenter(view: controller)
         }
     }
 

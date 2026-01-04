@@ -19,7 +19,8 @@ struct ActionsConfigurator {
     }
 
     public func configure(view: ActionsViewController) throws {
-        guard let interactor = resolver.resolve(ActionsInteractor.self)
+        guard let presenter = resolver.resolve(ActionsPresenter.self, argument: view),
+              let interactor = resolver.resolve(ActionsInteractor.self, argument: presenter)
         else { throw DIError.unableToResolveDependency }
 
         view.interactor = interactor

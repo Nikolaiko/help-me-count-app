@@ -38,9 +38,6 @@ class AuthAssembly: Assembly {
     }
 
     private func registerLogin(container: Container) {
-        container.register(LocalDataStorage.self) { _ in SwiftDataStorage() }
-        container.register(NetworkService.self) { _ in AppNetworkService() }
-
         container.register(LoginPresenter.self) { _, view in LoginPresenter(view: view) }
         container.register(LoginInteractor.self) { resolver, presenter in
             LoginInteractor(presenter: presenter,

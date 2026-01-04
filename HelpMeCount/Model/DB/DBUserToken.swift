@@ -14,7 +14,7 @@ final class DBUserToken {
     @Attribute(.unique)
     var token: String
 
-    @Attribute
+    @Attribute(.unique)
     var refreshToken: String
 
     init(token: String, refreshToken: String) {

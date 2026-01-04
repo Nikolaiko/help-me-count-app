@@ -13,25 +13,32 @@ class ActionsViewController: BaseController {
     var interactor: ActionsInteractor?
 
     private let actionsTable = UITableView()
-    private var actions: [CountableAction] = [CountableAction(id: 4, title: "Title", maxRepeates: 4, currentRepeats: 0)]
+    private let floatingButton: UIButton = .floatingAction(title: "+")
+
+    private var actions: [CountableAction] = []
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        tabBarItem.title = "Actions"
-        view.backgroundColor = .red
 
         actionsTable.dataSource = self
         actionsTable.register(UITableViewCell.self, forCellReuseIdentifier: "defaultCell")
 
         addSubviews()
         makeConstraints()
+
+        tabBarItem.title = "Actions"
+
+        interactor?.getAllActions()
+    }
+
+    func updateActionsList(actions: [UserRepeatableAction]) {
+        
     }
 
     private func addSubviews() {
         view.addSubview(actionsTable)
-
-
+        view.insertSubview(floatingButton, aboveSubview: actionsTable)
     }
 
     private func makeConstraints() {
@@ -40,6 +47,13 @@ class ActionsViewController: BaseController {
             currentView.left.equalTo(view)
             currentView.bottom.equalTo(view)
             currentView.right.equalTo(view)
+        }
+
+        floatingButton.widthAnchor.constraint(equalToConstant: 60.0).isActive = true
+        floatingButton.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
+        floatingButton.snp.makeConstraints { maker in
+            maker.trailing.equalTo(view).inset(20)
+            maker.bottom.equalTo(view).inset(20)
         }
     }
 }

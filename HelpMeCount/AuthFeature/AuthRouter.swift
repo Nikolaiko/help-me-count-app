@@ -23,11 +23,13 @@ struct AuthRouter {
         guard let configurator = resolver.resolve(AuthorizedControllerConfigurator.self, argument: parentController)
         else { throw DIError.unableToResolveDependency }
 
-        let rootController = MainTabBarViewController(tabs: [UITab(title: "fdfd", image: nil, identifier: "dssdd", viewControllerProvider: { _ in
-            ActionsViewController()
-        })])
-        try configurator.configure(view: rootController)
+        let actionsController = ActionsViewController()
+        try configurator.configure(view: actionsController)
 
+        let rootController = MainTabBarViewController(childTabs: [
+            actionsController
+        ])
+        try configurator.configure(view: rootController)
 
         parentController.popViewController(animated: true)
         parentController.pushViewController(rootController, animated: true)

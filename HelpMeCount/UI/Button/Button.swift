@@ -27,4 +27,21 @@ extension UIButton {
 
         return button
     }
+
+    public static func floatingAction(title: String) -> UIButton {
+        let floatingButton = UIButton(type: .custom)
+        floatingButton.setTitle(title, for: .normal)
+        floatingButton.backgroundColor = UIColor.trueWhite
+        floatingButton.setTitleColor(.trueBlack, for: .normal)
+
+        floatingButton.layer.cornerRadius = 30
+        floatingButton.layer.shadowColor = UIColor.black.cgColor
+        floatingButton.layer.shadowOffset = CGSize(width: 0, height: 2)
+        floatingButton.layer.shadowOpacity = 0.5
+        floatingButton.layer.shadowRadius = 4
+        floatingButton.translatesAutoresizingMaskIntoConstraints = false
+
+
+        return floatingButton
+    }
 }
