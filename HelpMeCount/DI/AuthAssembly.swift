@@ -18,7 +18,8 @@ class AuthAssembly: Assembly {
         container.register(LoginInteractor.self) { resolver, presenter in
             ClassicLoginInteractor(
                 presenter: presenter,
-                localStorage: resolver.resolve(LocalStorageService.self, name: "always_not_logged")!
+                localStorage: resolver.resolve(LocalStorageService.self, name: "always_not_logged")!,
+                networkService: resolver.resolve(NetworkService.self, name: "always_fail_login")!
             )
         }
 

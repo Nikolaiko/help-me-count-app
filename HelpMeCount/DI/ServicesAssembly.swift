@@ -17,5 +17,13 @@ class ServicesAssembly: Assembly {
         container.register(LocalStorageService.self, name: "always_logged") { resolver in
             AlwaysLoggedInService()
         }
+
+        container.register(NetworkService.self, name: "always_login") { resolver in
+            AlwaysLoginMock()
+        }
+
+        container.register(NetworkService.self, name: "always_fail_login") { resolver in
+            AlwaysFailLoginMock()
+        }
     }
 }

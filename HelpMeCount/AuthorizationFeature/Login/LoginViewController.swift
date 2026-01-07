@@ -52,15 +52,57 @@ class LoginViewController: NavChildController {
         setupViews()
         setupConstraints()
 
-        
+
     }
 
+    // MARK: Public functions
+
+    func setLoginEnabled(isEnabled: Bool) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+
+            self.loginButton.isEnabled = isEnabled
+        }
+    }
+
+    func setIsLoading(isLoading: Bool) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+
+            self.registerButton.isEnabled = !isLoading
+            self.loginButton.isEnabled = !isLoading
+            self.loginTextField.isEnabled = !isLoading
+            self.passwordTextField.isEnabled = !isLoading
+
+            if isLoading {
+                self.loadingIndicator.startAnimating()
+            } else {
+                self.loadingIndicator.stopAnimating()
+            }
+        }
+    }
+
+    func showErrorText(errorText: String) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+
+            self.errorLabel.text = errorText
+            self.errorLabel.isHidden = false
+        }
+    }
+
+    func hideError() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+
+            self.errorLabel.isHidden = true
+        }
+    }
 
     // MARK: Private functions
 
     private func setupViews() {
 
-        loadingIndicator.hidesWhenStopped = false
         loadingIndicator.color = .trueBlack
         loadingIndicator.style = .large
 
@@ -79,6 +121,17 @@ class LoginViewController: NavChildController {
         registerButton.addTarget(self,
                                  action: #selector(goToRegisterScreen),
                                  for: .touchUpInside)
+
+        loginButton.addTarget(self,
+                                 action: #selector(loginUser),
+                                 for: .touchUpInside)
+
+        errorLabel.isHidden = true
+        loginButton.isEnabled = false
+
+        loginTextField.addTarget(self, action: #selector(loginDidChange), for: .editingChanged)
+
+        passwordTextField.addTarget(self, action: #selector(passwordDidChange), for: .editingChanged)
     }
 
     private func setupConstraints() {
@@ -130,6 +183,11 @@ class LoginViewController: NavChildController {
     }
 
     @objc
+    private func loginUser() {
+        interactor?.loginUser()
+    }
+
+    @objc
     private func goToRegisterScreen() {
         guard let navParent = self.navigationController else { return }
 
@@ -140,5 +198,15 @@ class LoginViewController: NavChildController {
         } catch {
             showErrorAlert(title: "Неизвестаня ошибка")
         }
+    }
+
+    @objc
+    func loginDidChange(_ textField: UITextField) {
+        interactor?.updateLogin(newValue: textField.text ?? "")
+    }
+
+    @objc
+    func passwordDidChange(_ textField: UITextField) {
+        interactor?.updatePassword(newValue: textField.text ?? "")
     }
 }

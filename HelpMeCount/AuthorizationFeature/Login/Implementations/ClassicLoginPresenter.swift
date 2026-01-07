@@ -14,5 +14,19 @@ class ClassicLoginPresenter: LoginPresenter {
         self.view = view
     }
 
-    
+    func setLoginEnabled(isEnabled: Bool) {
+        view.setLoginEnabled(isEnabled: isEnabled)
+    }
+
+    func setIsLoading(isLoading: Bool) {
+        view.setIsLoading(isLoading: isLoading)
+    }
+
+    func showError(text: String) {
+        view.showErrorText(errorText: text)
+    }
+
+    func hideErrorText() {
+        view.hideError()
+    }
 }

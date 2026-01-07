@@ -10,9 +10,45 @@ import Foundation
 class ClassicLoginInteractor: LoginInteractor {
     private let presenter: LoginPresenter
     private let localStorage: LocalStorageService
+    private let networkService: NetworkService
 
-    init(presenter: LoginPresenter, localStorage: LocalStorageService) {
+    private var login: String = ""
+    private var password: String = ""
+
+
+    init(presenter: LoginPresenter,
+         localStorage: LocalStorageService,
+         networkService: NetworkService) {
         self.presenter = presenter
         self.localStorage = localStorage
+        self.networkService = networkService
+    }
+
+    func updateLogin(newValue: String) {
+        self.login = newValue
+        self.presenter.setLoginEnabled(isEnabled: validateInput())
+    }
+
+    func updatePassword(newValue: String) {
+        self.password = newValue
+        self.presenter.setLoginEnabled(isEnabled: validateInput())
+    }
+
+    func loginUser() {
+        presenter.hideErrorText()
+        presenter.setIsLoading(isLoading: true)
+
+        Task {
+            defer { presenter.setIsLoading(isLoading: false) }
+            if let token = await networkService.loginUser(login: login, password: password) {
+
+            } else {
+                presenter.showError(text: "Login Failed")
+            }
+        }
+    }
+
+    private func validateInput() -> Bool {
+        !self.login.isEmpty && !self.password.isEmpty
     }
 }

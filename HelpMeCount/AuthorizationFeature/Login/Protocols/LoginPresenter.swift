@@ -8,5 +8,8 @@
 import Foundation
 
 protocol LoginPresenter {
-    
+    func setLoginEnabled(isEnabled: Bool)
+    func setIsLoading(isLoading: Bool)
+    func showError(text: String)
+    func hideErrorText()
 }
