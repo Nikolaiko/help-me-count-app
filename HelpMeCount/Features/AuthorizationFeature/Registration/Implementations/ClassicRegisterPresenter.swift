@@ -2,19 +2,20 @@
 //  ClassicLoginPresenter.swift
 //  HelpMeCount
 //
-//  Created by Nikolai Baklanov on 31.12.2025.
+//  Created by Nikolai Baklanov on 07.01.2026.
 //
+
 
 import Foundation
 
-class ClassicLoginPresenter: LoginPresenter {
-    private let view: LoginViewController
+class ClassicRegisterPresenter: RegisterPresenter {
+    private let view: RegisterViewController
 
-    init(view: LoginViewController) {
+    init(view: RegisterViewController) {
         self.view = view
     }
 
-    func setLoginEnabled(isEnabled: Bool) {
+    func setRegisterEnabled(isEnabled: Bool) {
         view.setLoginEnabled(isEnabled: isEnabled)
     }
 
@@ -28,5 +29,9 @@ class ClassicLoginPresenter: LoginPresenter {
 
     func hideErrorText() {
         view.hideError()
+    }
+
+    func successRegistration() {
+        view.successRegister()
     }
 }

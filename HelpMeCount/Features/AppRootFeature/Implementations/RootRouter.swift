@@ -27,7 +27,17 @@ class RootRouter: AppRootRouter {
     }
 
     func navigateToAuthorized(parent: UINavigationController) throws {
-        parent.pushViewController(MainViewController(), animated: true)
-    }
+        guard let configurator = resolver.resolve(MainFeatureConfigurator.self)
+        else { throw DIErrors.unableToResolve }
 
+        let actionsTab = ActionsViewController()
+        try configurator.configure(view: actionsTab)
+
+        let tabController = MainViewController(childControllers: [
+            actionsTab
+        ])
+        try configurator.configure(view: tabController)
+
+        parent.pushViewController(tabController, animated: true)
+    }
 }

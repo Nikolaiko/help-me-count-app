@@ -13,6 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private static let assembler = Assembler([
         ServicesAssembly(),
         AuthAssembly(),
+        MainAssebly(),
         RootAssembly()
     ])
 

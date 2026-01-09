@@ -25,6 +25,22 @@ class ClassicAuthRouter: AuthRouter {
         parent.pushViewController(controller, animated: true)
     }
 
+    func goToAuthorizedScreen(parent: UINavigationController) throws {
+        guard let configurator = resolver.resolve(MainFeatureConfigurator.self)
+        else { throw DIErrors.unableToResolve }
+
+        let actionsTab = ActionsViewController()
+        try configurator.configure(view: actionsTab)
+
+        let tabController = MainViewController(childControllers: [
+            actionsTab
+        ])
+        try configurator.configure(view: tabController)
+
+        parent.popToRootViewController(animated: true)
+        parent.pushViewController(tabController, animated: true)
+    }
+
     func backToLogin(parent: UINavigationController) {
         parent.popViewController(animated: true)
     }

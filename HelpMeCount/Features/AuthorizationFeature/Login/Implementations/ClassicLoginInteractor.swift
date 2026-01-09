@@ -40,8 +40,9 @@ class ClassicLoginInteractor: LoginInteractor {
 
         Task {
             defer { presenter.setIsLoading(isLoading: false) }
-            if let token = await networkService.loginUser(login: login, password: password) {
-
+            if let token = await networkService.loginUser(login: login, password: password),
+               let savedToken = localStorage.saveUserToken(newToken: token.token) {
+                presenter.successLogin()
             } else {
                 presenter.showError(text: "Login Failed")
             }

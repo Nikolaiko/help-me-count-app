@@ -99,6 +99,21 @@ class LoginViewController: NavChildController {
         }
     }
 
+    func successLogin() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            guard let navParent = self.navigationController else { return }
+
+            do {
+                try router?.goToAuthorizedScreen(parent: navParent)
+            } catch _ as DIErrors {
+                showDIError()
+            } catch {
+                showErrorAlert(title: "Неизвестаня ошибка")
+            }
+        }
+    }
+
     // MARK: Private functions
 
     private func setupViews() {

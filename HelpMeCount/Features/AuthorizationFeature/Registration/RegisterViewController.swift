@@ -39,6 +39,8 @@ class RegisterViewController: NavChildController {
 
     private let loadingIndicator = UIActivityIndicatorView()
 
+
+    var interactor: RegisterInteractor?
     var router: AuthRouter?
 
     // MARK: Override
@@ -54,12 +56,69 @@ class RegisterViewController: NavChildController {
 
     }
 
+    // MARK: Public functions
+
+    func setLoginEnabled(isEnabled: Bool) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+
+            self.registerButton.isEnabled = isEnabled
+        }
+    }
+
+    func setIsLoading(isLoading: Bool) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+
+            self.registerButton.isEnabled = !isLoading
+            self.backButton.isEnabled = !isLoading
+            self.loginTextField.isEnabled = !isLoading
+            self.passwordTextField.isEnabled = !isLoading
+
+            if isLoading {
+                self.loadingIndicator.startAnimating()
+            } else {
+                self.loadingIndicator.stopAnimating()
+            }
+        }
+    }
+
+    func showErrorText(errorText: String) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+
+            self.errorLabel.text = errorText
+            self.errorLabel.isHidden = false
+        }
+    }
+
+    func hideError() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+
+            self.errorLabel.isHidden = true
+        }
+    }
+
+    func successRegister() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            guard let navParent = self.navigationController else { return }
+
+            do {
+                try router?.goToAuthorizedScreen(parent: navParent)
+            } catch _ as DIErrors {
+                showDIError()
+            } catch {
+                showErrorAlert(title: "Неизвестаня ошибка")
+            }
+        }
+    }
 
     // MARK: Private functions
 
     private func setupViews() {
 
-        loadingIndicator.hidesWhenStopped = false
         loadingIndicator.color = .trueBlack
         loadingIndicator.style = .large
 
@@ -76,6 +135,14 @@ class RegisterViewController: NavChildController {
         view.addSubview(loadingIndicator)
 
         backButton.addTarget(self, action: #selector(backToLogin), for: .touchUpInside)
+        registerButton.addTarget(self, action: #selector(registerUser), for: .touchUpInside)
+
+        errorLabel.isHidden = true
+        registerButton.isEnabled = false
+
+        loginTextField.addTarget(self, action: #selector(loginDidChange), for: .editingChanged)
+
+        passwordTextField.addTarget(self, action: #selector(passwordDidChange), for: .editingChanged)
     }
 
     private func setupConstraints() {
@@ -130,6 +197,21 @@ class RegisterViewController: NavChildController {
     private func backToLogin() {
         guard let navParent = self.navigationController else { return }        
         router?.backToLogin(parent: navParent)
+    }
+
+    @objc
+    private func registerUser() {
+        interactor?.registerUser()
+    }
+
+    @objc
+    func loginDidChange(_ textField: UITextField) {
+        interactor?.updateLogin(newValue: textField.text ?? "")
+    }
+
+    @objc
+    func passwordDidChange(_ textField: UITextField) {
+        interactor?.updatePassword(newValue: textField.text ?? "")
     }
 }
 

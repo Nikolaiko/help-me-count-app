@@ -11,4 +11,8 @@ struct AlwaysNotLoggedService: LocalStorageService {
     func getUserToken() -> String? {
         nil
     }
+
+    func saveUserToken(newToken: String) -> String? {
+        nil
+    }
 }

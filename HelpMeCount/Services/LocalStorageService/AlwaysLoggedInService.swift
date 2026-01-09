@@ -11,4 +11,8 @@ struct AlwaysLoggedInService: LocalStorageService {
     func getUserToken() -> String? {
         "HEH"
     }
+
+    func saveUserToken(newToken: String) -> String? {
+        "HEH"
+    }
 }
