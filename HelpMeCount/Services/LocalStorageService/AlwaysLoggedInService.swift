@@ -13,6 +13,6 @@ struct AlwaysLoggedInService: LocalStorageService {
     }
 
     func saveUserToken(newToken: String) -> String? {
-        "HEH"
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJBOEQzRDIzMC1EOTVBLTQyNjktQjc1Qi1BMTNCN0JBMzcwQjEiLCJleHBpcmF0aW9uIjo0OTIzMjkwOTI5LjQwNTE4NCwic3ViamVjdCI6IkE4RDNEMjMwLUQ5NUEtNDI2OS1CNzVCLUExM0I3QkEzNzBCMSJ9.Lh0zl403_OWQDm0HCZaljgjrFmlTMLX-4LY2u9GSomA"
     }
 }

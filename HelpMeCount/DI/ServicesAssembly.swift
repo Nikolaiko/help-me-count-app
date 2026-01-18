@@ -25,5 +25,13 @@ class ServicesAssembly: Assembly {
         container.register(NetworkService.self, name: "always_fail_login") { resolver in
             AlwaysFailLoginMock()
         }
+
+        container.register(NetworkService.self, name: "custom_api") { resolver in
+            APILayer()
+        }
+
+        container.register(NetworkService.self, name: "gen_api") { resolver in
+            GeneratedAPI()
+        }
     }
 }
