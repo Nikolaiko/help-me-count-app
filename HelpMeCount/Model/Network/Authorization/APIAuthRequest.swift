@@ -6,7 +6,7 @@
 //
 
 
-struct AuthRequest: Codable {
+struct APIAuthRequest: Codable {
     let username: String
     let password: String
 }

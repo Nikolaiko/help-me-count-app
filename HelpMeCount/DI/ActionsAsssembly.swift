@@ -14,10 +14,18 @@ class ActionsAsssembly: Assembly {
             ActionsConfigurator(resolver: resolver, parentController: controller)
         }
 
+        container.register(ActionsRouter.self) { resolver, controller in
+            ActionsRouter(resolver: resolver, parentController: controller)
+        }
+
         container.register(ActionsInteractor.self) { resolver, presenter in
-            ActionsInteractor(
+            let networkService = resolver.resolve(
+                NetworkService.self,
+                name: DIImplementationName.generatedNetworkLayer)!
+
+            return ActionsInteractor(
                 presenter: presenter,
-                networkService: resolver.resolve(NetworkService.self)!,
+                networkService: networkService,
                 localStorage: resolver.resolve(LocalDataStorage.self)!
             )
         }
@@ -28,7 +36,7 @@ class ActionsAsssembly: Assembly {
     }
 
     func loaded(resolver: any Resolver) {
-        
+
     }
 }
 

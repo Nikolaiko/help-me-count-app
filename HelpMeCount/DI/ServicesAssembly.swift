@@ -12,6 +12,19 @@ final class ServicesAssembly: Assembly {
 
     func assemble(container: Container) {
         container.register(LocalDataStorage.self) { _ in UserDefaultsStorage() }
-        container.register(NetworkService.self) { _ in AppNetworkService() }
+
+        registerNetworkLayer(container: container)
+    }
+
+    private func registerNetworkLayer(container: Container) {
+        container.register(
+            NetworkService.self,
+            name: DIImplementationName.basicNetworkLayer)
+        { _ in AppNetworkService() }
+
+        container.register(
+            NetworkService.self,
+            name: DIImplementationName.generatedNetworkLayer)
+        { _ in GeneratedAPI() }
     }
 }

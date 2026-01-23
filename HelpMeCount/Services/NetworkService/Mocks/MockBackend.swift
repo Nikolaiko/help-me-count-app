@@ -8,14 +8,14 @@
 import Foundation
 
 struct MockBackend: NetworkService {
-    func registerRequest(login: String, password: String) async -> UserToken? {
+    func registerRequest(login: String, password: String) async -> TokenData? {
         try? await Task.sleep(nanoseconds: 2_000_000)
-        return UserToken(token: "1234", refreshToken: "5678")
+        return TokenData(token: "1234", refreshToken: "5678")
     }
     
-    func loginRequest(login: String, password: String) async -> UserToken? {
+    func loginRequest(login: String, password: String) async -> TokenData? {
         try? await Task.sleep(nanoseconds: 2_000_000)
-        return UserToken(token: "1234", refreshToken: "5678")
+        return TokenData(token: "1234", refreshToken: "5678")
     }
     
     func getAllActions(token: String) async -> [CountableAction] {

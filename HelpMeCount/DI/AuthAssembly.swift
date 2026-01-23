@@ -23,7 +23,7 @@ class AuthAssembly: Assembly {
     }
 
     func loaded(resolver: any Resolver) {
-        
+
     }
 
     private func registerRegistration(container: Container) {
@@ -31,18 +31,26 @@ class AuthAssembly: Assembly {
             RegisterPresenter(view: view)
         }
         container.register(RegisterInteractor.self) { resolver, presenter in
-            RegisterInteractor(presenter: presenter,
-                            networkService: resolver.resolve(NetworkService.self)!,
-                               dbService: resolver.resolve(LocalDataStorage.self)!)
+            let networkService = resolver.resolve(
+                NetworkService.self,
+                name: DIImplementationName.generatedNetworkLayer)!
+
+            return RegisterInteractor(presenter: presenter,
+                                      networkService: networkService,
+                                      dbService: resolver.resolve(LocalDataStorage.self)!)
         }
     }
 
     private func registerLogin(container: Container) {
         container.register(LoginPresenter.self) { _, view in LoginPresenter(view: view) }
         container.register(LoginInteractor.self) { resolver, presenter in
-            LoginInteractor(presenter: presenter,
-                            networkService: resolver.resolve(NetworkService.self)!,
-                            storage: resolver.resolve(LocalDataStorage.self)!)
+            let networkService = resolver.resolve(
+                NetworkService.self,
+                name: DIImplementationName.generatedNetworkLayer)!
+
+            return LoginInteractor(presenter: presenter,
+                                   networkService: networkService,
+                                   storage: resolver.resolve(LocalDataStorage.self)!)
         }
     }
 }

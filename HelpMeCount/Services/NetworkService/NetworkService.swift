@@ -8,7 +8,7 @@
 import Foundation
 
 protocol NetworkService {
-    func registerRequest(login: String, password: String) async -> UserToken?
-    func loginRequest(login: String, password: String) async -> UserToken?
+    func registerRequest(login: String, password: String) async -> TokenData?
+    func loginRequest(login: String, password: String) async -> TokenData?
     func getAllActions(token: String) async -> [CountableAction]
 }

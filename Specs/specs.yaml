@@ -1,0 +1,293 @@
+openapi: 3.0.0
+servers:
+  - url: http://e97b67a8bc6.vps.myjino.ru:49235/
+    description: Help me Count Server
+info:
+  version: 1.0.3
+  title: Help Me Count Server API
+  description: 'First Version'
+paths:
+  /authorization/login/:
+    post:
+      tags:
+        - Authorization
+      summary: Логин для зареганых пользователей
+      security:
+        - BasicAuth: []
+      operationId: login
+      description: Логин для зареганых пользователей
+      responses:
+        '200':
+          description: Получаем Token
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Неправильный формат данных
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ErrorObject'
+        '401':
+          description: Неправильный логин или пароль
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ErrorObject'
+  /authorization/register/:
+    post:
+      tags:
+        - Authorization
+      summary: Логин для зареганых пользователей
+      security:
+        - BasicAuth: []
+      operationId: register
+      description: Логин для зареганых пользователей
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthRequest'
+      responses:
+        '200':
+          description: Получаем Token
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Неправильный формат данных
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ErrorObject'
+  /authorization/refresh/:
+    post:
+      tags:
+        - Authorization
+      summary: Обновление токена
+      security:
+        - BearerAuth: []
+      operationId: refresh
+      description: Обновление токена
+      responses:
+        '200':
+          description: Получаем Token
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Левый токен
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ErrorObject'
+        '400':
+          description: Неправильный формат данных
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ErrorObject'
+  /actions/:
+    get:
+      tags:
+        - Actions
+      summary: Получить список всех действий
+      security:
+        - BearerAuth: []
+      operationId: getAllActions
+      description: Получить список всех действий
+      responses:
+        '200':
+          description: Получаем список
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/RepeatableActionsList'
+        '401':
+          description: Неправильный логин или пароль
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ErrorObject'
+  /actions/add/:
+    post:
+      tags:
+        - Actions
+      summary: Добавить действие
+      security:
+        - BearerAuth: []
+      operationId: addAction
+      description: Добавить действие
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewRepeatableAction'
+      responses:
+        '200':
+          description: Успешно добавили
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/RepeatableAction'
+        '401':
+          description: Неправильный логин или пароль
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ErrorObject'
+  /actions/{actionid}/:
+    post:
+      tags:
+        - Actions
+      summary: Изменить действие
+      security:
+        - BearerAuth: []
+      operationId: editAction
+      description: Изменить действие
+      parameters:
+        - in: path
+          name: actionid
+          description: Id искомого действия
+          required: true
+          schema:
+            type: string
+            format: integer
+            example: 5
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepeatableAction'
+      responses:
+        '200':
+          description: Успешно изменили
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/RepeatableAction'
+        '401':
+          description: Неправильный логин или пароль
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ErrorObject'
+    get:
+      tags:
+        - Actions
+      summary: Получить действие по id
+      security:
+        - BearerAuth: []
+      operationId: getAction
+      description: Получить действие по id
+      parameters:
+        - in: path
+          name: actionid
+          description: Id искомого действия
+          required: true
+          schema:
+            type: string
+            format: integer
+            example: 5
+      responses:
+        '200':
+          description: Успешно изменили
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/RepeatableAction'
+        '401':
+          description: Неправильный логин или пароль
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ErrorObject'
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    RepeatableActionsList:
+      type: array
+      items:
+        $ref: '#/components/schemas/RepeatableAction'
+    RepeatableAction:
+      type: object
+      required:
+        - id
+        - title
+        - maxRepeats
+        - currentRepeats
+      properties:
+        id:
+          type: integer
+          example: 4
+        title:
+          type: string
+          example: kick boxing aboniment
+        maxRepeats:
+          type: integer
+          example: 5
+        currentRepeats:
+          type: integer
+          example: 0
+    NewRepeatableAction:
+      type: object
+      required:
+        - title
+        - maxRepeats
+        - currentRepeats
+      properties:
+        title:
+          type: string
+          example: kick boxing aboniment
+        maxRepeats:
+          type: integer
+          example: 5
+        currentRepeats:
+          type: integer
+          example: 0
+    AuthRequest:
+      type: object
+      required: 
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: nikolaiko
+        password:
+          type: string
+          example: 34ritepweff
+    AuthResponse:
+      type: object
+      required: 
+        - token
+        - refreshToken
+      properties:
+        token:
+          type: string
+          example: 57246542-96fe-1a63-e053-0824d011072a
+        refreshToken:
+          type: string
+          example: 57246542-96fe-1a63-e053-0824d011072a
+    ErrorObject:
+      type: object
+      required:
+        - message
+        - responseNumber
+      properties:
+        message:
+          type: string
+          example: Not authorized
+        responseNumber:
+          type: integer
+          example: 401

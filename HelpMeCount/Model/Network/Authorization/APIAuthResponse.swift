@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AuthResponse: Decodable {
+struct APIAuthResponse: Decodable {
     let token: String
     let refreshToken: String
 }

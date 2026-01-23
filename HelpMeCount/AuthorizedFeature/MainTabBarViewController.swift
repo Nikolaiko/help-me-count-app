@@ -14,7 +14,7 @@ class MainTabBarViewController: UITabBarController {
 
     init(childTabs: [UIViewController]) {
         self.childTabs = childTabs
-        super.init(nibName: nil, bundle: nil)
+        super.init(nibName: nil, bundle: nil)        
     }
     
     required init?(coder: NSCoder) {
