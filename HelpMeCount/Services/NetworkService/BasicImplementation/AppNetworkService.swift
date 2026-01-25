@@ -64,4 +64,8 @@ struct AppNetworkService: NetworkService {
             return []
         }
     }
+
+    func addAction(token: String, newAction: NewCountableAction) async -> CountableAction? {
+        return nil
+    }
 }

@@ -17,13 +17,7 @@ struct GeneratedAPI: NetworkService {
     }
     
     func loginRequest(login: String, password: String) async -> TokenData? {
-        let loginString = "\(login):\(password)"
-        guard let loginData = loginString.data(using: .utf8) else { return nil }
-        let base64LoginString = loginData.base64EncodedString()
-
-        var config = OpenAPIClientAPIConfiguration()
-        config.customHeaders = ["Authorization" : "Basic \(base64LoginString)"]
-
+        let config = buildBasicAuthHeader(login: login, password: password)
         guard let response = try? await AuthorizationAPI.login(apiConfiguration: config)
         else { return nil }
 
@@ -32,5 +26,32 @@ struct GeneratedAPI: NetworkService {
     
     func getAllActions(token: String) async -> [CountableAction] {
         []
+    }
+
+    func addAction(token: String, newAction: NewCountableAction) async -> CountableAction? {
+        let headerConfig = buildBearerHeader(token: token)
+        let addedAction = try? await ActionsAPI.addAction(
+            newRepeatableAction: newAction.toRepeatableAction(),
+            apiConfiguration: headerConfig
+        )
+        return addedAction?.toCountableAction()
+    }
+
+    private func buildBearerHeader(token: String) -> OpenAPIClientAPIConfiguration {
+        let config = OpenAPIClientAPIConfiguration()
+        config.customHeaders = ["Authorization" : "Bearer \(token)"]
+        return config
+    }
+
+    private func buildBasicAuthHeader(login: String, password: String) -> OpenAPIClientAPIConfiguration {
+        let loginString = "\(login):\(password)"
+
+        guard let loginData = loginString.data(using: .utf8)
+        else { return OpenAPIClientAPIConfiguration.shared }
+
+        let base64LoginString = loginData.base64EncodedString()
+        let config = OpenAPIClientAPIConfiguration()
+        config.customHeaders = ["Authorization" : "Basic \(base64LoginString)"]
+        return config
     }
 }

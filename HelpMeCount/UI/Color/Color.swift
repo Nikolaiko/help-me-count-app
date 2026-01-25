@@ -13,4 +13,5 @@ extension UIColor {
     public static let trueWhite = UIColor(rgb: 0xFFFFFF)
     public static let authBackgroundColor = UIColor(rgb: 0xE05959)
     public static let errorTextColor = UIColor(rgb: 0xFF0000)
+    public static let trueBlue = UIColor(rgb: 0x5052F2)
 }

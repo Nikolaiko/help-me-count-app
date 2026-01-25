@@ -31,8 +31,8 @@ final class RegisterViewController: BaseController {
         return password
     }()
 
-    private var registerButton: UIButton = .authButton(title: "Register")
-    private var backButton: UIButton = .authButton(title: "Back")
+    private var registerButton: UIButton = .redButton(title: "Register")
+    private var backButton: UIButton = .redButton(title: "Back")
 
     var interactor: RegisterInteractor?
     var router: AuthRouter?

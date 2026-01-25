@@ -9,6 +9,7 @@ import Foundation
 
 enum ActionOperationError: Error {
     case noLoggedTokenFound
+    case errorDuringRequest
 
 
 
@@ -16,6 +17,8 @@ enum ActionOperationError: Error {
         switch self {
         case .noLoggedTokenFound:
             return "No logged token"
+        case .errorDuringRequest:
+            return "Error during request"
         }
     }
 }

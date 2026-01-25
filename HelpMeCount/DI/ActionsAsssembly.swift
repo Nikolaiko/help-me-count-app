@@ -14,10 +14,36 @@ class ActionsAsssembly: Assembly {
             ActionsConfigurator(resolver: resolver, parentController: controller)
         }
 
-        container.register(ActionsRouter.self) { resolver, controller in
-            ActionsRouter(resolver: resolver, parentController: controller)
+        container.register(AppAuthorizedRouter.self) { resolver, controller in
+            AppAuthorizedRouter(resolver: resolver, parentController: controller)
         }
 
+        assembleActionsList(container: container)
+        assembleCreateAction(container: container)
+    }
+
+    func loaded(resolver: any Resolver) { }
+
+    private func assembleCreateAction(container: Container) {
+
+        container.register(AddActionInteractor.self) { resolver, presenter in
+            let networkService = resolver.resolve(
+                NetworkService.self,
+                name: DIImplementationName.generatedNetworkLayer)!
+
+            return AddActionInteractor(
+                presenter: presenter,
+                networkService: networkService,
+                localStorage: resolver.resolve(LocalDataStorage.self)!
+            )
+        }
+
+        container.register(AddActionPresenter.self) { _, controller in
+            AddActionPresenter(view: controller)
+        }
+    }
+
+    private func assembleActionsList(container: Container) {
         container.register(ActionsInteractor.self) { resolver, presenter in
             let networkService = resolver.resolve(
                 NetworkService.self,
@@ -33,10 +59,6 @@ class ActionsAsssembly: Assembly {
         container.register(ActionsPresenter.self) { _, controller in
             ActionsPresenter(view: controller)
         }
-    }
-
-    func loaded(resolver: any Resolver) {
-
     }
 }
 

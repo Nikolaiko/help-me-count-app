@@ -11,7 +11,7 @@ import SnapKit
 class ActionsViewController: BaseController {
 
     var interactor: ActionsInteractor?
-    var router: ActionsRouter?
+    var router: AppAuthorizedRouter?
 
     private let actionsTable = UITableView()
     private let floatingButton: UIButton = .floatingAction(title: "+")
@@ -77,7 +77,11 @@ class ActionsViewController: BaseController {
 
     @objc
     private func addNewAction() {
-        router?.goToAddAction()
+        do {
+            try router?.goToAddAction()
+        } catch {
+            showAlert(title: "DI Error")
+        }
     }
 }
 

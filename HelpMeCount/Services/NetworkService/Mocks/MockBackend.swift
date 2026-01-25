@@ -21,4 +21,8 @@ struct MockBackend: NetworkService {
     func getAllActions(token: String) async -> [CountableAction] {
         []
     }
+
+    func addAction(token: String, newAction: NewCountableAction) async -> CountableAction? {
+        nil
+    }
 }

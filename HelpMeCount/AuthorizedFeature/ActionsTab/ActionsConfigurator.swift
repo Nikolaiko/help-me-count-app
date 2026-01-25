@@ -21,7 +21,17 @@ struct ActionsConfigurator {
     public func configure(view: ActionsViewController) throws {
         guard let presenter = resolver.resolve(ActionsPresenter.self, argument: view),
               let interactor = resolver.resolve(ActionsInteractor.self, argument: presenter),
-              let router = resolver.resolve(ActionsRouter.self, argument: parentController)
+              let router = resolver.resolve(AppAuthorizedRouter.self, argument: parentController)
+        else { throw DIError.unableToResolveDependency }
+
+        view.interactor = interactor
+        view.router = router
+    }
+
+    public func configure(view: AddActionViewController) throws {
+        guard let presenter = resolver.resolve(AddActionPresenter.self, argument: view),
+              let interactor = resolver.resolve(AddActionInteractor.self, argument: presenter),
+              let router = resolver.resolve(AppAuthorizedRouter.self, argument: parentController)
         else { throw DIError.unableToResolveDependency }
 
         view.interactor = interactor

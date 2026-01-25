@@ -12,3 +12,22 @@ extension TokenData {
         TokenData(token: response.token, refreshToken: response.refreshToken)
     }
 }
+
+extension NewCountableAction {
+    func toRepeatableAction() -> NewRepeatableAction {
+        NewRepeatableAction(
+            title: title,
+            maxRepeats: maxRepeates,
+            currentRepeats: currentRepeats)
+    }
+}
+
+extension RepeatableAction {
+    func toCountableAction() -> CountableAction {
+        CountableAction(
+            id: id,
+            title: title,
+            maxRepeates: maxRepeats,
+            currentRepeats: currentRepeats)
+    }
+}

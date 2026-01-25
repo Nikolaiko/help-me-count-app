@@ -27,12 +27,13 @@ extension UILabel {
         return label
     }
 
-    public static func errorLabel(text: String) -> UILabel {
+    public static func errorLabel(text: String = "", lines: Int = 0) -> UILabel {
         let label = UILabel()
         label.font = UIFont.Roboto.bold(size: 14.0)
         label.textColor = .errorTextColor
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = text
+        label.numberOfLines = lines
 
         return label
     }
