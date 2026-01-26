@@ -12,8 +12,8 @@ class AddActionInteractor {
     private let networkService: NetworkService
     private let localStorage: LocalDataStorage
 
-    private var maxCounts = 0
-    private var currentCounts = 0
+    private var maxCounts: Int? = nil
+    private var currentCounts: Int? = nil
     private var actionName = ""
 
     init(presenter: AddActionPresenter,
@@ -30,17 +30,22 @@ class AddActionInteractor {
         presenter.addButtonEnabled(validateValues())
     }
 
-    func updateMaxCounts(_ maxCounts: Int) {
+    func updateMaxCounts(_ maxCounts: Int?) {
         self.maxCounts = maxCounts
         presenter.addButtonEnabled(validateValues())
     }
 
-    func updateCurrentCount(_ currentCount: Int) {
+    func updateCurrentCount(_ currentCount: Int?) {
         self.currentCounts = currentCount
         presenter.addButtonEnabled(validateValues())
     }
 
-    func addAction() async {
+    func addAction() {
+        guard let maxCounts, let currentCounts else {
+            presenter.errorDuringOperation(error: .errorDuringRequest)
+            return
+        }
+
         let action = NewCountableAction(title: actionName, maxRepeates: maxCounts, currentRepeats: currentCounts)
         guard let token = localStorage.getLoggedUser()?.token
         else {
@@ -48,14 +53,20 @@ class AddActionInteractor {
             return
         }
 
-        if let addedAction = await networkService.addAction(
-            token: token,
-            newAction: action
-        ) { presenter.addedAction() }
-        else { presenter.errorDuringOperation(error: .errorDuringRequest) }
+        Task {
+            if let addedAction = await networkService.addAction(
+                token: token,
+                newAction: action
+            ) {
+                presenter.addedAction()
+            }
+            else { presenter.errorDuringOperation(error: .errorDuringRequest) }
+        }
     }
 
     private func validateValues() -> Bool {
-        !actionName.isEmpty && maxCounts > 0 && currentCounts <= maxCounts
+        guard let maxCounts,
+              let currentCounts else { return false }
+        return !actionName.isEmpty && maxCounts > 0 && currentCounts <= maxCounts
     }
 }

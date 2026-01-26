@@ -25,7 +25,9 @@ struct GeneratedAPI: NetworkService {
     }
     
     func getAllActions(token: String) async -> [CountableAction] {
-        []
+        let config = buildBearerHeader(token: token)
+        let actions = try? await ActionsAPI.getAllActions(apiConfiguration: config)
+        return actions?.map { $0.toCountableAction() } ?? []
     }
 
     func addAction(token: String, newAction: NewCountableAction) async -> CountableAction? {

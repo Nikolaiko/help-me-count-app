@@ -17,13 +17,14 @@ class BaseController: UIViewController {
     }
 
     public func showAlert(title: String, message: String? = nil) {
-        guard self.presentedViewController == nil else { return }
-
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK",
-                                      style: .default,
-                                      handler: { _ in }))
-        present(alert, animated: true, completion: nil)
+        DispatchQueue.main.async { [weak self] in
+            guard self?.presentedViewController == nil else { return }
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK",
+                                          style: .default,
+                                          handler: { _ in }))
+            self?.present(alert, animated: true, completion: nil)
+        }
     }
 
     public func showAlertUnknownError() {

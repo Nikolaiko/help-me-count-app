@@ -14,17 +14,21 @@ class ActionsViewController: BaseController {
     var router: AppAuthorizedRouter?
 
     private let actionsTable = UITableView()
+    private var refreshControl = UIRefreshControl()
+
     private let floatingButton: UIButton = .floatingAction(title: "+")
     private let screenTitle: UILabel = .screenTitle(text: "Actions")
 
     private var actions: [CountableAction] = []
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        refreshControl.addTarget(self, action: #selector(onPullRefresh), for: .valueChanged)
+
         actionsTable.dataSource = self
         actionsTable.register(UITableViewCell.self, forCellReuseIdentifier: "defaultCell")
+        actionsTable.addSubview(refreshControl)
 
         addSubviews()
         setupViews()
@@ -35,8 +39,14 @@ class ActionsViewController: BaseController {
         interactor?.getAllActions()
     }
 
-    func updateActionsList(actions: [UserRepeatableAction]) {
-        
+    func updateActionsList(actions: [CountableAction]) {
+        DispatchQueue.main.async { [weak self] in
+            if self?.refreshControl.isRefreshing ?? false {
+                self?.refreshControl.endRefreshing()
+            }
+            self?.actions = actions
+            self?.actionsTable.reloadData()
+        }
     }
 
     private func setupViews() {
@@ -45,11 +55,9 @@ class ActionsViewController: BaseController {
     }
 
     private func addSubviews() {
-        //view.addSubview(actionsTable)
+        view.addSubview(actionsTable)
         view.addSubview(screenTitle)
         view.insertSubview(floatingButton, aboveSubview: screenTitle)
-
-        view.backgroundColor = .yellow
     }
 
     private func makeConstraints() {
@@ -60,12 +68,12 @@ class ActionsViewController: BaseController {
             currentView.right.equalTo(view)
         }
 
-//        actionsTable.snp.makeConstraints { currentView in
-//            currentView.top.equalTo(view)
-//            currentView.left.equalTo(view)
-//            currentView.bottom.equalTo(view)
-//            currentView.right.equalTo(view)
-//        }
+        actionsTable.snp.makeConstraints { currentView in
+            currentView.top.equalTo(screenTitle.snp.bottom)
+            currentView.left.equalTo(view)
+            currentView.bottom.equalTo(view)
+            currentView.right.equalTo(view)
+        }
 
         floatingButton.widthAnchor.constraint(equalToConstant: 60.0).isActive = true
         floatingButton.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
@@ -82,6 +90,11 @@ class ActionsViewController: BaseController {
         } catch {
             showAlert(title: "DI Error")
         }
+    }
+
+    @objc
+    private func onPullRefresh() {
+        interactor?.getAllActions()
     }
 }
 

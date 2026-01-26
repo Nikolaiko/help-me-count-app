@@ -8,7 +8,7 @@
 import Foundation
 
 struct CountableAction: Decodable {
-    let id: Int
+    let id: UUID
     let title: String
     let maxRepeates: Int
     let currentRepeats: Int

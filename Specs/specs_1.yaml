@@ -228,9 +228,8 @@ components:
         - currentRepeats
       properties:
         id:
-          type: string
-          format: UUID
-          example: "7AB9AD22-6152-4562-9859-938C016FFB48"
+          type: integer
+          example: 4
         title:
           type: string
           example: kick boxing aboniment

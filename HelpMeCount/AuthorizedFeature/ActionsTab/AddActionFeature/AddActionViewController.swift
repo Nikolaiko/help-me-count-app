@@ -15,10 +15,11 @@ class AddActionViewController: BaseController {
     private let screenTitle: UILabel = .screenTitle(text: "Actions")
 
     private let inputElementsStack: UIStackView = {
-        let stack = UIStackView()
+        let stack = UIStackView()        
         stack.axis = .vertical
-        stack.distribution = .fillEqually
-        stack.spacing = 150
+        stack.alignment = .top
+        stack.distribution = .fill
+        stack.spacing = 30
         stack.isUserInteractionEnabled = true
         return stack
     }()
@@ -32,19 +33,11 @@ class AddActionViewController: BaseController {
         return stack
     }()
 
-    private var loginTextField: UITextField  = {
-        let login = UITextField.inputField()
-        login.placeholder = "email"
-        login.autocapitalizationType = .none
-        return login
-    }()
-
     private let actionInputField: LabeledTextField = .init(title: "Название действия")
     private let maxCountsInputField: LabeledTextField = .init(title: "Максимум повторений")
     private let currentCountsInputField: LabeledTextField = .init(title: "Текущее количество повторений")
 
-    private var errorLabel: UILabel = .errorLabel(text: "Error label\nError label\nError label", lines: 3)
-
+    private var errorLabel: UILabel = .errorLabel(text: "", lines: 3)
     private var acceptButton: UIButton = .blueButton(title: "Создать")
     private var cancelButton: UIButton = .redButton(title: "Отмена")
 
@@ -62,47 +55,36 @@ class AddActionViewController: BaseController {
 
     private func setupViews() {
 
-        actionInputField.setTitle(title: "dfddfkjfddfkjjkdfjkdfjkdfjkdfkjdfjk")
-
         actionInputField.textCallback = actionNametextField
         maxCountsInputField.textCallback = maxCountstextField
         currentCountsInputField.textCallback = currentCountstextField
 
-        currentCountsInputField.isUserInteractionEnabled = true
-        //maxCountsInputField.setKeyboardType(type: .numberPad)
-        //currentCountsInputField.setKeyboardType(type: .numberPad)
+        maxCountsInputField.setKeyboardType(type: .numberPad)
+        currentCountsInputField.setKeyboardType(type: .numberPad)
 
         acceptButton.isEnabled = false
+        errorLabel.isHidden = true
 
+        acceptButton.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
         cancelButton.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
     }
 
     private func addSubviews() {
-        view.addSubview(screenTitle)
 
         inputElementsStack.addArrangedSubview(actionInputField)
         inputElementsStack.addArrangedSubview(maxCountsInputField)
-        //inputElementsStack.addArrangedSubview(currentCountsInputField)
+        inputElementsStack.addArrangedSubview(currentCountsInputField)
 
         buttonsStack.addArrangedSubview(cancelButton)
         buttonsStack.addArrangedSubview(acceptButton)
 
-//        view.addSubview(titleLabel)
-//        view.addSubview(maxCountRepeatsLabel)
-//
-//        view.addSubview(titleTextField)
-//        view.addSubview(maxRepeatsTextField)
-
+        view.addSubview(screenTitle)
         view.addSubview(buttonsStack)
         view.addSubview(inputElementsStack)
         view.addSubview(errorLabel)
-        view.addSubview(currentCountsInputField)
-        view.addSubview(loginTextField)
     }
 
     private func makeConstraints() {
-
-
 
         screenTitle.snp.makeConstraints { currentView in
             currentView.top.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -111,8 +93,7 @@ class AddActionViewController: BaseController {
         }
 
         inputElementsStack.snp.makeConstraints { currentView in
-            currentView.top.equalTo(screenTitle.snp.bottom).offset(30)
-            //currentView.bottom.equalTo(view)
+            currentView.top.equalTo(screenTitle.snp.bottom).offset(10)
             currentView.left.equalTo(view).offset(70)
             currentView.right.equalTo(view).offset(-70)
         }
@@ -126,22 +107,8 @@ class AddActionViewController: BaseController {
         }
 
         errorLabel.snp.makeConstraints { currentView in
-            currentView.top.equalTo(inputElementsStack.snp.bottom).offset(120)
+            currentView.top.equalTo(buttonsStack.snp.top).offset(-120)
             currentView.centerX.equalTo(view)
-        }
-
-        loginTextField.snp.makeConstraints { currentView in
-            currentView.top.equalTo(errorLabel.snp.bottom)
-            currentView.centerX.equalTo(view)
-            currentView.left.equalTo(view).offset(70)
-            currentView.right.equalTo(view).offset(-70)
-        }
-
-        currentCountsInputField.snp.makeConstraints { currentView in
-            currentView.top.equalTo(loginTextField.snp.bottom)
-            currentView.centerX.equalTo(view)
-            currentView.left.equalTo(view).offset(70)
-            currentView.right.equalTo(view).offset(-70)
         }
     }
 
@@ -150,13 +117,18 @@ class AddActionViewController: BaseController {
     }
 
     private func maxCountstextField(_ value: String) {
-        guard let convertedInt = Int(value) else { return }
+        let convertedInt = Int(value)
         interactor?.updateMaxCounts(convertedInt)
     }
 
     private func currentCountstextField(_ value: String) {
-        guard let convertedInt = Int(value) else { return }
+        let convertedInt = Int(value)
         interactor?.updateCurrentCount(convertedInt)
+    }
+
+    @objc
+    private func addTapped() {
+        interactor?.addAction()
     }
 
     @objc

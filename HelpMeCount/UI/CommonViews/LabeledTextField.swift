@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class LabeledTextField: UIView {
+class LabeledTextField: UIView, UITextFieldDelegate {
     public var textCallback: TextFieldCallback? = nil
 
     private let titleLabel: UILabel = .simpleLabel(text: "Default")
@@ -19,11 +19,15 @@ class LabeledTextField: UIView {
         return login
     }()
 
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: 260, height: 90)
+    }
+
     convenience init(title: String = "", placeholder: String = "") {
         self.init(frame: .zero)
 
+        inputTextField.delegate = self
         titleLabel.text = title
-        inputTextField.placeholder = placeholder
     }
 
     override init(frame: CGRect) {
@@ -51,32 +55,24 @@ class LabeledTextField: UIView {
         inputTextField.text = title
     }
 
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        print("dsddssdsd")
+    }
+
     public func setKeyboardType(type: UIKeyboardType) {
         inputTextField.keyboardType = type
     }
 
     private func commonInit() {
-        inputTextField.backgroundColor = .red
-        inputTextField.isUserInteractionEnabled = true
-
-        inputTextField.addTarget(self, action: #selector(ttt), for: .touchDown)
-
-        isUserInteractionEnabled = true
         translatesAutoresizingMaskIntoConstraints = false
     }
 
-    @objc
-    private func ttt() {
-        print("Touch!")
-    }
-
     private func setupView() {
-        //inputTextField.delegate = self
+        inputTextField.delegate = self
 
         addSubview(titleLabel)
         addSubview(inputTextField)
-
-        bringSubviewToFront(inputTextField)
     }
 
     private func createConstrainsts() {
@@ -99,8 +95,6 @@ class LabeledTextField: UIView {
         let currentText = textField.text ?? ""
         guard let range = Range(range, in: currentText) else { return false }
         let updatedText = currentText.replacingCharacters(in: range, with: string)
-
-        print("sddsdssd")
 
         textCallback?(updatedText)
         return true

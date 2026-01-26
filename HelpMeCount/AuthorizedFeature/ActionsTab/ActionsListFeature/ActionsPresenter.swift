@@ -19,6 +19,6 @@ class ActionsPresenter {
     }
 
     func updateActionsList(actions: [CountableAction]) {
-        //view.updateActionsList(actions: actions.map { $0.toRepeatableAction() } )
+        view.updateActionsList(actions: actions)
     }
 }
