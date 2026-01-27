@@ -32,8 +32,8 @@ class LoginViewController: NavChildController {
         return textField
     }()
 
-    private let loginButton: UIButton = .authButton(title: "Login")
-    private let registerButton: UIButton = .authButton(title: "Register")
+    private let loginButton: UIButton = .coloredButton(title: "Login", background: .authBackgroundColor)
+    private let registerButton: UIButton = .coloredButton(title: "Register", background: .authBackgroundColor)
 
     private let errorLabel: UILabel = .errorLabel(text: "Error!")
 

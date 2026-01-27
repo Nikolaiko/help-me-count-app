@@ -17,7 +17,7 @@ class RootAssembly: Assembly {
         container.register(AppRootInteractor.self) { resolver, presenter in
             RootInteractor(
                 presenter: presenter,
-                localService: resolver.resolve(LocalStorageService.self, name: "always_not_logged")!
+                localService: resolver.resolve(LocalStorageService.self)!
             )
         }
 

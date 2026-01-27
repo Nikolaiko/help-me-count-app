@@ -32,8 +32,8 @@ class RegisterViewController: NavChildController {
         return textField
     }()
 
-    private let registerButton: UIButton = .authButton(title: "Register")
-    private let backButton: UIButton = .authButton(title: "Back")
+    private let registerButton: UIButton = .coloredButton(title: "Register", background: .authBackgroundColor)
+    private let backButton: UIButton = .coloredButton(title: "Back", background: .authBackgroundColor)
 
     private let errorLabel: UILabel = .errorLabel(text: "Error!")
 

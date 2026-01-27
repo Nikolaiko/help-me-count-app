@@ -13,5 +13,9 @@ class MainAssebly: Assembly {
         container.register(MainFeatureConfigurator.self) { resolver in
             MainFeatureConfigurator(resolver: resolver)
         }
+
+        container.register(MainFeatureRouter.self) { resolver in
+            TabControllerRouter(resolver: resolver)
+        }
     }
 }

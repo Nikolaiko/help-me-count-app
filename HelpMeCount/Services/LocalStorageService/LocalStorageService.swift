@@ -8,6 +8,6 @@
 import Foundation
 
 protocol LocalStorageService {
-    func getUserToken() -> String?
-    func saveUserToken(newToken: String) -> String?
+    func getUserToken() -> UserToken?
+    func saveUserToken(newToken: UserToken) -> UserToken?
 }

@@ -25,4 +25,13 @@ extension UILabel {
         label.text = text
         return label
     }
+
+    public static func screenTitle(text: String) -> UILabel {
+        let label = UILabel()
+        label.font = .Roboto.bold(size: 24.0)
+        label.textColor = .trueBlack
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = text
+        return label
+    }
 }

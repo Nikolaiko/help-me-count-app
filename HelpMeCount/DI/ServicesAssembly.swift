@@ -10,12 +10,8 @@ import Swinject
 
 class ServicesAssembly: Assembly {
     func assemble(container: Swinject.Container) {
-        container.register(LocalStorageService.self, name: "always_not_logged") { resolver in
-            AlwaysNotLoggedService()
-        }
-
-        container.register(LocalStorageService.self, name: "always_logged") { resolver in
-            AlwaysLoggedInService()
+        container.register(LocalStorageService.self) { resolver in
+            UserDefaultsStorage()
         }
 
         container.register(NetworkService.self, name: "always_login") { resolver in

@@ -11,7 +11,7 @@ struct APILayer: NetworkService {
     private let transportLayer = TransportLayer()
     private let decoder = JSONDecoder()
 
-    func loginUser(login: String, password: String) async -> APIAuthResponse? {
+    func loginUser(login: String, password: String) async -> UserToken? {
         guard let request = try? AuthAPI.login(login: login, password: password).asRequest()
         else { return nil }
 
@@ -20,11 +20,11 @@ struct APILayer: NetworkService {
         case .failure:
             return nil
         case .success(let data):
-            return try? decoder.decode(APIAuthResponse.self, from: data)
+            return try? decoder.decode(APIAuthResponse.self, from: data).toUserToken()
         }
     }
     
-    func registerUser(login: String, password: String) async -> APIAuthResponse? {
+    func registerUser(login: String, password: String) async -> UserToken? {
         guard let request = try? AuthAPI.register(login: login, password: password).asRequest()
         else { return nil }
 
@@ -33,7 +33,7 @@ struct APILayer: NetworkService {
         case .failure:
             return nil
         case .success(let data):
-            return try? decoder.decode(APIAuthResponse.self, from: data)
+            return try? decoder.decode(APIAuthResponse.self, from: data).toUserToken()
         }
     }
 }

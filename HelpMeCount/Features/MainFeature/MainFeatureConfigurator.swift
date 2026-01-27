@@ -21,6 +21,13 @@ class MainFeatureConfigurator {
     }
 
     func configure(view: ActionsViewController) throws {
+        guard let router = resolver.resolve(MainFeatureRouter.self)
+        else { throw DIErrors.unableToResolve }
+
+        view.router = router
+    }
+
+    func configure(view: AddActionViewController) throws {
 
     }
 }

@@ -8,6 +8,6 @@
 import Foundation
 
 protocol NetworkService {
-    func loginUser(login: String, password: String) async -> APIAuthResponse?
-    func registerUser(login: String, password: String) async -> APIAuthResponse?
+    func loginUser(login: String, password: String) async -> UserToken?
+    func registerUser(login: String, password: String) async -> UserToken?
 }
