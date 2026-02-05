@@ -26,8 +26,10 @@ class ActionsViewController: BaseController {
 
         refreshControl.addTarget(self, action: #selector(onPullRefresh), for: .valueChanged)
 
+        actionsTable.separatorStyle = .none
         actionsTable.dataSource = self
-        actionsTable.register(UITableViewCell.self, forCellReuseIdentifier: "defaultCell")
+        actionsTable.backgroundColor = .grayBackground
+        actionsTable.register(ActionTableCell.self, forCellReuseIdentifier: ActionTableCell.identifier)
         actionsTable.addSubview(refreshControl)
 
         addSubviews()
@@ -105,8 +107,12 @@ extension ActionsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath)
-        cell.textLabel?.text = actions[indexPath.row].title
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: ActionTableCell.identifier,
+            for: indexPath
+        ) as! ActionTableCell
+
+        cell.setAction(action: actions[indexPath.row])
         return cell
     }
 

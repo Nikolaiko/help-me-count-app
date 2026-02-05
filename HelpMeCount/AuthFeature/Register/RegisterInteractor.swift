@@ -28,17 +28,15 @@ class RegisterInteractor {
         Task {
             defer { presenter.setIsLoadingStatus(isLoading: false) }
 
-            if let result = await networkService.registerRequest(login: userLogin,
-                                                                 password: password),
-               let savedToken = dbService.saveLoggedUser(TokenData(token: result.token, refreshToken: result.refreshToken)){
+            if let result = await networkService.registerRequest(
+                login: userLogin,
+                password: password
+            ), let _ = await dbService.saveLoggedUser(result) {
                 presenter.setRegisterResult(success: true)
             } else {
                 presenter.setRegisterResult(success: false)
             }
         }
-
-
-
     }
 
     func back() {

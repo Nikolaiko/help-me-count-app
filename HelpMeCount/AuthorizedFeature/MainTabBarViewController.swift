@@ -24,7 +24,6 @@ class MainTabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        print("viewDidLoad")
         //childTabs.append(ActionsViewController())
 
         navigationItem.hidesBackButton = true

@@ -29,12 +29,16 @@ class ActionsAsssembly: Assembly {
         container.register(AddActionInteractor.self) { resolver, presenter in
             let networkService = resolver.resolve(
                 NetworkService.self,
-                name: DIImplementationName.generatedNetworkLayer)!
+                name: DIName.generatedNetworkLayer)!
+
+            let localService = resolver.resolve(
+                LocalDataStorage.self,
+                name: DIName.swiftDataStorage)!
 
             return AddActionInteractor(
                 presenter: presenter,
                 networkService: networkService,
-                localStorage: resolver.resolve(LocalDataStorage.self)!
+                localStorage: localService
             )
         }
 
@@ -47,12 +51,16 @@ class ActionsAsssembly: Assembly {
         container.register(ActionsInteractor.self) { resolver, presenter in
             let networkService = resolver.resolve(
                 NetworkService.self,
-                name: DIImplementationName.generatedNetworkLayer)!
+                name: DIName.generatedNetworkLayer)!
+
+            let localService = resolver.resolve(
+                LocalDataStorage.self,
+                name: DIName.swiftDataStorage)!
 
             return ActionsInteractor(
                 presenter: presenter,
                 networkService: networkService,
-                localStorage: resolver.resolve(LocalDataStorage.self)!
+                localStorage: localService
             )
         }
 

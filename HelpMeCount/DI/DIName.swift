@@ -7,7 +7,9 @@
 
 import Foundation
 
-enum DIImplementationName {
+enum DIName {
     static let basicNetworkLayer = "basic_network"
     static let generatedNetworkLayer = "generated_network"
+    static let userDefaultsStorage = "user_defaults_storage"
+    static let swiftDataStorage = "swift_data_storage"
 }

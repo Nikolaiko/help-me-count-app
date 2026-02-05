@@ -33,24 +33,35 @@ class AuthAssembly: Assembly {
         container.register(RegisterInteractor.self) { resolver, presenter in
             let networkService = resolver.resolve(
                 NetworkService.self,
-                name: DIImplementationName.generatedNetworkLayer)!
+                name: DIName.generatedNetworkLayer)!
+
+            let localService = resolver.resolve(
+                LocalDataStorage.self,
+                name: DIName.swiftDataStorage)!
 
             return RegisterInteractor(presenter: presenter,
                                       networkService: networkService,
-                                      dbService: resolver.resolve(LocalDataStorage.self)!)
+                                      dbService: localService)
         }
     }
 
     private func registerLogin(container: Container) {
-        container.register(LoginPresenter.self) { _, view in LoginPresenter(view: view) }
+        container.register(LoginPresenter.self) { _, view in
+            LoginPresenter(view: view)
+        }
+
         container.register(LoginInteractor.self) { resolver, presenter in
             let networkService = resolver.resolve(
                 NetworkService.self,
-                name: DIImplementationName.generatedNetworkLayer)!
+                name: DIName.generatedNetworkLayer)!
+
+            let localService = resolver.resolve(
+                LocalDataStorage.self,
+                name: DIName.swiftDataStorage)!
 
             return LoginInteractor(presenter: presenter,
                                    networkService: networkService,
-                                   storage: resolver.resolve(LocalDataStorage.self)!)
+                                   storage: localService)
         }
     }
 }

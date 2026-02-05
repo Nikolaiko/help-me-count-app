@@ -13,6 +13,10 @@ extension UIFont {
             UIFont(name: "Roboto-Bold", size: size)
         }
 
+        public static func semiBold(size: CGFloat) -> UIFont? {
+            UIFont(name: "Roboto-SemiBold", size: size)
+        }
+
         public static func regular(size: CGFloat) -> UIFont? {
             UIFont(name: "Roboto-Regular", size: size)
         }

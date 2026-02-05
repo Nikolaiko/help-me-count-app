@@ -8,6 +8,12 @@
 import Foundation
 
 struct GeneratedAPI: NetworkService {
+    let localStorage: LocalDataStorage
+
+    init(localStorage: LocalDataStorage) {
+        self.localStorage = localStorage
+    }
+
     func registerRequest(login: String, password: String) async -> TokenData? {
         let authRequest = AuthRequest(username: login, password: password)
         guard let response = try? await AuthorizationAPI.register(authRequest: authRequest)
@@ -24,19 +30,53 @@ struct GeneratedAPI: NetworkService {
         return TokenData.fromAuthResponse(response: response)
     }
     
-    func getAllActions(token: String) async -> [CountableAction] {
-        let config = buildBearerHeader(token: token)
-        let actions = try? await ActionsAPI.getAllActions(apiConfiguration: config)
-        return actions?.map { $0.toCountableAction() } ?? []
+    func getAllActions() async -> [CountableAction] {
+        guard let tokenData = await localStorage.getLoggedUser()
+        else { return [] }
+
+        let config = buildBearerHeader(token: tokenData.token)
+        let actions: [RepeatableAction]
+        do {
+            actions = try await ActionsAPI.getAllActions(apiConfiguration: config)
+        } catch {
+            if isTokenExpiredError(error: error) {
+                if let newTokens = await tryToRefreshToken(refreshToken: tokenData.refreshToken) {
+
+                    let actionsConfig = buildBearerHeader(token: newTokens.token)
+                    actions = (try? await ActionsAPI.getAllActions(apiConfiguration: actionsConfig)) ?? []
+                } else { actions = [] }
+            } else { actions = [] }
+        }
+        return actions.map { $0.toCountableAction() }
     }
 
-    func addAction(token: String, newAction: NewCountableAction) async -> CountableAction? {
-        let headerConfig = buildBearerHeader(token: token)
+    func addAction(newAction: NewCountableAction) async -> CountableAction? {
+        guard let tokenData = await localStorage.getLoggedUser()
+        else { return nil }
+
+        let headerConfig = buildBearerHeader(token: tokenData.token)
         let addedAction = try? await ActionsAPI.addAction(
             newRepeatableAction: newAction.toRepeatableAction(),
             apiConfiguration: headerConfig
         )
         return addedAction?.toCountableAction()
+    }
+
+    private func tryToRefreshToken(refreshToken: String) async -> TokenData? {
+        let refreshConfig = buildBearerHeader(token: refreshToken)
+        guard let refreshResponse = try? await AuthorizationAPI.refresh(apiConfiguration: refreshConfig)
+        else { return nil }
+
+        let newData = TokenData.fromAuthResponse(response: refreshResponse)
+        return await localStorage.saveLoggedUser(newData)
+    }
+
+    private func isTokenExpiredError(error: ErrorResponse) -> Bool {
+        switch error {
+        case .error(let status, _, _, _):
+            if status == 403 { return true }
+        }
+        return false
     }
 
     private func buildBearerHeader(token: String) -> OpenAPIClientAPIConfiguration {

@@ -8,6 +8,10 @@
 import Foundation
 
 protocol LocalDataStorage {
-    func getLoggedUser() -> TokenData?
-    func saveLoggedUser(_ token: TokenData) -> TokenData?
+
+    @discardableResult
+    func getLoggedUser() async -> TokenData?
+
+    @discardableResult
+    func saveLoggedUser(_ token: TokenData) async -> TokenData?
 }

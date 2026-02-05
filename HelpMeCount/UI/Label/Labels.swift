@@ -8,6 +8,24 @@
 import UIKit
 
 extension UILabel {
+    public static func actionCellTitleLabel() -> UILabel {
+        let label = UILabel()
+        label.font = UIFont.Roboto.semiBold(size: 14.0)
+        label.textColor = .trueBlack
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        return label
+    }
+
+    public static func actionCellCountLabel() -> UILabel {
+        let label = UILabel()
+        label.font = UIFont.Roboto.semiBold(size: 14.0)
+        label.textColor = .subtitleGrayColor
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        return label
+    }
+
     public static func buttonLabel() -> UILabel {
         let label = UILabel()
         label.font = UIFont.Roboto.bold(size: 14.0)

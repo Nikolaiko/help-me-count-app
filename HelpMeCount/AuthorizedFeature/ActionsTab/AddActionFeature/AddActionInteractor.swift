@@ -47,17 +47,9 @@ class AddActionInteractor {
         }
 
         let action = NewCountableAction(title: actionName, maxRepeates: maxCounts, currentRepeats: currentCounts)
-        guard let token = localStorage.getLoggedUser()?.token
-        else {
-            presenter.errorDuringOperation(error: .noLoggedTokenFound)
-            return
-        }
 
         Task {
-            if let addedAction = await networkService.addAction(
-                token: token,
-                newAction: action
-            ) {
+            if let _ = await networkService.addAction(newAction: action) {
                 presenter.addedAction()
             }
             else { presenter.errorDuringOperation(error: .errorDuringRequest) }

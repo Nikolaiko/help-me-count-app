@@ -18,10 +18,12 @@ class AppRootInteractor {
     }
 
     func checkLoginStatus() {
-        if let loggedUser = dbService.getLoggedUser() {
-            presenter.userLoggedIn()
-        } else {
-            presenter.userNotLoggedIn()
+        Task { @MainActor in
+            if let _ = await dbService.getLoggedUser() {
+                presenter.userLoggedIn()
+            } else {
+                presenter.userNotLoggedIn()
+            }
         }
     }
 }

@@ -55,11 +55,6 @@ class LabeledTextField: UIView, UITextFieldDelegate {
         inputTextField.text = title
     }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        print("dsddssdsd")
-    }
-
     public func setKeyboardType(type: UIKeyboardType) {
         inputTextField.keyboardType = type
     }

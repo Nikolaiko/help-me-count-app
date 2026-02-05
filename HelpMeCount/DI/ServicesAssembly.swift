@@ -11,20 +11,51 @@ import Swinject
 final class ServicesAssembly: Assembly {
 
     func assemble(container: Container) {
-        container.register(LocalDataStorage.self) { _ in UserDefaultsStorage() }
-
+        registerLocalStorage(container: container)
         registerNetworkLayer(container: container)
+    }
+
+    func loaded(resolver: any Resolver) {
+//        let swiftDataStorage = resolver.resolve(
+//            LocalDataStorage.self,
+//            name: DIName.swiftDataStorage)! as! SwiftDataStorage
+//
+//        do {
+//            try swiftDataStorage.initStorage()
+//        } catch {
+//            print("Error initing storage: \(error)")
+//        }
     }
 
     private func registerNetworkLayer(container: Container) {
         container.register(
             NetworkService.self,
-            name: DIImplementationName.basicNetworkLayer)
-        { _ in AppNetworkService() }
+            name: DIName.basicNetworkLayer) { resolver in
+
+                AppNetworkService()
+            }
 
         container.register(
             NetworkService.self,
-            name: DIImplementationName.generatedNetworkLayer)
-        { _ in GeneratedAPI() }
+            name: DIName.generatedNetworkLayer) { resolver in
+                let localService = resolver.resolve(
+                    LocalDataStorage.self,
+                    name: DIName.swiftDataStorage
+                )!
+
+                return GeneratedAPI(localStorage: localService)
+            }
+    }
+
+    private func registerLocalStorage(container: Container) {
+        container.register(
+            LocalDataStorage.self,
+            name: DIName.userDefaultsStorage)
+        { _ in UserDefaultsStorage() }
+
+        container.register(
+            LocalDataStorage.self,
+            name: DIName.swiftDataStorage)
+        { _ in SwiftDataStorage() }.inObjectScope(.container)
     }
 }

@@ -12,14 +12,16 @@ struct UserDefaultsStorage: LocalDataStorage {
 
     private let userDefaults = UserDefaults.standard
 
-    func getLoggedUser() -> TokenData? {
+    @discardableResult
+    func getLoggedUser() async -> TokenData? {
         guard let tokenData = userDefaults.data(forKey: UserDefaultsStorage.tokenKey),
               let token = try? JSONDecoder().decode(TokenData.self, from: tokenData)
         else { return nil }
         return token
     }
-    
-    func saveLoggedUser(_ token: TokenData) -> TokenData? {
+
+    @discardableResult
+    func saveLoggedUser(_ token: TokenData) async -> TokenData? {
         guard let encoded = try? JSONEncoder().encode(token)
         else { return nil }
 

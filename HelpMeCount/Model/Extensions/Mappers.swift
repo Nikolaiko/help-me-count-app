@@ -11,6 +11,10 @@ extension TokenData {
     static func fromAuthResponse(response: AuthResponse) -> TokenData {
         TokenData(token: response.token, refreshToken: response.refreshToken)
     }
+
+    func toDBToken() -> DBUserToken {
+        DBUserToken(token: token, refreshToken: refreshToken)
+    }
 }
 
 extension NewCountableAction {
@@ -29,5 +33,11 @@ extension RepeatableAction {
             title: title,
             maxRepeates: maxRepeats,
             currentRepeats: currentRepeats)
+    }
+}
+
+extension DBUserToken {
+    func toTokenData() -> TokenData {
+        TokenData(token: token, refreshToken: refreshToken)
     }
 }

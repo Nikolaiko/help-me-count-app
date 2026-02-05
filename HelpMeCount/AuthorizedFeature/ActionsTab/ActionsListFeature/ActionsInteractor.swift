@@ -22,13 +22,8 @@ class ActionsInteractor {
     }
 
     func getAllActions() {
-        guard let loggedToken = localStorage.getLoggedUser()?.token else {
-            presenter.errorDuringOperation(error: .noLoggedTokenFound)
-            return
-        }
-
         Task {
-            let actions = await networkService.getAllActions(token: loggedToken)
+            let actions = await networkService.getAllActions()
             presenter.updateActionsList(actions: actions)
         }
     }

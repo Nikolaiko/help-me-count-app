@@ -18,11 +18,11 @@ struct MockBackend: NetworkService {
         return TokenData(token: "1234", refreshToken: "5678")
     }
     
-    func getAllActions(token: String) async -> [CountableAction] {
+    func getAllActions() async -> [CountableAction] {
         []
     }
 
-    func addAction(token: String, newAction: NewCountableAction) async -> CountableAction? {
+    func addAction(newAction: NewCountableAction) async -> CountableAction? {
         nil
     }
 }

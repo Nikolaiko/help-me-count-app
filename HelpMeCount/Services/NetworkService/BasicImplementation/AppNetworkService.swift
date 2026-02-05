@@ -48,8 +48,8 @@ struct AppNetworkService: NetworkService {
         }
     }
 
-    func getAllActions(token: String) async -> [CountableAction] {
-        let bearer = "Bearer \(token)"
+    func getAllActions() async -> [CountableAction] {
+        let bearer = "Bearer "
         var request = URLRequest(url: URL(string: "\(AppNetworkService.baseAddress)/actions")!)
         request.httpMethod = "GET"
         request.setValue(bearer, forHTTPHeaderField: "Authorization")
@@ -65,7 +65,7 @@ struct AppNetworkService: NetworkService {
         }
     }
 
-    func addAction(token: String, newAction: NewCountableAction) async -> CountableAction? {
+    func addAction(newAction: NewCountableAction) async -> CountableAction? {
         return nil
     }
 }

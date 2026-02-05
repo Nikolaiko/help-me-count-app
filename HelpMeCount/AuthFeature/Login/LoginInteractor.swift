@@ -40,7 +40,7 @@ class LoginInteractor {
             if let token = await networkService.loginRequest(
                 login: userLogin,
                 password: password
-            ), dbService.saveLoggedUser(TokenData(token: token.token, refreshToken: token.refreshToken)) != nil {
+            ), await dbService.saveLoggedUser(token) != nil {
                 presenter.loginResult(result: true)
             } else {
                 presenter.loginResult(result: false)
@@ -51,7 +51,7 @@ class LoginInteractor {
     func register(username: String, password: String) -> Void {
         Task {
             if let token = await networkService.registerRequest(login: username, password: password),
-               let savedtoken = dbService.saveLoggedUser(TokenData(token: token.token, refreshToken: token.refreshToken)) {
+               let _ = await dbService.saveLoggedUser(token) {
                 presenter.loginResult(result: true)
             } else {
                 presenter.loginResult(result: false)

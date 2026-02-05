@@ -24,8 +24,11 @@ class RootAssembly: Assembly {
         }
 
         container.register(AppRootInteractor.self) { resolver, presenter in
-            AppRootInteractor(presenter: presenter,
-                              dbService: resolver.resolve(LocalDataStorage.self)!)
+            let localService = resolver.resolve(
+                LocalDataStorage.self,
+                name: DIName.swiftDataStorage
+            )!
+            return AppRootInteractor(presenter: presenter, dbService: localService)
         }
     }
     
