@@ -135,4 +135,10 @@ class AddActionViewController: BaseController {
     private func cancelTapped() {
         router?.returnFromAddAction()
     }
+
+    func addedAction() {
+        DispatchQueue.main.async { [weak self] in
+            self?.router?.returnFromAddAction()
+        }
+    }
 }

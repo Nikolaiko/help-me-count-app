@@ -79,6 +79,17 @@ struct GeneratedAPI: NetworkService {
         return false
     }
 
+    private func isNoConnectionError(error: ErrorResponse) -> Bool {
+        switch error {
+        case .error(_, _, _, let urlError):
+            guard let sessionError = urlError as? URLError,
+                  sessionError.code == URLError.networkConnectionLost ||
+                  sessionError.code == URLError.notConnectedToInternet
+            else { return false }
+            return true
+        }
+    }
+
     private func buildBearerHeader(token: String) -> OpenAPIClientAPIConfiguration {
         let config = OpenAPIClientAPIConfiguration()
         config.customHeaders = ["Authorization" : "Bearer \(token)"]

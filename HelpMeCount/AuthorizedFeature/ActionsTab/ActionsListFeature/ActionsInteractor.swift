@@ -19,6 +19,7 @@ class ActionsInteractor {
         self.presenter = presenter
         self.networkService = networkService
         self.localStorage = localStorage
+        self.localStorage.delegate = self
     }
 
     func getAllActions() {
@@ -26,5 +27,11 @@ class ActionsInteractor {
             let actions = await networkService.getAllActions()
             presenter.updateActionsList(actions: actions)
         }
+    }
+}
+
+extension ActionsInteractor: DBUpdateListener {
+    func databaseUpdated() {        
+        getAllActions()
     }
 }

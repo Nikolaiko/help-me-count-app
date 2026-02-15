@@ -16,15 +16,11 @@ final class ServicesAssembly: Assembly {
     }
 
     func loaded(resolver: any Resolver) {
-//        let swiftDataStorage = resolver.resolve(
-//            LocalDataStorage.self,
-//            name: DIName.swiftDataStorage)! as! SwiftDataStorage
-//
-//        do {
-//            try swiftDataStorage.initStorage()
-//        } catch {
-//            print("Error initing storage: \(error)")
-//        }
+        let swiftDataStorage = resolver.resolve(
+            LocalDataStorage.self,
+            name: DIName.swiftDataStorage)! as! SwiftDataStorage
+
+        swiftDataStorage.subscribeToUpdates()
     }
 
     private func registerNetworkLayer(container: Container) {
@@ -51,7 +47,7 @@ final class ServicesAssembly: Assembly {
         container.register(
             LocalDataStorage.self,
             name: DIName.userDefaultsStorage)
-        { _ in UserDefaultsStorage() }
+        { _ in UserDefaultsStorage() }.inObjectScope(.container)
 
         container.register(
             LocalDataStorage.self,

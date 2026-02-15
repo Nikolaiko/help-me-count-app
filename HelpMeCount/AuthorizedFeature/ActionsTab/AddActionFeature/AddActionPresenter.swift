@@ -19,7 +19,7 @@ class AddActionPresenter {
     }
 
     func addedAction() {
-        
+        view.addedAction()
     }
 
     func addButtonEnabled(_ isEnabled: Bool) {

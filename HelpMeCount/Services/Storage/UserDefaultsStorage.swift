@@ -7,10 +7,11 @@
 
 import Foundation
 
-struct UserDefaultsStorage: LocalDataStorage {
+class UserDefaultsStorage: LocalDataStorage {
     private static let tokenKey = "token"
-
     private let userDefaults = UserDefaults.standard
+
+    weak var delegate: DBUpdateListener?
 
     @discardableResult
     func getLoggedUser() async -> TokenData? {
@@ -26,6 +27,7 @@ struct UserDefaultsStorage: LocalDataStorage {
         else { return nil }
 
         userDefaults.set(encoded, forKey: UserDefaultsStorage.tokenKey)
+        delegate?.databaseUpdated()
         return token
     }
 }

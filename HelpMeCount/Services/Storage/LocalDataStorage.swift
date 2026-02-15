@@ -7,7 +7,9 @@
 
 import Foundation
 
-protocol LocalDataStorage {
+protocol LocalDataStorage: AnyObject {
+
+    var delegate: DBUpdateListener? { get set }
 
     @discardableResult
     func getLoggedUser() async -> TokenData?
