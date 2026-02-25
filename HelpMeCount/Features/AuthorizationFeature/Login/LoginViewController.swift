@@ -13,7 +13,7 @@ class LoginViewController: NavChildController {
 
     // MARK: UIComponents
 
-    private let loginLabel: UILabel = .simpleLabel(text: "Login")
+    private let loginLabel: UILabel = .simpleLabelLocalized(text: "")
 
     private var loginTextField: UITextField = {
         let textField: UITextField = .inputField()

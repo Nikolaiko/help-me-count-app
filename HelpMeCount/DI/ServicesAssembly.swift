@@ -26,8 +26,11 @@ class ServicesAssembly: Assembly {
             APILayer()
         }
 
-        container.register(NetworkService.self, name: "gen_api") { resolver in
+        container.register(
+            NetworkService.self,
+            name: DINames.generatedAPI)
+        { resolver in
             GeneratedAPI()
-        }
+        }.inObjectScope(.container)
     }
 }

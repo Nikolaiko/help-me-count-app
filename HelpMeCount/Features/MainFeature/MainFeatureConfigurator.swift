@@ -28,6 +28,10 @@ class MainFeatureConfigurator {
     }
 
     func configure(view: AddActionViewController) throws {
+        guard let presenter = resolver.resolve(AddActionPresenter.self, argument: view),
+              let interactor = resolver.resolve(AddActionInteractor.self, argument: presenter)
+        else { throw DIErrors.unableToResolve }
 
+        view.interactor = interactor
     }
 }

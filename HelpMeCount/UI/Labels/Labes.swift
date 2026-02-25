@@ -17,6 +17,15 @@ extension UILabel {
         return label
     }
 
+    public static func simpleLabelLocalized(text: String) -> UILabel {
+        let label = UILabel()
+        label.font = .Roboto.regular(size: 16.0)
+        label.textColor = .trueBlack
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = String(localized: "Login")
+        return label
+    }
+
     public static func errorLabel(text: String) -> UILabel {
         let label = UILabel()
         label.font = .Roboto.bold(size: 14.0)

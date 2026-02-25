@@ -32,7 +32,7 @@ class AuthAssembly: Assembly {
             ClassicRegisterInteractor(
                 presenter: presenter,
                 localStorage: resolver.resolve(LocalStorageService.self)!,
-                networkService: resolver.resolve(NetworkService.self, name: "gen_api")!
+                networkService: resolver.resolve(NetworkService.self, name: DINames.generatedAPI)!
             )
         }
     }
@@ -46,7 +46,7 @@ class AuthAssembly: Assembly {
             ClassicLoginInteractor(
                 presenter: presenter,
                 localStorage: resolver.resolve(LocalStorageService.self)!,
-                networkService: resolver.resolve(NetworkService.self, name: "gen_api")!
+                networkService: resolver.resolve(NetworkService.self, name: DINames.generatedAPI)!
             )
         }
     }

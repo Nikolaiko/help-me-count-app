@@ -9,6 +9,8 @@ import UIKit
 
 class LabeledTextField: UIView {
 
+    var callback: LabeledTextFieldChangeCallback?
+
     private let titleLabel: UILabel = .simpleLabel(text: "")
     private var textField: UITextField = {
         let textField = UITextField.inputField()
@@ -16,11 +18,14 @@ class LabeledTextField: UIView {
         return textField
     }()
 
-    convenience init(title: String = "", placeholder: String = "") {
+    convenience init(title: String = "",
+                     placeholder: String = "",
+                     keyboardType: UIKeyboardType = .default) {
         self.init(frame: CGRect.zero)
 
         titleLabel.text = title
         textField.placeholder = placeholder
+        textField.keyboardType = keyboardType
     }
 
     required init?(coder: NSCoder) {
@@ -41,6 +46,10 @@ class LabeledTextField: UIView {
         makeConstraints()
     }
 
+    func getCurrentText() -> String {
+        textField.text ?? ""
+    }
+
     private func commonInit() {
         translatesAutoresizingMaskIntoConstraints = false
     }
@@ -48,6 +57,8 @@ class LabeledTextField: UIView {
     private func setupViews() {
         addSubview(titleLabel)
         addSubview(textField)
+
+        textField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
 
     private func makeConstraints() {
@@ -62,5 +73,10 @@ class LabeledTextField: UIView {
             currentView.top.equalTo(titleLabel.snp.bottom).offset(12)
             currentView.height.equalTo(62)
         }
+    }
+
+    @objc
+    func textDidChange(_ textField: UITextField) {
+        callback?(textField.text ?? "")
     }
 }

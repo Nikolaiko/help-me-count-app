@@ -16,7 +16,11 @@ class TabControllerRouter: MainFeatureRouter {
     }
 
     func navigateToAddAction(parent: UINavigationController) throws {
+        guard let configurator = resolver.resolve(MainFeatureConfigurator.self)
+        else { throw DIErrors.unableToResolve }
+
         let viewController = AddActionViewController()
+        try configurator.configure(view: viewController)
 
         parent.pushViewController(viewController, animated: true)
     }

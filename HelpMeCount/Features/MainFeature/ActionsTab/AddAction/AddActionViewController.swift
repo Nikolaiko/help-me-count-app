@@ -8,19 +8,19 @@
 import UIKit
 
 class AddActionViewController: BaseController {
+    var interactor: AddActionInteractor?
+
     private let screenTitle: UILabel = .screenTitle(text: "Список действий")
 
     private let actionTitleField = LabeledTextField(title: "Название действия", placeholder: "Название действия")
 
-    private let maxRepeatsField = LabeledTextField(title: "Максимум повторений", placeholder: "Максимум повторений")
+    private let maxRepeatsField = LabeledTextField(title: "Максимум повторений", placeholder: "Максимум повторений", keyboardType: .numberPad)
 
 
-    private let currentRepeatsField = LabeledTextField(title: "Повторения", placeholder: "Повторения")
+    private let currentRepeatsField = LabeledTextField(title: "Повторения", placeholder: "Повторения", keyboardType: .numberPad)
 
     private let addButton: UIButton = .coloredButton(title: "Создать", background: .trueBlue)
     private let cancelButton: UIButton = .coloredButton(title: "Отмена", background: .authBackgroundColor)
-
-
 
     private let inputFieldsStack: UIStackView = {
         let stack = UIStackView()
@@ -49,6 +49,21 @@ class AddActionViewController: BaseController {
         addSubviews()
         setupViews()
         makeConstraints()
+
+        updateName(name: actionTitleField.getCurrentText())
+        updateMaxCount(count: maxRepeatsField.getCurrentText())
+        updateCurrentCount(count: currentRepeatsField.getCurrentText())
+
+        actionTitleField.callback = updateName
+        maxRepeatsField.callback = updateMaxCount
+        currentRepeatsField.callback = updateCurrentCount
+
+    }
+
+    func setAddButtonEnabled(enabled: Bool) {
+        Task { @MainActor in
+            addButton.isEnabled = enabled
+        }
     }
 
     private func addSubviews() {
@@ -86,6 +101,20 @@ class AddActionViewController: BaseController {
             currentView.right.equalTo(view).offset(-12)
             currentView.height.equalTo(54)
         }
+    }
+
+    private func updateName(name: String) {
+        interactor?.updateActionName(name: name)
+    }
+
+    private func updateMaxCount(count: String) {
+        let convertedInt = Int(count)
+        interactor?.updateMaxCount(count: convertedInt)
+    }
+
+    private func updateCurrentCount(count: String) {
+        let convertedInt = Int(count)
+        interactor?.updateCurrentCount(count: convertedInt)
     }
 }
 

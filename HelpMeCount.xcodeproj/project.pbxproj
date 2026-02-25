@@ -108,11 +108,12 @@
 				};
 			};
 			buildConfigurationList = 91B625F22EA8B30200345880 /* Build configuration list for PBXProject "HelpMeCount" */;
-			developmentRegion = en;
+			developmentRegion = ru;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 91B625EE2EA8B30200345880;
 			minimizedProjectReferenceProxies = 1;
