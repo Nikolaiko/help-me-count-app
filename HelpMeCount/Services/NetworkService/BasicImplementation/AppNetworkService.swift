@@ -48,7 +48,7 @@ struct AppNetworkService: NetworkService {
         }
     }
 
-    func getAllActions() async -> [CountableAction] {
+    func getAllActions() async -> Result<[CountableAction], NetworkErrors> {
         let bearer = "Bearer "
         var request = URLRequest(url: URL(string: "\(AppNetworkService.baseAddress)/actions")!)
         request.httpMethod = "GET"
@@ -57,15 +57,15 @@ struct AppNetworkService: NetworkService {
         let result = await httpLayer.makeRequest(urlRequest: request)
         switch result {
         case .success(let data):
-            let actions = try? JSONDecoder().decode([CountableAction].self, from: data)
-            return actions ?? []
+            if let actions = try? JSONDecoder().decode([CountableAction].self, from: data) {
+                return .success(actions)
+            } else { return .failure(.decodingError) }
         case .failure(let error):
-            print(error)
-            return []
+            return .failure(.networkError)
         }
     }
 
-    func addAction(newAction: NewCountableAction) async -> CountableAction? {
-        return nil
+    func addAction(newAction: NewCountableAction) async -> Result<CountableAction, NetworkErrors> {
+        return .failure(.emptyData)
     }
 }

@@ -11,4 +11,8 @@ enum NetworkErrors: Error {
     case wrongStatus
     case emptyData
     case networkError
+    case decodingError
+    case notAuthorized
+    case tokenExpired
+    case noConnection
 }
