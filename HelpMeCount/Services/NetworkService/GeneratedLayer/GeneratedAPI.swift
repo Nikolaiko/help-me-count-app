@@ -10,10 +10,11 @@ import Foundation
 struct GeneratedAPI: NetworkService {
     let localStorage: LocalDataStorage
 
-    private let apiLayer = GeneratedAPILayer()
+    private let apiLayer: GeneratedAPILayer
 
     init(localStorage: LocalDataStorage) {
         self.localStorage = localStorage
+        self.apiLayer = GeneratedAPILayer(localStorage: localStorage)
     }
 
     func registerRequest(login: String, password: String) async -> Result<TokenData, NetworkErrors> {
@@ -33,10 +34,8 @@ struct GeneratedAPI: NetworkService {
     }
     
     func getAllActions() async -> Result<[CountableAction], NetworkErrors> {
-        //guard let tokenData = await localStorage.getLoggedUser()
-        //else { return .failure(.notAuthorized) }
-
-        let closure = {
+        print(await localStorage.getLoggedUser()?.refreshToken)
+        let closure: () async throws(ErrorResponse) -> [RepeatableAction] = {
             let tokenData = await localStorage.getLoggedUser()
             let config = buildBearerHeader(token: tokenData?.token)
             return try await ActionsAPI.getAllActions(apiConfiguration: config)
@@ -44,26 +43,12 @@ struct GeneratedAPI: NetworkService {
 
         let result = await apiLayer.makeRequest(requestClosure: closure)
         switch result {
-        case .success(let data):
-            let actions: [RepeatableAction] = data
-        case .failure(let error):
+        case .success(let actions):
+            let countableActions = actions.map {  $0.toCountableAction() }
+            return .success(countableActions)
+        case .failure:
             return .failure(.decodingError)
         }
-
-//        let config = buildBearerHeader(token: tokenData.token)
-//        let actions: [RepeatableAction]
-//        do {
-//            actions = try await ActionsAPI.getAllActions(apiConfiguration: config)
-//        } catch {
-//            if isTokenExpiredError(error: error) {
-//                if let newTokens = await tryToRefreshToken(refreshToken: tokenData.refreshToken) {
-//
-//                    let actionsConfig = buildBearerHeader(token: newTokens.token)
-//                    actions = (try? await ActionsAPI.getAllActions(apiConfiguration: actionsConfig)) ?? []
-//                } else { actions = [] }
-//            } else { actions = [] }
-//        }
-//        return actions.map { $0.toCountableAction() }
     }
 
     func addAction(newAction: NewCountableAction) async -> Result<CountableAction, NetworkErrors> {
@@ -75,7 +60,8 @@ struct GeneratedAPI: NetworkService {
             newRepeatableAction: newAction.toRepeatableAction(),
             apiConfiguration: headerConfig
         )
-        return addedAction?.toCountableAction()
+        //return addedAction?.toCountableAction()
+        return .failure(.decodingError)
     }
 
     private func tryToRefreshToken(refreshToken: String) async -> TokenData? {

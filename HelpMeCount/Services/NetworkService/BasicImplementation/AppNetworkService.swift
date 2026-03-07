@@ -8,10 +8,11 @@
 import Foundation
 
 struct AppNetworkService: NetworkService {
+
     private static let baseAddress = "http://e97b67a8bc6.vps.myjino.ru:49235"
     private let httpLayer = URLSessionLayer()
 
-    func registerRequest(login: String, password: String) async -> TokenData? {
+    func registerRequest(login: String, password: String) async -> Result<TokenData, NetworkErrors> {
         var request = URLRequest(url: URL(string: "\(AppNetworkService.baseAddress)/authorization/register")!)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -20,15 +21,15 @@ struct AppNetworkService: NetworkService {
         let result = await httpLayer.makeRequest(urlRequest: request)
         switch result {
         case .success(let data):
-            let token = try? JSONDecoder().decode(TokenData.self, from: data)
-            return token
+            let token = try! JSONDecoder().decode(TokenData.self, from: data)
+            return .success(token)
         case .failure(let error):
             print(error)
-            return nil
+            return .failure(.networkError)
         }
     }
 
-    func loginRequest(login: String, password: String) async -> TokenData? {
+    func loginRequest(login: String, password: String) async -> Result<TokenData, NetworkErrors> {
         let loginString = String(format: "%@:%@", login, password)
         let loginData = loginString.data(using: String.Encoding.utf8)!
         let base64LoginString = loginData.base64EncodedString()
@@ -40,11 +41,11 @@ struct AppNetworkService: NetworkService {
         let result = await httpLayer.makeRequest(urlRequest: request)
         switch result {
         case .success(let data):
-            let token = try? JSONDecoder().decode(TokenData.self, from: data)
-            return token
+            let token = try! JSONDecoder().decode(TokenData.self, from: data)
+            return .success(token)
         case .failure(let error):
             print(error)
-            return nil
+            return .failure(.networkError)
         }
     }
 

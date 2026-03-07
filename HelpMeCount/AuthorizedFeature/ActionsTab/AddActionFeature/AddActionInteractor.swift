@@ -49,9 +49,8 @@ class AddActionInteractor {
         let action = NewCountableAction(title: actionName, maxRepeates: maxCounts, currentRepeats: currentCounts)
 
         Task {
-            if let _ = await networkService.addAction(newAction: action) {
-                presenter.addedAction()
-            }
+            let result = await networkService.addAction(newAction: action)
+            if case .success = result { presenter.addedAction() }
             else { presenter.errorDuringOperation(error: .errorDuringRequest) }
         }
     }

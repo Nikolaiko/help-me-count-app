@@ -34,26 +34,20 @@ class LoginInteractor {
 
     func login() -> Void {
         presenter.setIsLoading(isLoading: true)
+
         Task {
             defer { presenter.setIsLoading(isLoading: false) }
-            
-            if let token = await networkService.loginRequest(
-                login: userLogin,
-                password: password
-            ), await dbService.saveLoggedUser(token) != nil {
-                presenter.loginResult(result: true)
-            } else {
-                presenter.loginResult(result: false)
-            }
-        }
-    }
 
-    func register(username: String, password: String) -> Void {
-        Task {
-            if let token = await networkService.registerRequest(login: username, password: password),
-               let _ = await dbService.saveLoggedUser(token) {
-                presenter.loginResult(result: true)
-            } else {
+            let loginResult = await networkService.loginRequest(
+                login: userLogin,
+                password: password)
+
+            switch loginResult {
+            case .success(let tokenData):
+                await dbService.saveLoggedUser(tokenData) == nil
+                    ? presenter.loginResult(result: false)
+                    : presenter.loginResult(result: true)
+            case .failure:
                 presenter.loginResult(result: false)
             }
         }

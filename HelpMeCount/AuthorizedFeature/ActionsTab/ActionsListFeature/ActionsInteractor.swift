@@ -24,8 +24,14 @@ class ActionsInteractor {
 
     func getAllActions() {
         Task {
-            let actions = await networkService.getAllActions()
-            presenter.updateActionsList(actions: actions)
+            let actionsResult = await networkService.getAllActions()
+            switch actionsResult {
+            case .success(let actions):
+                presenter.updateActionsList(actions: actions)
+            case .failure(let error):
+                presenter.errorDuringOperation(error: .errorDuringRequest)
+            }
+
         }
     }
 }

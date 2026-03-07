@@ -24,16 +24,19 @@ class RegisterInteractor {
 
     func register() {
         presenter.setIsLoadingStatus(isLoading: true)
-
+        defer { presenter.setIsLoadingStatus(isLoading: false) }
+        
         Task {
-            defer { presenter.setIsLoadingStatus(isLoading: false) }
-
-            if let result = await networkService.registerRequest(
+            let registerResult = await networkService.registerRequest(
                 login: userLogin,
-                password: password
-            ), let _ = await dbService.saveLoggedUser(result) {
-                presenter.setRegisterResult(success: true)
-            } else {
+                password: password)
+
+            switch registerResult {
+            case .success(let tokenData):
+                await dbService.saveLoggedUser(tokenData) == nil
+                ? presenter.setRegisterResult(success: false)
+                : presenter.setRegisterResult(success: true)
+            case .failure:
                 presenter.setRegisterResult(success: false)
             }
         }
