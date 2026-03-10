@@ -8,6 +8,7 @@
 import Foundation
 
 protocol NetworkService {
-    func loginUser(login: String, password: String) async -> UserToken?
-    func registerUser(login: String, password: String) async -> UserToken?
+    func loginUser(login: String, password: String) async -> Result<UserToken, NetworkError>
+    func registerUser(login: String, password: String) async -> Result<UserToken, NetworkError>
+    //func addNewAction() async -> 
 }

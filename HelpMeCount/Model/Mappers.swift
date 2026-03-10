@@ -18,3 +18,13 @@ extension APIAuthResponse {
         UserToken(token: token, refreshToken: refreshToken)
     }
 }
+
+extension ErrorResponse {
+    func toNetworkError() -> NetworkError {
+        switch self {
+        case let .error(status, data, response, urlError):
+            if status == 403 { return .tokenExpired }
+            else { return .genericNetworkError }
+        }
+    }
+}

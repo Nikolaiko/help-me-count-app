@@ -8,6 +8,7 @@
 import Foundation
 
 protocol AddActionInteractor {
+    func createNewAction()
     func updateActionName(name: String)
     func updateMaxCount(count: Int?)
     func updateCurrentCount(count: Int?)

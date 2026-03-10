@@ -12,4 +12,5 @@ enum NetworkError: Error {
     case wrongStatus
     case server
     case client
+    case tokenExpired
 }

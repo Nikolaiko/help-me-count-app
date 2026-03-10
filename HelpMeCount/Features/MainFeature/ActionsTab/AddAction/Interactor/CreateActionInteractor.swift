@@ -20,6 +20,10 @@ class CreateActionInteractor: AddActionInteractor {
         self.networkService = networkService
     }
 
+    func createNewAction() {
+        
+    }
+
     func updateActionName(name: String) {
         newActionName = name
         presenter.setAddButtonEnabled(enabled: validate())

@@ -8,24 +8,35 @@
 import Foundation
 
 struct GeneratedAPI: NetworkService {
-    func loginUser(login: String, password: String) async -> UserToken? {
+    func loginUser(login: String, password: String) async -> Result<UserToken, NetworkError> {
         let loginString = "\(login):\(password)"
-        guard let loginData = loginString.data(using: .utf8) else { return nil }
+
+        guard let loginData = loginString.data(using: .utf8)
+        else { return .failure(.client) }
+
         let base64LoginString = loginData.base64EncodedString()
         let headers = ["Authorization" : "Basic \(base64LoginString)"]
 
         let apiConf = OpenAPIClientAPIConfiguration(customHeaders: headers)
-        guard let response = try? await AuthorizationAPI.login(apiConfiguration: apiConf)
-        else { return nil }
-
-        return response.toUserToken()
+        do {
+            let response = try await AuthorizationAPI.login(apiConfiguration: apiConf)
+            return .success(response.toUserToken())
+        } catch {
+            return .failure(error.toNetworkError())
+        }
     }
     
-    func registerUser(login: String, password: String) async -> UserToken? {
+    func registerUser(login: String, password: String) async -> Result<UserToken, NetworkError> {
         let request = AuthRequest(username: login, password: password)
-        guard let response = try? await AuthorizationAPI.register(authRequest: request)
-        else { return nil }
+        do {
+            let response = try await AuthorizationAPI.register(authRequest: request)
+            return .success(response.toUserToken())
+        } catch {
+            return .failure(error.toNetworkError())
+        }
+    }
 
-        return response.toUserToken()
+    func addNewAction() {
+        ActionsAPI.addAction()
     }
 }

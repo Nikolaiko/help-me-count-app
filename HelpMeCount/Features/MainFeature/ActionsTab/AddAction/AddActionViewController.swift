@@ -116,5 +116,9 @@ class AddActionViewController: BaseController {
         let convertedInt = Int(count)
         interactor?.updateCurrentCount(count: convertedInt)
     }
+
+    private func backToActionsList() {
+        
+    }
 }
 

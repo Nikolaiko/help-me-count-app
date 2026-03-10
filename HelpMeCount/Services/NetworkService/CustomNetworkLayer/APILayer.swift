@@ -11,29 +11,33 @@ struct APILayer: NetworkService {
     private let transportLayer = TransportLayer()
     private let decoder = JSONDecoder()
 
-    func loginUser(login: String, password: String) async -> UserToken? {
+    func loginUser(login: String, password: String) async -> Result<UserToken, NetworkError> {
         guard let request = try? AuthAPI.login(login: login, password: password).asRequest()
-        else { return nil }
+        else { return .failure(.genericNetworkError) }
 
         let result = await transportLayer.makeRequest(request: request)
         switch result {
-        case .failure:
-            return nil
+        case .failure(let error):
+            return .failure(error)
         case .success(let data):
-            return try? decoder.decode(APIAuthResponse.self, from: data).toUserToken()
+            guard let token = try? decoder.decode(APIAuthResponse.self, from: data).toUserToken()
+            else { return .failure(.server) }
+            return .success(token)
         }
     }
     
-    func registerUser(login: String, password: String) async -> UserToken? {
+    func registerUser(login: String, password: String) async -> Result<UserToken, NetworkError> {
         guard let request = try? AuthAPI.register(login: login, password: password).asRequest()
-        else { return nil }
+        else { return .failure(.genericNetworkError) }
 
         let result = await transportLayer.makeRequest(request: request)
         switch result {
-        case .failure:
-            return nil
+        case .failure(let error):
+            return .failure(error)
         case .success(let data):
-            return try? decoder.decode(APIAuthResponse.self, from: data).toUserToken()
+            guard let token = try? decoder.decode(APIAuthResponse.self, from: data).toUserToken()
+            else { return .failure(.server) }
+            return .success(token)
         }
     }
 }
