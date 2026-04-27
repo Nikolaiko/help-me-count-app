@@ -228,8 +228,9 @@ components:
         - currentRepeats
       properties:
         id:
-          type: integer
-          example: 4
+          type: string
+          format: UUID
+          example: "7AB9AD22-6152-4562-9859-938C016FFB48"
         title:
           type: string
           example: kick boxing aboniment
@@ -257,7 +258,7 @@ components:
           example: 0
     AuthRequest:
       type: object
-      required:
+      required: 
         - username
         - password
       properties:
@@ -269,7 +270,7 @@ components:
           example: 34ritepweff
     AuthResponse:
       type: object
-      required:
+      required: 
         - token
         - refreshToken
       properties:

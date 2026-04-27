@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+struct CountableAction: Codable {
+    let id: UUID
+    let title: String
+    let  maxRepeats: Int
+    let  currentRepeats: Int
+}

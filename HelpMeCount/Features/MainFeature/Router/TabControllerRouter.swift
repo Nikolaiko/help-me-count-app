@@ -24,4 +24,8 @@ class TabControllerRouter: MainFeatureRouter {
 
         parent.pushViewController(viewController, animated: true)
     }
+
+    func backFromAddAction(parent: UINavigationController) {
+        parent.popViewController(animated: true)
+    }
 }

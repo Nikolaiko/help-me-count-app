@@ -9,9 +9,9 @@ import Foundation
 
 class RootInteractor: AppRootInteractor {
     private let presenter: AppRootPresenter
-    private let localService: LocalStorageService
+    private let localService: LocalTokensStorage
 
-    init(presenter: AppRootPresenter, localService: LocalStorageService) {
+    init(presenter: AppRootPresenter, localService: LocalTokensStorage) {
         self.presenter = presenter
         self.localService = localService
     }

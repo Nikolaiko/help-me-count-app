@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **Int** |  | 
+**id** | **UUID** |  | 
 **title** | **String** |  | 
 **maxRepeats** | **Int** |  | 
 **currentRepeats** | **Int** |  | 

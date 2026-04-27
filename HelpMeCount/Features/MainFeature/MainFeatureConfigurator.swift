@@ -21,17 +21,22 @@ class MainFeatureConfigurator {
     }
 
     func configure(view: ActionsViewController) throws {
-        guard let router = resolver.resolve(MainFeatureRouter.self)
+        guard let presenter = resolver.resolve(ActionsListPresenter.self, argument: view),
+              let interactor = resolver.resolve(ActionsListInteractor.self, argument: presenter),
+              let router = resolver.resolve(MainFeatureRouter.self)
         else { throw DIErrors.unableToResolve }
 
         view.router = router
+        view.interactor = interactor
     }
 
     func configure(view: AddActionViewController) throws {
         guard let presenter = resolver.resolve(AddActionPresenter.self, argument: view),
-              let interactor = resolver.resolve(AddActionInteractor.self, argument: presenter)
+              let interactor = resolver.resolve(AddActionInteractor.self, argument: presenter),
+              let router = resolver.resolve(MainFeatureRouter.self)
         else { throw DIErrors.unableToResolve }
 
         view.interactor = interactor
+        view.router = router
     }
 }

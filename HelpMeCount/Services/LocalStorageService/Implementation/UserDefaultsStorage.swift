@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserDefaultsStorage: LocalStorageService {
+struct UserDefaultsStorage: LocalTokensStorage {
     private let keyName = "logged_user"
 
     func getUserToken() -> UserToken? {

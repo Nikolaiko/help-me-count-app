@@ -22,9 +22,39 @@ extension APIAuthResponse {
 extension ErrorResponse {
     func toNetworkError() -> NetworkError {
         switch self {
-        case let .error(status, data, response, urlError):
+        case let .error(status, _, _, urlError):
             if status == 403 { return .tokenExpired }
-            else { return .genericNetworkError }
+
+            if let sessionError = urlError as? URLError,
+               sessionError.code == URLError.notConnectedToInternet ||
+                sessionError.code == URLError.networkConnectionLost
+            { return .noInternet }
+
+            return .genericNetworkError
         }
+    }
+}
+
+extension NewCountableAction {
+    func toNewRepeatableAction() -> NewRepeatableAction {
+        NewRepeatableAction(title: title, maxRepeats: maxRepeats, currentRepeats: currentRepeats)
+    }
+}
+
+extension RepeatableAction {
+    func toCountableAction() -> CountableAction {
+        CountableAction(id: id, title: title, maxRepeats: maxRepeats, currentRepeats: currentRepeats)
+    }
+}
+
+extension CountableAction {
+    func toDBAction() -> DBCountableAction {
+        DBCountableAction(id: id, title: title, maxRepeats: maxRepeats, currentRepeats: currentRepeats)
+    }
+}
+
+extension DBCountableAction {
+    func toCountableAction() -> CountableAction {
+        CountableAction(id: id, title: title, maxRepeats: maxRepeats, currentRepeats: currentRepeats)
     }
 }

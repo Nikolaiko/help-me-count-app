@@ -13,4 +13,6 @@ enum NetworkError: Error {
     case server
     case client
     case tokenExpired
+    case failedDuringRefreshToken
+    case noInternet
 }

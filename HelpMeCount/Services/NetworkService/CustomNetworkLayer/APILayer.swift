@@ -8,6 +8,10 @@
 import Foundation
 
 struct APILayer: NetworkService {
+    func addNewAction(action: NewCountableAction) async -> Result<CountableAction, NetworkError> {
+        .failure(.genericNetworkError)
+    }
+
     private let transportLayer = TransportLayer()
     private let decoder = JSONDecoder()
 
@@ -25,7 +29,7 @@ struct APILayer: NetworkService {
             return .success(token)
         }
     }
-    
+
     func registerUser(login: String, password: String) async -> Result<UserToken, NetworkError> {
         guard let request = try? AuthAPI.register(login: login, password: password).asRequest()
         else { return .failure(.genericNetworkError) }
@@ -39,5 +43,9 @@ struct APILayer: NetworkService {
             else { return .failure(.server) }
             return .success(token)
         }
+    }
+
+    func getActions() async -> Result<[CountableAction], NetworkError> {
+        .success([])
     }
 }

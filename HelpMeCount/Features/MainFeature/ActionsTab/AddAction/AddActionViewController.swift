@@ -9,6 +9,7 @@ import UIKit
 
 class AddActionViewController: BaseController {
     var interactor: AddActionInteractor?
+    var router: MainFeatureRouter?
 
     private let screenTitle: UILabel = .screenTitle(text: "Список действий")
 
@@ -58,12 +59,18 @@ class AddActionViewController: BaseController {
         maxRepeatsField.callback = updateMaxCount
         currentRepeatsField.callback = updateCurrentCount
 
+        addButton.addTarget(self, action: #selector(addNewAction), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(backToActionsList), for: .touchUpInside)
     }
 
     func setAddButtonEnabled(enabled: Bool) {
         Task { @MainActor in
             addButton.isEnabled = enabled
         }
+    }
+
+    func newActionAdded() {
+        backToActionsList()
     }
 
     private func addSubviews() {
@@ -117,8 +124,17 @@ class AddActionViewController: BaseController {
         interactor?.updateCurrentCount(count: convertedInt)
     }
 
+    @objc
     private func backToActionsList() {
-        
+        Task { @MainActor in
+            guard let navParent = self.navigationController else { return }
+            router?.backFromAddAction(parent: navParent)
+        }
+    }
+
+    @objc
+    private func addNewAction() {
+        interactor?.createNewAction()
     }
 }
 

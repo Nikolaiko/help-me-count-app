@@ -9,12 +9,12 @@ import Foundation
 
 public struct RepeatableAction: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var id: Int
+    public var id: UUID
     public var title: String
     public var maxRepeats: Int
     public var currentRepeats: Int
 
-    public init(id: Int, title: String, maxRepeats: Int, currentRepeats: Int) {
+    public init(id: UUID, title: String, maxRepeats: Int, currentRepeats: Int) {
         self.id = id
         self.title = title
         self.maxRepeats = maxRepeats

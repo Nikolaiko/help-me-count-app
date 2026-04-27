@@ -10,7 +10,7 @@ import Foundation
 
 class ClassicRegisterInteractor: RegisterInteractor {
     private let presenter: RegisterPresenter
-    private let localStorage: LocalStorageService
+    private let localStorage: LocalTokensStorage
     private let networkService: NetworkService
 
     private var login: String = ""
@@ -18,7 +18,7 @@ class ClassicRegisterInteractor: RegisterInteractor {
 
 
     init(presenter: RegisterPresenter,
-         localStorage: LocalStorageService,
+         localStorage: LocalTokensStorage,
          networkService: NetworkService) {
         self.presenter = presenter
         self.localStorage = localStorage

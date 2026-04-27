@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol LocalStorageService {
+protocol LocalTokensStorage {
     func getUserToken() -> UserToken?
     func saveUserToken(newToken: UserToken) -> UserToken?
 }

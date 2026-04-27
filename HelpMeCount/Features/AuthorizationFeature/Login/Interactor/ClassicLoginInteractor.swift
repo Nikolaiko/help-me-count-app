@@ -9,7 +9,7 @@ import Foundation
 
 class ClassicLoginInteractor: LoginInteractor {
     private let presenter: LoginPresenter
-    private let localStorage: LocalStorageService
+    private let localStorage: LocalTokensStorage
     private let networkService: NetworkService
 
     private var login: String = ""
@@ -17,7 +17,7 @@ class ClassicLoginInteractor: LoginInteractor {
 
 
     init(presenter: LoginPresenter,
-         localStorage: LocalStorageService,
+         localStorage: LocalTokensStorage,
          networkService: NetworkService) {
         self.presenter = presenter
         self.localStorage = localStorage

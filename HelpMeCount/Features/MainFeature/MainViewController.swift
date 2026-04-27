@@ -27,6 +27,5 @@ class MainViewController: UITabBarController {
         self.navigationItem.hidesBackButton = true
 
         viewControllers = childTabs
-        view.backgroundColor = .yellow
     }
 }

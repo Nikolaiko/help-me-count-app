@@ -17,7 +17,7 @@ class RootAssembly: Assembly {
         container.register(AppRootInteractor.self) { resolver, presenter in
             RootInteractor(
                 presenter: presenter,
-                localService: resolver.resolve(LocalStorageService.self)!
+                localService: resolver.resolve(LocalTokensStorage.self)!
             )
         }
 

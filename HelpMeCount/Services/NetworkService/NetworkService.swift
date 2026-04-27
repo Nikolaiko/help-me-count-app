@@ -10,5 +10,6 @@ import Foundation
 protocol NetworkService {
     func loginUser(login: String, password: String) async -> Result<UserToken, NetworkError>
     func registerUser(login: String, password: String) async -> Result<UserToken, NetworkError>
-    //func addNewAction() async -> 
+    func addNewAction(action: NewCountableAction) async -> Result<CountableAction, NetworkError>
+    func getActions() async -> Result<[CountableAction], NetworkError>
 }

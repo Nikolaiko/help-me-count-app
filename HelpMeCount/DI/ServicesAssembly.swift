@@ -10,7 +10,7 @@ import Swinject
 
 class ServicesAssembly: Assembly {
     func assemble(container: Swinject.Container) {
-        container.register(LocalStorageService.self) { resolver in
+        container.register(LocalTokensStorage.self) { resolver in
             UserDefaultsStorage()
         }
 
@@ -30,7 +30,15 @@ class ServicesAssembly: Assembly {
             NetworkService.self,
             name: DINames.generatedAPI)
         { resolver in
-            GeneratedAPI()
+            GeneratedAPI(
+                localService: resolver.resolve(LocalTokensStorage.self)!
+            )
+        }.inObjectScope(.container)
+
+        container.register(
+            LocalActionsStorage.self
+        ) { _ in
+            SwiftDataStorage()
         }.inObjectScope(.container)
     }
 }

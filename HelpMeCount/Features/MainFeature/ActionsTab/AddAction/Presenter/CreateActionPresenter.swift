@@ -17,4 +17,8 @@ struct CreateActionPresenter: AddActionPresenter {
     func setAddButtonEnabled(enabled: Bool) {
         view.setAddButtonEnabled(enabled: enabled)
     }
+
+    func newActionAdded() {
+        view.newActionAdded()
+    }
 }
