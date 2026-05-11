@@ -107,6 +107,10 @@ extension ActionsViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: ActionTableViewCell.identifier,
                                                  for: indexPath) as! ActionTableViewCell
         cell.setAction(action: actions[indexPath.row])
+        cell.plusTapCallback = { [weak self] in
+            guard let self else { return }
+            interactor?.addActionRepetition(action: actions[indexPath.row])
+        }
         return cell
     }
 }

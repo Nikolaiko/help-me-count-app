@@ -8,6 +8,10 @@
 import Foundation
 
 struct AlwaysLoginMock: NetworkService {
+    func increaseActionCount(action: CountableAction) async -> Result<CountableAction, NetworkError> {
+        .failure(.client)
+    }
+    
     func addNewAction(action: NewCountableAction) async -> Result<CountableAction, NetworkError> {
         .failure(.genericNetworkError)
     }
@@ -50,5 +54,9 @@ struct AlwaysFailLoginMock: NetworkService {
 
     func getActions() async -> Result<[CountableAction], NetworkError> {
         .failure(.genericNetworkError)
+    }
+
+    func increaseActionCount(action: CountableAction) async -> Result<CountableAction, NetworkError> {
+        .failure(.failedDuringRefreshToken)
     }
 }

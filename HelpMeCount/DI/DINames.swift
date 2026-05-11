@@ -9,4 +9,5 @@ import Foundation
 
 enum DINames {
     static let generatedAPI = "gen_api"
+    static let generatedLocalAPI = "gen_local_api"
 }

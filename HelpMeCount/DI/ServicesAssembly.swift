@@ -36,6 +36,15 @@ class ServicesAssembly: Assembly {
         }.inObjectScope(.container)
 
         container.register(
+            NetworkService.self,
+            name: DINames.generatedLocalAPI)
+        { resolver in
+            GeneratedLocalAPI(
+                localService: resolver.resolve(LocalTokensStorage.self)!
+            )
+        }.inObjectScope(.container)
+
+        container.register(
             LocalActionsStorage.self
         ) { _ in
             SwiftDataStorage()

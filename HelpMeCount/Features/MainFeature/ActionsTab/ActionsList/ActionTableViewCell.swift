@@ -31,6 +31,8 @@ class ActionTableViewCell: UITableViewCell {
 
     private var cellAction: CountableAction? = nil
 
+    public var plusTapCallback: (() -> Void)?
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -62,6 +64,9 @@ class ActionTableViewCell: UITableViewCell {
         subView.layer.cornerRadius = 6
 
         plusImage.image = UIImage(named: "cross_image")
+        plusImage.isUserInteractionEnabled = true
+        plusImage.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                              action: #selector(plusButtonTap)))
     }
 
     private func makeConstraints() {
@@ -93,5 +98,10 @@ class ActionTableViewCell: UITableViewCell {
     private func parseCount() -> String {
         guard let cellAction else { return "0 bз 0" }
         return "\(cellAction.currentRepeats) из \(cellAction.maxRepeats)"
+    }
+
+    @objc
+    private func plusButtonTap() {
+        plusTapCallback?()
     }
 }

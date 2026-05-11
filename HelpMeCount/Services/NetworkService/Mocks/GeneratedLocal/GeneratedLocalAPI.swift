@@ -2,19 +2,22 @@
 //  GeneratedAPI.swift
 //  HelpMeCount
 //
-//  Created by Nikolai Baklanov on 18.01.2026.
+//  Created by Nikolai Baklanov on 11.05.2026.
 //
+
 
 import Foundation
 
-struct GeneratedAPI: NetworkService {
+struct GeneratedLocalAPI: NetworkService {
+
+    public static let baseAddress = "http://127.0.0.1:8080"
 
     private let localService: LocalTokensStorage
-    private let requestExcutor: RequestExecutor
+    private let requestExcutor: RequestLocalExecutor
 
     init(localService: LocalTokensStorage) {
         self.localService = localService
-        self.requestExcutor = RequestExecutor(localService: localService)
+        self.requestExcutor = RequestLocalExecutor(localService: localService)
     }
 
     // MARK: Authorization Requests
@@ -28,7 +31,10 @@ struct GeneratedAPI: NetworkService {
         let base64LoginString = loginData.base64EncodedString()
         let headers = ["Authorization" : "Basic \(base64LoginString)"]
 
-        let apiConf = OpenAPIClientAPIConfiguration(customHeaders: headers)
+        let apiConf = OpenAPIClientAPIConfiguration(
+            basePath: GeneratedLocalAPI.baseAddress,
+            customHeaders: headers
+        )
         do {
             let response = try await AuthorizationAPI.login(apiConfiguration: apiConf)
             return .success(response.toUserToken())
@@ -39,8 +45,11 @@ struct GeneratedAPI: NetworkService {
 
     func registerUser(login: String, password: String) async -> Result<UserToken, NetworkError> {
         let request = AuthRequest(username: login, password: password)
+        let apiConf = OpenAPIClientAPIConfiguration(
+            basePath: GeneratedLocalAPI.baseAddress
+        )
         do {
-            let response = try await AuthorizationAPI.register(authRequest: request)
+            let response = try await AuthorizationAPI.register(authRequest: request, apiConfiguration: apiConf)
             return .success(response.toUserToken())
         } catch {
             return .failure(error.toNetworkError())
@@ -93,6 +102,7 @@ struct GeneratedAPI: NetworkService {
                 maxRepeats: action.maxRepeats,
                 currentRepeats: action.currentRepeats)
 
+            print(repeatableAction)
 
             return try await ActionsAPI.editAction(actionid: repeatableAction.id,
                                                    repeatableAction: repeatableAction,
@@ -110,6 +120,6 @@ struct GeneratedAPI: NetworkService {
 
     private func buildBearerHeader(token: String?) -> OpenAPIClientAPIConfiguration {
         let headers: [String: String] = ["Authorization" : "Bearer \(token ?? "")"]
-        return OpenAPIClientAPIConfiguration(customHeaders: headers)
+        return OpenAPIClientAPIConfiguration(basePath: GeneratedLocalAPI.baseAddress, customHeaders: headers)
     }
 }

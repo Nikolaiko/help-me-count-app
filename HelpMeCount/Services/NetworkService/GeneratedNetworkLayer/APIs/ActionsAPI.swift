@@ -59,13 +59,13 @@ open class ActionsAPI {
      - returns: RepeatableAction
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func editAction(actionid: Int, repeatableAction: RepeatableAction? = nil, apiConfiguration: OpenAPIClientAPIConfiguration = OpenAPIClientAPIConfiguration.shared) async throws(ErrorResponse) -> RepeatableAction {
+    open class func editAction(actionid: UUID, repeatableAction: RepeatableAction? = nil, apiConfiguration: OpenAPIClientAPIConfiguration = OpenAPIClientAPIConfiguration.shared) async throws(ErrorResponse) -> RepeatableAction {
         return try await editActionWithRequestBuilder(actionid: actionid, repeatableAction: repeatableAction, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Изменить действие
-     - POST /actions/{actionid}/
+     - POST /actions/edit/
      - Изменить действие
      - Bearer Token:
        - type: http
@@ -75,8 +75,8 @@ open class ActionsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<RepeatableAction> 
      */
-    open class func editActionWithRequestBuilder(actionid: Int, repeatableAction: RepeatableAction? = nil, apiConfiguration: OpenAPIClientAPIConfiguration = OpenAPIClientAPIConfiguration.shared) -> RequestBuilder<RepeatableAction> {
-        var localVariablePath = "/actions/{actionid}/"
+    open class func editActionWithRequestBuilder(actionid: UUID, repeatableAction: RepeatableAction? = nil, apiConfiguration: OpenAPIClientAPIConfiguration = OpenAPIClientAPIConfiguration.shared) -> RequestBuilder<RepeatableAction> {
+        var localVariablePath = "/actions/edit/"
         let actionidPreEscape = "\(APIHelper.mapValueToPathItem(actionid))"
         let actionidPostEscape = actionidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{actionid}", with: actionidPostEscape, options: .literal, range: nil)
@@ -104,7 +104,7 @@ open class ActionsAPI {
      - returns: RepeatableAction
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAction(actionid: Int, apiConfiguration: OpenAPIClientAPIConfiguration = OpenAPIClientAPIConfiguration.shared) async throws(ErrorResponse) -> RepeatableAction {
+    open class func getAction(actionid: UUID, apiConfiguration: OpenAPIClientAPIConfiguration = OpenAPIClientAPIConfiguration.shared) async throws(ErrorResponse) -> RepeatableAction {
         return try await getActionWithRequestBuilder(actionid: actionid, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -119,7 +119,7 @@ open class ActionsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<RepeatableAction> 
      */
-    open class func getActionWithRequestBuilder(actionid: Int, apiConfiguration: OpenAPIClientAPIConfiguration = OpenAPIClientAPIConfiguration.shared) -> RequestBuilder<RepeatableAction> {
+    open class func getActionWithRequestBuilder(actionid: UUID, apiConfiguration: OpenAPIClientAPIConfiguration = OpenAPIClientAPIConfiguration.shared) -> RequestBuilder<RepeatableAction> {
         var localVariablePath = "/actions/{actionid}/"
         let actionidPreEscape = "\(APIHelper.mapValueToPathItem(actionid))"
         let actionidPostEscape = actionidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

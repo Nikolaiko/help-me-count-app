@@ -22,11 +22,10 @@ class MainAssebly: Assembly {
         assembleAddAction(container: container)
     }
 
-    func loaded(resolver: Resolver) {
-        resolver.resolve(ActionsListInteractor.self)?.initSubscriptions()
-    }
+    func loaded(resolver: any Resolver) { }
 
     private func assembleActionsList(container: Container) {
+        print("Register assembleActionsList")
         container.register(ActionsListPresenter.self) { resolver, view in
             ActionsTabPresenter(view: view)
         }
@@ -35,11 +34,13 @@ class MainAssebly: Assembly {
             let network = resolver.resolve(
                 NetworkService.self, name: DINames.generatedAPI)!
 
-            return ActionsTabInteractor(
+            let interactor = ActionsTabInteractor(
                 networkLayer: network,
                 presenter: presenter,
                 actionsStorage: resolver.resolve(LocalActionsStorage.self)!
             )
+            interactor.initSubscriptions()
+            return interactor
         }
     }
 

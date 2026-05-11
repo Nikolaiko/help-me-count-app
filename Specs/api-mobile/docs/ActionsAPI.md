@@ -5,7 +5,7 @@ All URIs are relative to *http://e97b67a8bc6.vps.myjino.ru:49235*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**addAction**](ActionsAPI.md#addaction) | **POST** /actions/add/ | Добавить действие
-[**editAction**](ActionsAPI.md#editaction) | **POST** /actions/{actionid}/ | Изменить действие
+[**editAction**](ActionsAPI.md#editaction) | **POST** /actions/edit/ | Изменить действие
 [**getAction**](ActionsAPI.md#getaction) | **GET** /actions/{actionid}/ | Получить действие по id
 [**getAllActions**](ActionsAPI.md#getallactions) | **GET** /actions/ | Получить список всех действий
 
@@ -62,7 +62,7 @@ Name | Type | Description  | Notes
 
 # **editAction**
 ```swift
-    open class func editAction(actionid: Int, repeatableAction: RepeatableAction? = nil, completion: @escaping (_ data: RepeatableAction?, _ error: Error?) -> Void)
+    open class func editAction(actionid: UUID, repeatableAction: RepeatableAction? = nil, completion: @escaping (_ data: RepeatableAction?, _ error: Error?) -> Void)
 ```
 
 Изменить действие
@@ -74,7 +74,7 @@ Name | Type | Description  | Notes
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import OpenAPIClient
 
-let actionid = 987 // Int | Id искомого действия
+let actionid = 987 // UUID | Id искомого действия
 let repeatableAction = RepeatableAction(id: 123, title: "title_example", maxRepeats: 123, currentRepeats: 123) // RepeatableAction |  (optional)
 
 // Изменить действие
@@ -94,7 +94,7 @@ ActionsAPI.editAction(actionid: actionid, repeatableAction: repeatableAction) { 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **actionid** | **Int** | Id искомого действия | 
+ **actionid** | **UUID** | Id искомого действия | 
  **repeatableAction** | [**RepeatableAction**](RepeatableAction.md) |  | [optional] 
 
 ### Return type
@@ -114,7 +114,7 @@ Name | Type | Description  | Notes
 
 # **getAction**
 ```swift
-    open class func getAction(actionid: Int, completion: @escaping (_ data: RepeatableAction?, _ error: Error?) -> Void)
+    open class func getAction(actionid: UUID, completion: @escaping (_ data: RepeatableAction?, _ error: Error?) -> Void)
 ```
 
 Получить действие по id
@@ -126,7 +126,7 @@ Name | Type | Description  | Notes
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import OpenAPIClient
 
-let actionid = 987 // Int | Id искомого действия
+let actionid = 987 // UUID | Id искомого действия
 
 // Получить действие по id
 ActionsAPI.getAction(actionid: actionid) { (response, error) in
@@ -145,7 +145,7 @@ ActionsAPI.getAction(actionid: actionid) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **actionid** | **Int** | Id искомого действия | 
+ **actionid** | **UUID** | Id искомого действия | 
 
 ### Return type
 

@@ -10,4 +10,5 @@ import Foundation
 protocol ActionsListInteractor {
     func initSubscriptions()
     func resfreshActionsList()
+    func addActionRepetition(action: CountableAction)
 }

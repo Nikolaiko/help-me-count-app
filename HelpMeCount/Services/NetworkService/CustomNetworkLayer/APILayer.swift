@@ -8,6 +8,10 @@
 import Foundation
 
 struct APILayer: NetworkService {
+    func increaseActionCount(action: CountableAction) async -> Result<CountableAction, NetworkError> {
+        .failure(.client)
+    }
+    
     func addNewAction(action: NewCountableAction) async -> Result<CountableAction, NetworkError> {
         .failure(.genericNetworkError)
     }

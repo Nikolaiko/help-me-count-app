@@ -139,7 +139,7 @@ paths:
             application/json:
               schema:
                  $ref: '#/components/schemas/ErrorObject'
-  /actions/{actionid}/:
+  /actions/edit/:
     post:
       tags:
         - Actions
@@ -155,8 +155,8 @@ paths:
           required: true
           schema:
             type: string
-            format: integer
-            example: 5
+            format: UUID
+            example: "7AB9AD22-6152-4562-9859-938C016FFB48"
       requestBody:
         content:
             application/json:
@@ -175,6 +175,7 @@ paths:
             application/json:
               schema:
                  $ref: '#/components/schemas/ErrorObject'
+  /actions/{actionid}/:
     get:
       tags:
         - Actions
@@ -190,8 +191,8 @@ paths:
           required: true
           schema:
             type: string
-            format: integer
-            example: 5
+            format: UUID
+            example: "7AB9AD22-6152-4562-9859-938C016FFB48"
       responses:
         '200':
           description: Успешно изменили

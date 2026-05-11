@@ -9,14 +9,6 @@ import Foundation
 import SwiftData
 import Combine
 
-enum Version1: VersionedSchema {
-    static var models: [any PersistentModel.Type] {
-        [DBCountableAction.self]
-    }
-
-    static var versionIdentifier = Schema.Version(1, 0, 0)
-}
-
 final class SwiftDataStorage: LocalActionsStorage {
 
     public let contextPublisher: any Publisher<Notification, Never>

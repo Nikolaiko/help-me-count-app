@@ -21,7 +21,6 @@ class ActionsTabInteractor: ActionsListInteractor {
     }
 
     func initSubscriptions() {
-        print("initSubscriptions")
         self.actionsStorage.contextPublisher.sink { [weak self] _ in
             self?.resfreshActionsList()
         }
@@ -36,6 +35,27 @@ class ActionsTabInteractor: ActionsListInteractor {
                 actionsStorage.refreshActions(actions: actions)
                 presenter.displayActionsList(actions: actions)
             case .failure(let error):
+                if case .noInternet = error {
+                    presenter.displayActionsList(actions: actionsStorage.getActionsList())
+                }
+            }
+        }
+    }
+
+    func addActionRepetition(action: CountableAction) {
+        let newAction = CountableAction(id: action.id,
+                                        title: action.title,
+                                        maxRepeats: action.maxRepeats,
+                                        currentRepeats: action.currentRepeats + 1)
+        Task {
+            let result = await networkLayer.increaseActionCount(action: newAction)
+            switch result {
+            case .success(let actions):
+                print("Success")
+                //actionsStorage.refreshActions(actions: actions)
+                //presenter.displayActionsList(actions: actions)
+            case .failure(let error):
+                print(error)
                 if case .noInternet = error {
                     presenter.displayActionsList(actions: actionsStorage.getActionsList())
                 }

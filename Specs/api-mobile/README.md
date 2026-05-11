@@ -27,7 +27,7 @@ All URIs are relative to *http://e97b67a8bc6.vps.myjino.ru:49235*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *ActionsAPI* | [**addAction**](docs/ActionsAPI.md#addaction) | **POST** /actions/add/ | Добавить действие
-*ActionsAPI* | [**editAction**](docs/ActionsAPI.md#editaction) | **POST** /actions/{actionid}/ | Изменить действие
+*ActionsAPI* | [**editAction**](docs/ActionsAPI.md#editaction) | **POST** /actions/edit/ | Изменить действие
 *ActionsAPI* | [**getAction**](docs/ActionsAPI.md#getaction) | **GET** /actions/{actionid}/ | Получить действие по id
 *ActionsAPI* | [**getAllActions**](docs/ActionsAPI.md#getallactions) | **GET** /actions/ | Получить список всех действий
 *AuthorizationAPI* | [**login**](docs/AuthorizationAPI.md#login) | **POST** /authorization/login/ | Логин для зареганых пользователей

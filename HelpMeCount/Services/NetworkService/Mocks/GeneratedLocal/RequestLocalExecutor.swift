@@ -2,12 +2,13 @@
 //  RequestExecutor.swift
 //  HelpMeCount
 //
-//  Created by Nikolai Baklanov on 15.03.2026.
+//  Created by Nikolai Baklanov on 11.05.2026.
 //
+
 
 import Foundation
 
-class RequestExecutor {
+class RequestLocalExecutor {
 
     private let localService: LocalTokensStorage
 
@@ -51,6 +52,6 @@ class RequestExecutor {
 
     private func buildBearerHeader(token: String?) -> OpenAPIClientAPIConfiguration {
         let headers: [String: String] = ["Authorization" : "Bearer \(token ?? "")"]
-        return OpenAPIClientAPIConfiguration(customHeaders: headers)
+        return OpenAPIClientAPIConfiguration(basePath: GeneratedLocalAPI.baseAddress, customHeaders: headers)
     }
 }
