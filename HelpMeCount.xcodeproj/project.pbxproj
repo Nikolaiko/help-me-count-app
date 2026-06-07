@@ -7,13 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9167EAB62EAF32980089FEBD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9167EAB52EAF32980089FEBD /* SnapKit */; };
+		9166208A2F027B1A00D6EFDB /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 916620892F027B1A00D6EFDB /* Swinject */; };
+		9166216E2F042C6500D6EFDB /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9166216D2F042C6500D6EFDB /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		91B625F72EA8B30200345880 /* HelpMeCount.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelpMeCount.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		91E110D82EB5D9B100F32FB2 /* PersistendDataStorage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PersistendDataStorage; path = Modules/PersistendDataStorage; sourceTree = "<group>"; };
-		91E110D92EB5DB2600F32FB2 /* CommonModels */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CommonModels; path = Modules/CommonModels; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -42,7 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9167EAB62EAF32980089FEBD /* SnapKit in Frameworks */,
+				9166208A2F027B1A00D6EFDB /* Swinject in Frameworks */,
+				9166216E2F042C6500D6EFDB /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,8 +52,6 @@
 		91B625EE2EA8B30200345880 = {
 			isa = PBXGroup;
 			children = (
-				91E110D92EB5DB2600F32FB2 /* CommonModels */,
-				91E110D82EB5D9B100F32FB2 /* PersistendDataStorage */,
 				91B625F92EA8B30200345880 /* HelpMeCount */,
 				91B625F82EA8B30200345880 /* Products */,
 			);
@@ -87,7 +85,8 @@
 			);
 			name = HelpMeCount;
 			packageProductDependencies = (
-				9167EAB52EAF32980089FEBD /* SnapKit */,
+				916620892F027B1A00D6EFDB /* Swinject */,
+				9166216D2F042C6500D6EFDB /* SnapKit */,
 			);
 			productName = HelpMeCount;
 			productReference = 91B625F72EA8B30200345880 /* HelpMeCount.app */;
@@ -109,16 +108,18 @@
 				};
 			};
 			buildConfigurationList = 91B625F22EA8B30200345880 /* Build configuration list for PBXProject "HelpMeCount" */;
-			developmentRegion = en;
+			developmentRegion = ru;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 91B625EE2EA8B30200345880;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				9167EAB42EAF32980089FEBD /* XCRemoteSwiftPackageReference "SnapKit" */,
+				916620882F027B1A00D6EFDB /* XCRemoteSwiftPackageReference "Swinject" */,
+				9166216C2F042C6500D6EFDB /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 91B625F82EA8B30200345880 /* Products */;
@@ -352,7 +353,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		9167EAB42EAF32980089FEBD /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		916620882F027B1A00D6EFDB /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.10.0;
+			};
+		};
+		9166216C2F042C6500D6EFDB /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -363,9 +372,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		9167EAB52EAF32980089FEBD /* SnapKit */ = {
+		916620892F027B1A00D6EFDB /* Swinject */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9167EAB42EAF32980089FEBD /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = 916620882F027B1A00D6EFDB /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+		9166216D2F042C6500D6EFDB /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9166216C2F042C6500D6EFDB /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
