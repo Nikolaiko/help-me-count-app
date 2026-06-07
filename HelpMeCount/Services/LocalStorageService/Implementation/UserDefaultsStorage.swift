@@ -25,5 +25,7 @@ struct UserDefaultsStorage: LocalTokensStorage {
         return newToken
     }
     
-
+    func removeToken() {
+        UserDefaults.standard.removeObject(forKey: keyName)
+    }
 }

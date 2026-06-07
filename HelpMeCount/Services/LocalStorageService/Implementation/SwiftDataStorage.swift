@@ -25,6 +25,18 @@ final class SwiftDataStorage: LocalActionsStorage {
         contextPublisher = NotificationCenter.default.publisher(for: ModelContext.didSave).eraseToAnyPublisher()
     }
 
+    func updateAction(action: CountableAction) {
+        var description = FetchDescriptor<DBCountableAction>(
+            predicate: #Predicate { $0.id == action.id }
+        )
+        description.fetchLimit = 1
+
+        if let dbAction = try? context.fetch(description).first {
+            dbAction.currentRepeats = action.currentRepeats
+            try? context.save()
+        }
+    }
+
     func refreshActions(actions: [CountableAction]) {
         do {
             try context.delete(model: DBCountableAction.self)
@@ -51,5 +63,14 @@ final class SwiftDataStorage: LocalActionsStorage {
         let actions = (try? context.fetch(descriptor)) ?? []
 
         return actions.map { $0.toCountableAction() }
+    }
+
+    func removeAllActions() {
+        do {
+            try context.delete(model: DBCountableAction.self)
+            try context.save()
+        } catch {
+            print("Failed to clear data: \(error.localizedDescription)")
+        }
     }
 }

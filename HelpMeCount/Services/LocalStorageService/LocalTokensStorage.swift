@@ -10,4 +10,5 @@ import Foundation
 protocol LocalTokensStorage {
     func getUserToken() -> UserToken?
     func saveUserToken(newToken: UserToken) -> UserToken?
+    func removeToken()
 }

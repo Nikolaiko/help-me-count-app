@@ -20,12 +20,12 @@ class MainAssebly: Assembly {
 
         assembleActionsList(container: container)
         assembleAddAction(container: container)
+        assembleProfileFeature(container: container)
     }
 
     func loaded(resolver: any Resolver) { }
 
     private func assembleActionsList(container: Container) {
-        print("Register assembleActionsList")
         container.register(ActionsListPresenter.self) { resolver, view in
             ActionsTabPresenter(view: view)
         }
@@ -60,6 +60,18 @@ class MainAssebly: Assembly {
                 networkService: network,
                 localDataStorage: localDataStorage
             )
+        }
+    }
+
+    private func assembleProfileFeature(container: Container) {
+        container.register(ProfilePresenter.self) { resolver, view in
+            ProfileTabPresenter(view: view)
+        }
+
+        container.register(ProfileInteractor.self) { resolver, presenter in
+            ProfileTabInteractor(presenter: presenter,
+                                 tokenStorage: resolver.resolve(LocalTokensStorage.self)!,
+                                 actionsStorage: resolver.resolve(LocalActionsStorage.self)!)
         }
     }
 }

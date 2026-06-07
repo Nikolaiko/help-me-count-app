@@ -41,7 +41,7 @@ class ClassicRegisterInteractor: RegisterInteractor {
 
         Task {
             defer { presenter.setIsLoading(isLoading: false) }
-            let result = await networkService.loginUser(login: login, password: password)
+            let result = await networkService.registerUser(login: login, password: password)
             switch result {
             case .success(let token):
                 guard let savedToken = localStorage.saveUserToken(newToken: token)
@@ -51,7 +51,7 @@ class ClassicRegisterInteractor: RegisterInteractor {
                 }
 
                 presenter.successRegistration()
-            case .failure:
+            case .failure(let error):                
                 presenter.showError(text: "Register error")
             }
         }

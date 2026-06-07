@@ -33,8 +33,11 @@ class RootRouter: AppRootRouter {
         let actionsTab = ActionsViewController()
         try configurator.configure(view: actionsTab)
 
+        let profileTab = ProfileViewController()
+        try configurator.configure(view: profileTab)
+
         let tabController = MainViewController(childControllers: [
-            actionsTab
+            actionsTab, profileTab
         ])
         try configurator.configure(view: tabController)
 

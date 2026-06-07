@@ -50,7 +50,7 @@ class ClassicLoginInteractor: LoginInteractor {
                 }
 
                 presenter.successLogin()
-            case .failure:
+            case .failure(let error):                
                 presenter.showError(text: "Login error")
             }
         }

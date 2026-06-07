@@ -16,8 +16,17 @@ class MainFeatureConfigurator {
     }
 
     func configure(view: MainViewController) throws {
+            
+    }
 
-        
+    func configure(view: ProfileViewController) throws {
+        guard let presenter = resolver.resolve(ProfilePresenter.self, argument: view),
+              let interactor = resolver.resolve(ProfileInteractor.self, argument: presenter),
+              let router = resolver.resolve(MainFeatureRouter.self)
+        else { throw DIErrors.unableToResolve }
+
+        view.router = router
+        view.interactor = interactor
     }
 
     func configure(view: ActionsViewController) throws {

@@ -25,6 +25,15 @@ class TabControllerRouter: MainFeatureRouter {
         parent.pushViewController(viewController, animated: true)
     }
 
+    func navigateToLogin(parent: UINavigationController) throws {
+        parent.popToRootViewController(animated: true)
+
+        guard let root = parent.topViewController as? AppRootViewController
+        else { throw DIErrors.unableToResolve }
+
+        root.interactor?.checkLoginStatus()
+    }
+
     func backFromAddAction(parent: UINavigationController) {
         parent.popViewController(animated: true)
     }
