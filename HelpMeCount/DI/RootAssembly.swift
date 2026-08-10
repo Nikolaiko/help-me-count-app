@@ -10,8 +10,8 @@ import Swinject
 
 class RootAssembly: Assembly {
     func assemble(container: Swinject.Container) {
-        container.register(AppRootPresenter.self) { _, controller in
-            RootPresenter(view: controller)
+        container.register(AppRootPresenter.self) { (_, view: AppRootDisplayLogic) in
+            RootPresenter(view: view)
         }
 
         container.register(AppRootInteractor.self) { resolver, presenter in

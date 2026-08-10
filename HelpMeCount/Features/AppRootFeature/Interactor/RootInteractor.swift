@@ -16,7 +16,10 @@ class RootInteractor: AppRootInteractor {
         self.localService = localService
     }
 
-    func checkLoginStatus() {
-        presenter.isUserLogged(isLogged: localService.getUserToken() != nil)
+    func checkLoginStatus(request: AppRoot.CheckLoginStatus.Request) {
+        let response = AppRoot.CheckLoginStatus.Response(
+            isLogged: localService.getUserToken() != nil
+        )
+        presenter.presentLoginStatus(response: response)
     }
 }

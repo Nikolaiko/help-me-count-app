@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AppRootViewController: BaseController {
+class AppRootViewController: BaseController, AppRootDisplayLogic {
 
     var interactor: AppRootInteractor?
     var router: AppRootRouter?
@@ -15,16 +15,17 @@ class AppRootViewController: BaseController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        interactor?.checkLoginStatus()
+        interactor?.checkLoginStatus(request: AppRoot.CheckLoginStatus.Request())
     }
 
-    func isUserLogged(isLogged: Bool) {
+    func displayLoginStatus(viewData: AppRoot.CheckLoginStatus.ViewData) {
         guard let navParent = self.navigationController else { return }
 
         do {
-            if isLogged {
+            switch viewData.destination {
+            case .authorized:
                 try router?.navigateToAuthorized(parent: navParent)
-            } else {
+            case .login:
                 try router?.navigateToLogin(parent: navParent)
             }
         } catch _ as DIErrors {

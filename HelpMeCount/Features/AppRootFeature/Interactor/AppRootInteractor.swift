@@ -8,5 +8,5 @@
 import Foundation
 
 protocol AppRootInteractor {
-    func checkLoginStatus()
+    func checkLoginStatus(request: AppRoot.CheckLoginStatus.Request)
 }

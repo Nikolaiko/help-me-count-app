@@ -17,7 +17,7 @@ struct AppRootConfigurator {
     }
 
     func configure(view: AppRootViewController) throws {
-        guard let presenter = resolver.resolve(AppRootPresenter.self, argument: view),
+        guard let presenter = resolver.resolve(AppRootPresenter.self, argument: view as AppRootDisplayLogic),
               let interactor = resolver.resolve(AppRootInteractor.self, argument: presenter),
               let router = resolver.resolve(AppRootRouter.self)
         else { throw DIErrors.unableToResolve }

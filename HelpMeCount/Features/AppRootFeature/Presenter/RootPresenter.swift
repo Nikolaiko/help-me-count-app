@@ -8,13 +8,18 @@
 import Foundation
 
 class RootPresenter: AppRootPresenter {
-    private let view: AppRootViewController
+    private weak var view: AppRootDisplayLogic?
 
-    init(view: AppRootViewController) {
+    init(view: AppRootDisplayLogic) {
         self.view = view
     }
 
-    func isUserLogged(isLogged: Bool) {
-        view.isUserLogged(isLogged: isLogged)
+    func presentLoginStatus(response: AppRoot.CheckLoginStatus.Response) {
+        let destination: AppRoot.CheckLoginStatus.ViewData.Destination =
+            response.isLogged ? .authorized : .login
+
+        view?.displayLoginStatus(
+            viewData: AppRoot.CheckLoginStatus.ViewData(destination: destination)
+        )
     }
 }

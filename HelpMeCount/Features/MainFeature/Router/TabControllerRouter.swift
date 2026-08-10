@@ -31,7 +31,7 @@ class TabControllerRouter: MainFeatureRouter {
         guard let root = parent.topViewController as? AppRootViewController
         else { throw DIErrors.unableToResolve }
 
-        root.interactor?.checkLoginStatus()
+        root.interactor?.checkLoginStatus(request: AppRoot.CheckLoginStatus.Request())
     }
 
     func backFromAddAction(parent: UINavigationController) {
