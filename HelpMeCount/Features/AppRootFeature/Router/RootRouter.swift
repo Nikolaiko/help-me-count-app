@@ -16,7 +16,7 @@ class RootRouter: AppRootRouter {
         self.resolver = resolver
     }
 
-    func navigateToLogin(parent: UINavigationController) throws {
+    func routeToLogin(parent: UINavigationController) throws {
         guard let authConfigurator = resolver.resolve(AuthorizationConfigurator.self)
         else { throw DIErrors.unableToResolve }
 
@@ -26,20 +26,11 @@ class RootRouter: AppRootRouter {
         parent.pushViewController(controller, animated: true)
     }
 
-    func navigateToAuthorized(parent: UINavigationController) throws {
+    func routeToAuthorized(parent: UINavigationController) throws {
         guard let configurator = resolver.resolve(MainFeatureConfigurator.self)
         else { throw DIErrors.unableToResolve }
 
-        let actionsTab = ActionsViewController()
-        try configurator.configure(view: actionsTab)
-
-        let profileTab = ProfileViewController()
-        try configurator.configure(view: profileTab)
-
-        let tabController = MainViewController(childControllers: [
-            actionsTab, profileTab
-        ])
-        try configurator.configure(view: tabController)
+        let tabController = try configurator.makeAuthorizedTabBar()
 
         parent.pushViewController(tabController, animated: true)
     }

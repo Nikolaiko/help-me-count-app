@@ -75,7 +75,7 @@ final class ProfileViewController: BaseController {
         guard let navParent = self.navigationController else { return }
 
         do {
-            try router?.navigateToLogin(parent: navParent)
+            try router?.routeToLogin(parent: navParent)
         } catch {
             showErrorAlert(title: "Error during navigation")
         }

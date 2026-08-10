@@ -15,7 +15,7 @@ class TabControllerRouter: MainFeatureRouter {
         self.resolver = resolver
     }
 
-    func navigateToAddAction(parent: UINavigationController) throws {
+    func routeToAddAction(parent: UINavigationController) throws {
         guard let configurator = resolver.resolve(MainFeatureConfigurator.self)
         else { throw DIErrors.unableToResolve }
 
@@ -25,16 +25,17 @@ class TabControllerRouter: MainFeatureRouter {
         parent.pushViewController(viewController, animated: true)
     }
 
-    func navigateToLogin(parent: UINavigationController) throws {
-        parent.popToRootViewController(animated: true)
-
-        guard let root = parent.topViewController as? AppRootViewController
+    func routeToLogin(parent: UINavigationController) throws {
+        guard let authConfigurator = resolver.resolve(AuthorizationConfigurator.self)
         else { throw DIErrors.unableToResolve }
 
-        root.interactor?.checkLoginStatus(request: AppRoot.CheckLoginStatus.Request())
+        let login = LoginViewController()
+        try authConfigurator.configure(view: login)
+
+        parent.setViewControllers([login], animated: true)
     }
 
-    func backFromAddAction(parent: UINavigationController) {
+    func routeBackFromAddAction(parent: UINavigationController) {
         parent.popViewController(animated: true)
     }
 }

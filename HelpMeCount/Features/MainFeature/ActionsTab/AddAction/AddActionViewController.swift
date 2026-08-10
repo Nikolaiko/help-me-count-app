@@ -128,7 +128,7 @@ class AddActionViewController: BaseController {
     private func backToActionsList() {
         Task { @MainActor in
             guard let navParent = self.navigationController else { return }
-            router?.backFromAddAction(parent: navParent)
+            router?.routeBackFromAddAction(parent: navParent)
         }
     }
 

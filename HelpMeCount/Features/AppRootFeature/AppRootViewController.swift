@@ -24,9 +24,9 @@ class AppRootViewController: BaseController, AppRootDisplayLogic {
         do {
             switch viewData.destination {
             case .authorized:
-                try router?.navigateToAuthorized(parent: navParent)
+                try router?.routeToAuthorized(parent: navParent)
             case .login:
-                try router?.navigateToLogin(parent: navParent)
+                try router?.routeToLogin(parent: navParent)
             }
         } catch _ as DIErrors {
             showDIError()

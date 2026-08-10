@@ -105,7 +105,7 @@ class LoginViewController: NavChildController {
             guard let navParent = self.navigationController else { return }
 
             do {
-                try router?.goToAuthorizedScreen(parent: navParent)
+                try router?.routeToAuthorized(parent: navParent)
             } catch _ as DIErrors {
                 showDIError()
             } catch {
@@ -207,7 +207,7 @@ class LoginViewController: NavChildController {
         guard let navParent = self.navigationController else { return }
 
         do {
-            try router?.goToRegister(parent: navParent)
+            try router?.routeToRegister(parent: navParent)
         } catch _ as DIErrors {
             showDIError()
         } catch {
