@@ -31,14 +31,12 @@ class MainAssebly: Assembly {
         }
 
         container.register(ActionsListInteractor.self) { resolver, presenter in
-            let network = resolver.resolve(
-                NetworkService.self, name: DINames.generatedAPI)!
-
-            let interactor = ActionsTabInteractor(
-                networkLayer: network,
-                presenter: presenter,
+            let worker = ActionsTabWorker(
+                networkLayer: resolver.resolve(NetworkService.self, name: DINames.generatedAPI)!,
                 actionsStorage: resolver.resolve(LocalActionsStorage.self)!
             )
+
+            let interactor = ActionsTabInteractor(presenter: presenter, worker: worker)
             interactor.initSubscriptions()
             return interactor
         }
@@ -50,16 +48,12 @@ class MainAssebly: Assembly {
         }
 
         container.register(AddActionInteractor.self) { resolver, presenter in
-            let network = resolver.resolve(
-                NetworkService.self, name: DINames.generatedAPI)!
-
-            let localDataStorage = resolver.resolve(LocalActionsStorage.self)!
-
-            return CreateActionInteractor(
-                presenter: presenter,
-                networkService: network,
-                localDataStorage: localDataStorage
+            let worker = CreateActionWorker(
+                networkService: resolver.resolve(NetworkService.self, name: DINames.generatedAPI)!,
+                localDataStorage: resolver.resolve(LocalActionsStorage.self)!
             )
+
+            return CreateActionInteractor(presenter: presenter, worker: worker)
         }
     }
 
@@ -69,9 +63,11 @@ class MainAssebly: Assembly {
         }
 
         container.register(ProfileInteractor.self) { resolver, presenter in
-            ProfileTabInteractor(presenter: presenter,
-                                 tokenStorage: resolver.resolve(LocalTokensStorage.self)!,
-                                 actionsStorage: resolver.resolve(LocalActionsStorage.self)!)
+            let worker = ProfileTabWorker(
+                tokenStorage: resolver.resolve(LocalTokensStorage.self)!,
+                actionsStorage: resolver.resolve(LocalActionsStorage.self)!
+            )
+            return ProfileTabInteractor(presenter: presenter, worker: worker)
         }
     }
 }

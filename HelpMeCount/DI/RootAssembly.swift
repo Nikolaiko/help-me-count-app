@@ -15,10 +15,10 @@ class RootAssembly: Assembly {
         }
 
         container.register(AppRootInteractor.self) { resolver, presenter in
-            RootInteractor(
-                presenter: presenter,
-                localService: resolver.resolve(LocalTokensStorage.self)!
+            let worker = AppRootTokenWorker(
+                tokensStorage: resolver.resolve(LocalTokensStorage.self)!
             )
+            return RootInteractor(presenter: presenter, worker: worker)
         }
 
         container.register(AppRootRouter.self) { resolver in

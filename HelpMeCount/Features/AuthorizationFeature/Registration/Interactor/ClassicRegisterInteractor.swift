@@ -10,19 +10,15 @@ import Foundation
 
 class ClassicRegisterInteractor: RegisterInteractor {
     private let presenter: RegisterPresenter
-    private let localStorage: LocalTokensStorage
-    private let networkService: NetworkService
+    private let worker: RegisterWorker
 
     private var login: String = ""
     private var password: String = ""
 
 
-    init(presenter: RegisterPresenter,
-         localStorage: LocalTokensStorage,
-         networkService: NetworkService) {
+    init(presenter: RegisterPresenter, worker: RegisterWorker) {
         self.presenter = presenter
-        self.localStorage = localStorage
-        self.networkService = networkService
+        self.worker = worker
     }
 
     func updateLogin(newValue: String) {
@@ -41,10 +37,10 @@ class ClassicRegisterInteractor: RegisterInteractor {
 
         Task {
             defer { presenter.setIsLoading(isLoading: false) }
-            let result = await networkService.registerUser(login: login, password: password)
+            let result = await worker.register(login: login, password: password)
             switch result {
             case .success(let token):
-                guard let savedToken = localStorage.saveUserToken(newToken: token)
+                guard worker.persist(token: token) != nil
                 else {
                     presenter.showError(text: "Falied to save token")
                     return

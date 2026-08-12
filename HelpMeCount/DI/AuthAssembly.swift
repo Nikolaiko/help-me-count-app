@@ -29,11 +29,11 @@ class AuthAssembly: Assembly {
         }
 
         container.register(RegisterInteractor.self) { resolver, presenter in
-            ClassicRegisterInteractor(
-                presenter: presenter,
-                localStorage: resolver.resolve(LocalTokensStorage.self)!,
-                networkService: resolver.resolve(NetworkService.self, name: DINames.generatedAPI)!
+            let worker = ClassicRegisterWorker(
+                networkService: resolver.resolve(NetworkService.self, name: DINames.generatedAPI)!,
+                tokensStorage: resolver.resolve(LocalTokensStorage.self)!
             )
+            return ClassicRegisterInteractor(presenter: presenter, worker: worker)
         }
     }
 
@@ -43,11 +43,11 @@ class AuthAssembly: Assembly {
         }
 
         container.register(LoginInteractor.self) { resolver, presenter in
-            ClassicLoginInteractor(
-                presenter: presenter,
-                localStorage: resolver.resolve(LocalTokensStorage.self)!,
-                networkService: resolver.resolve(NetworkService.self, name: DINames.generatedAPI)!
+            let worker = ClassicLoginWorker(
+                networkService: resolver.resolve(NetworkService.self, name: DINames.generatedAPI)!,
+                tokensStorage: resolver.resolve(LocalTokensStorage.self)!
             )
+            return ClassicLoginInteractor(presenter: presenter, worker: worker)
         }
     }
 }

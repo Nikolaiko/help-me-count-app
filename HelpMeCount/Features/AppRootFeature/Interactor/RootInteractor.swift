@@ -9,16 +9,16 @@ import Foundation
 
 class RootInteractor: AppRootInteractor {
     private let presenter: AppRootPresenter
-    private let localService: LocalTokensStorage
+    private let worker: AppRootWorker
 
-    init(presenter: AppRootPresenter, localService: LocalTokensStorage) {
+    init(presenter: AppRootPresenter, worker: AppRootWorker) {
         self.presenter = presenter
-        self.localService = localService
+        self.worker = worker
     }
 
     func checkLoginStatus(request: AppRoot.CheckLoginStatus.Request) {
         let response = AppRoot.CheckLoginStatus.Response(
-            isLogged: localService.getUserToken() != nil
+            isLogged: worker.isUserLoggedIn()
         )
         presenter.presentLoginStatus(response: response)
     }

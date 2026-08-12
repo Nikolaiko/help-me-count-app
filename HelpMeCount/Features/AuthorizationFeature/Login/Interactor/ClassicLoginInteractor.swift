@@ -9,19 +9,15 @@ import Foundation
 
 class ClassicLoginInteractor: LoginInteractor {
     private let presenter: LoginPresenter
-    private let localStorage: LocalTokensStorage
-    private let networkService: NetworkService
+    private let worker: LoginWorker
 
     private var login: String = ""
     private var password: String = ""
 
 
-    init(presenter: LoginPresenter,
-         localStorage: LocalTokensStorage,
-         networkService: NetworkService) {
+    init(presenter: LoginPresenter, worker: LoginWorker) {
         self.presenter = presenter
-        self.localStorage = localStorage
-        self.networkService = networkService
+        self.worker = worker
     }
 
     func updateLogin(newValue: String) {
@@ -40,10 +36,10 @@ class ClassicLoginInteractor: LoginInteractor {
 
         Task {
             defer { presenter.setIsLoading(isLoading: false) }
-            let result = await networkService.loginUser(login: login, password: password)
+            let result = await worker.login(login: login, password: password)
             switch result {
             case .success(let token):
-                guard let savedToken = localStorage.saveUserToken(newToken: token)
+                guard worker.persist(token: token) != nil
                 else {
                     presenter.showError(text: "Falied to save token")
                     return

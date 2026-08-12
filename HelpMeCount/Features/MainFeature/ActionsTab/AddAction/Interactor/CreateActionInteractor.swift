@@ -9,30 +9,26 @@ import Foundation
 
 class CreateActionInteractor: AddActionInteractor {
     private let presenter: AddActionPresenter
-    private let networkService: NetworkService
-    private let localDataStorage: LocalActionsStorage
+    private let worker: AddActionWorker
 
     private var newActionName: String?
     private var newActionMaxCount: Int?
     private var newActionCurrentCount: Int?
 
-    init(presenter: AddActionPresenter,
-         networkService: NetworkService,
-         localDataStorage: LocalActionsStorage) {
+    init(presenter: AddActionPresenter, worker: AddActionWorker) {
         self.presenter = presenter
-        self.networkService = networkService
-        self.localDataStorage = localDataStorage
+        self.worker = worker
     }
 
     func createNewAction() {
         Task {
-            let result = await networkService.addNewAction(action: NewCountableAction(
+            let result = await worker.create(action: NewCountableAction(
                 title: newActionName ?? "",
                 maxRepeats: newActionMaxCount ?? 0,
                 currentRepeats: newActionCurrentCount ?? 0))
             switch result {
             case .success(let newAction):
-                localDataStorage.addNewAction(action: newAction)
+                worker.cache(action: newAction)
                 presenter.newActionAdded()
             case .failure:
                 print("Error")

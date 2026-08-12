@@ -9,13 +9,11 @@ import Foundation
 
 class ProfileTabInteractor: ProfileInteractor {
     private let presenter: ProfilePresenter
-    private let tokenStorage: LocalTokensStorage
-    private let actionsStorage: LocalActionsStorage
+    private let worker: ProfileWorker
 
-    init(presenter: ProfilePresenter, tokenStorage: LocalTokensStorage, actionsStorage: LocalActionsStorage) {
+    init(presenter: ProfilePresenter, worker: ProfileWorker) {
         self.presenter = presenter
-        self.tokenStorage = tokenStorage
-        self.actionsStorage = actionsStorage
+        self.worker = worker
     }
 
     func logout() {
@@ -23,8 +21,7 @@ class ProfileTabInteractor: ProfileInteractor {
     }
 
     func clearAllData() {
-        actionsStorage.removeAllActions()
-        tokenStorage.removeToken()
+        worker.clearAllData()
         presenter.returnToLoginScreen()
     }
 }

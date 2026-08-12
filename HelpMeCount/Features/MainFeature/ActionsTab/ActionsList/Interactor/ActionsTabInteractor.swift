@@ -9,34 +9,32 @@ import Foundation
 import Combine
 
 class ActionsTabInteractor: ActionsListInteractor {
-    private let networkLayer: NetworkService
     private let presenter: ActionsListPresenter
-    private let actionsStorage: LocalActionsStorage
+    private let worker: ActionsWorker
     private var disposeBag: Set<AnyCancellable> = []
 
-    init(networkLayer: NetworkService, presenter: ActionsListPresenter, actionsStorage: LocalActionsStorage) {
-        self.networkLayer = networkLayer
+    init(presenter: ActionsListPresenter, worker: ActionsWorker) {
         self.presenter = presenter
-        self.actionsStorage = actionsStorage
+        self.worker = worker
     }
 
     func initSubscriptions() {
-        self.actionsStorage.contextPublisher.sink { [weak self] _ in
-            self?.presenter.displayActionsList(actions: self?.actionsStorage.getActionsList() ?? [])
+        worker.changesPublisher.sink { [weak self] _ in
+            self?.presenter.displayActionsList(actions: self?.worker.cachedActions() ?? [])
         }
         .store(in: &disposeBag)
     }
 
     func resfreshActionsList() {
         Task {
-            let result = await networkLayer.getActions()
+            let result = await worker.fetchActions()
             switch result {
             case .success(let actions):
-                actionsStorage.refreshActions(actions: actions)
+                worker.cacheActions(actions)
                 presenter.displayActionsList(actions: actions)
             case .failure(let error):
                 if case .noInternet = error {
-                    presenter.displayActionsList(actions: actionsStorage.getActionsList())
+                    presenter.displayActionsList(actions: worker.cachedActions())
                 }
             }
         }
@@ -49,13 +47,13 @@ class ActionsTabInteractor: ActionsListInteractor {
                                         maxRepeats: action.maxRepeats,
                                         currentRepeats: currentRepeats)
         Task {
-            let result = await networkLayer.increaseActionCount(action: newAction)
+            let result = await worker.increaseCount(action: newAction)
             switch result {
             case .success(let action):
-                actionsStorage.updateAction(action: action)
+                worker.update(action: action)
             case .failure(let error):
                 if case .noInternet = error {
-                    presenter.displayActionsList(actions: actionsStorage.getActionsList())
+                    presenter.displayActionsList(actions: worker.cachedActions())
                 }
             }
         }
