@@ -8,17 +8,17 @@
 import Foundation
 
 struct CreateActionPresenter: AddActionPresenter {
-    private let view: AddActionViewController
+    private weak var view: AddActionView?
 
-    init(view: AddActionViewController) {
+    init(view: AddActionView) {
         self.view = view
     }
 
     func setAddButtonEnabled(enabled: Bool) {
-        view.setAddButtonEnabled(enabled: enabled)
+        view?.setAddButtonEnabled(enabled: enabled)
     }
 
     func newActionAdded() {
-        view.newActionAdded()
+        view?.newActionAdded()
     }
 }

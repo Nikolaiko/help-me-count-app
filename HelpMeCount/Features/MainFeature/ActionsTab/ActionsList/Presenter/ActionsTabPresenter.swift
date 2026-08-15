@@ -8,14 +8,14 @@
 import Foundation
 
 struct ActionsTabPresenter: ActionsListPresenter {
-    private let view: ActionsViewController
+    private weak var view: ActionsView?
 
-    init(view: ActionsViewController) {
+    init(view: ActionsView) {
         self.view = view
     }
 
     func displayActionsList(actions: [CountableAction]) {
-        view.refreshActionsList(actions: actions)
+        view?.refreshActionsList(actions: actions)
     }
 
     func displayError(message: String) {

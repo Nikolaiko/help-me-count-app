@@ -9,29 +9,29 @@
 import Foundation
 
 class ClassicRegisterPresenter: RegisterPresenter {
-    private let view: RegisterViewController
+    private weak var view: RegistrationController?
 
-    init(view: RegisterViewController) {
+    init(view: RegistrationController) {
         self.view = view
     }
 
     func setRegisterEnabled(isEnabled: Bool) {
-        view.setLoginEnabled(isEnabled: isEnabled)
+        view?.setLoginEnabled(isEnabled: isEnabled)
     }
 
     func setIsLoading(isLoading: Bool) {
-        view.setIsLoading(isLoading: isLoading)
+        view?.setIsLoading(isLoading: isLoading)
     }
 
     func showError(text: String) {
-        view.showErrorText(errorText: text)
+        view?.showErrorText(errorText: text)
     }
 
     func hideErrorText() {
-        view.hideError()
+        view?.hideError()
     }
 
     func successRegistration() {
-        view.successRegister()
+        view?.successRegister()
     }
 }

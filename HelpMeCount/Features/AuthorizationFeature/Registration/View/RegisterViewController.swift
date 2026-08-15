@@ -9,7 +9,7 @@ import UIKit
 import Foundation
 import SnapKit
 
-class RegisterViewController: NavChildController {
+class RegisterViewController: NavChildController, RegistrationController {
 
     // MARK: UIComponents
 
@@ -38,7 +38,6 @@ class RegisterViewController: NavChildController {
     private let errorLabel: UILabel = .errorLabel(text: "Error!")
 
     private let loadingIndicator = UIActivityIndicatorView()
-
 
     var interactor: RegisterInteractor?
     var router: AuthRouter?

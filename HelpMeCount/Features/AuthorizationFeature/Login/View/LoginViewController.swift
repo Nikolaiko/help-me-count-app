@@ -9,7 +9,7 @@ import UIKit
 import Foundation
 import SnapKit
 
-class LoginViewController: NavChildController {
+class LoginViewController: NavChildController, LoginView {
 
     // MARK: UIComponents
 

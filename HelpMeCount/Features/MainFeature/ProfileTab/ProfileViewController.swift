@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProfileViewController: BaseController {
+final class ProfileViewController: BaseController, ProfileView {
 
     var interactor: ProfileInteractor?
     var router: MainFeatureRouter?

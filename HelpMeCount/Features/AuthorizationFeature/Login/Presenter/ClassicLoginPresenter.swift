@@ -8,29 +8,29 @@
 import Foundation
 
 class ClassicLoginPresenter: LoginPresenter {
-    private let view: LoginViewController
+    private weak var view: LoginView?
 
-    init(view: LoginViewController) {
+    init(view: LoginView) {
         self.view = view
     }
 
     func setLoginEnabled(isEnabled: Bool) {
-        view.setLoginEnabled(isEnabled: isEnabled)
+        view?.setLoginEnabled(isEnabled: isEnabled)
     }
 
     func setIsLoading(isLoading: Bool) {
-        view.setIsLoading(isLoading: isLoading)
+        view?.setIsLoading(isLoading: isLoading)
     }
 
     func showError(text: String) {
-        view.showErrorText(errorText: text)
+        view?.showErrorText(errorText: text)
     }
 
     func hideErrorText() {
-        view.hideError()
+        view?.hideError()
     }
 
     func successLogin() {
-        view.successLogin()
+        view?.successLogin()
     }
 }

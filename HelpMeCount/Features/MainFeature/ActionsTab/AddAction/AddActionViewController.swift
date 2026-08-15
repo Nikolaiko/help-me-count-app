@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AddActionViewController: BaseController {
+class AddActionViewController: BaseController, AddActionView {
     var interactor: AddActionInteractor?
     var router: MainFeatureRouter?
 

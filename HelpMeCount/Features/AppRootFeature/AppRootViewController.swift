@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AppRootViewController: BaseController {
+class AppRootViewController: BaseController, AppRootView {
 
     var interactor: AppRootInteractor?
     var router: AppRootRouter?

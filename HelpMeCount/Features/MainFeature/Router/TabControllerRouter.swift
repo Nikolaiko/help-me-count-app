@@ -6,22 +6,16 @@
 //
 
 import UIKit
-import Swinject
 
 class TabControllerRouter: MainFeatureRouter {
-    private let resolver: Resolver
+    private let appFactory: MainSceneFactory
 
-    init(resolver: Resolver) {
-        self.resolver = resolver
+    init(appFactory: MainSceneFactory) {
+        self.appFactory = appFactory
     }
 
     func navigateToAddAction(parent: UINavigationController) throws {
-        guard let configurator = resolver.resolve(MainFeatureConfigurator.self)
-        else { throw DIErrors.unableToResolve }
-
-        let viewController = AddActionViewController()
-        try configurator.configure(view: viewController)
-
+        let viewController = appFactory.makeAddAction()
         parent.pushViewController(viewController, animated: true)
     }
 

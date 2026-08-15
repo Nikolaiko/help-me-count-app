@@ -8,17 +8,17 @@
 import Foundation
 
 class ProfileTabPresenter: ProfilePresenter {
-    private let view: ProfileViewController
+    private weak var view: ProfileView?
 
-    init(view: ProfileViewController) {
+    init(view: ProfileView) {
         self.view = view
     }
 
     func showLogoutConfirmation() {
-        view.showLogoutConfirmation()
+        view?.showLogoutConfirmation()
     }
 
     func returnToLoginScreen() {
-        view.returnToLoginScreen()
+        view?.returnToLoginScreen()
     }
 }

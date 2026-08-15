@@ -8,13 +8,13 @@
 import Foundation
 
 class RootPresenter: AppRootPresenter {
-    private let view: AppRootViewController
+    private weak var view: AppRootView?
 
-    init(view: AppRootViewController) {
+    init(view: AppRootView) {
         self.view = view
     }
 
     func isUserLogged(isLogged: Bool) {
-        view.isUserLogged(isLogged: isLogged)
+        view?.isUserLogged(isLogged: isLogged)
     }
 }

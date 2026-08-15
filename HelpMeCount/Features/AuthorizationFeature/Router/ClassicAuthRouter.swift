@@ -6,42 +6,23 @@
 //
 
 import UIKit
-import Swinject
 
 class ClassicAuthRouter: AuthRouter {
-    private let resolver: Resolver
+    private let appFactory: AuthorizedSceneFactory
 
-    init(resolver: Resolver) {
-        self.resolver = resolver
+    init(appFactory: AuthorizedSceneFactory) {
+        self.appFactory = appFactory
     }
 
     func goToRegister(parent: UINavigationController) throws {
-        guard let configurator = resolver.resolve(AuthorizationConfigurator.self)
-        else { throw DIErrors.unableToResolve }
-
-        let controller = RegisterViewController()
-        try configurator.configure(view: controller)
-
+        let controller = appFactory.makeRegister()
         parent.pushViewController(controller, animated: true)
     }
 
     func goToAuthorizedScreen(parent: UINavigationController) throws {
-        guard let configurator = resolver.resolve(MainFeatureConfigurator.self)
-        else { throw DIErrors.unableToResolve }
-
-        let actionsTab = ActionsViewController()
-        try configurator.configure(view: actionsTab)
-
-        let profileTab = ProfileViewController()
-        try configurator.configure(view: profileTab)
-
-        let tabController = MainViewController(childControllers: [
-            actionsTab, profileTab
-        ])
-        try configurator.configure(view: tabController)
-
+        let view = appFactory.makeAuthorizedTabBar()
         parent.popToRootViewController(animated: true)
-        parent.pushViewController(tabController, animated: true)
+        parent.pushViewController(view, animated: true)
     }
 
     func backToLogin(parent: UINavigationController) {
