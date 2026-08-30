@@ -84,11 +84,7 @@ class ActionsViewController: BaseController {
     private func addAction() {
         guard let navParent = self.navigationController else { return }
 
-        do {
-            try router?.routeToAddAction(parent: navParent)
-        } catch {
-            showErrorAlert(title: "Error during navigation")
-        }
+        router?.routeToAddAction(parent: navParent)
     }
 
     @objc

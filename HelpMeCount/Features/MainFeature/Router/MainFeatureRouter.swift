@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MainFeatureRouter {
-    func routeToAddAction(parent: UINavigationController) throws
-    func routeToLogin(parent: UINavigationController) throws
+    func routeToAddAction(parent: UINavigationController)
+    func routeToLogin(parent: UINavigationController)
     func routeBackFromAddAction(parent: UINavigationController)
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 protocol AuthRouter {
-    func routeToAuthorized(parent: UINavigationController) throws
-    func routeToRegister(parent: UINavigationController) throws
+    func routeToAuthorized(parent: UINavigationController)
+    func routeToRegister(parent: UINavigationController)
     func routeBackToLogin(parent: UINavigationController)
 }

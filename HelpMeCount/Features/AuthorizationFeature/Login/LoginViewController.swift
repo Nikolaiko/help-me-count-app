@@ -104,13 +104,7 @@ class LoginViewController: NavChildController {
             guard let self = self else { return }
             guard let navParent = self.navigationController else { return }
 
-            do {
-                try router?.routeToAuthorized(parent: navParent)
-            } catch _ as DIErrors {
-                showDIError()
-            } catch {
-                showErrorAlert(title: "Неизвестаня ошибка")
-            }
+            router?.routeToAuthorized(parent: navParent)
         }
     }
 
@@ -206,13 +200,7 @@ class LoginViewController: NavChildController {
     private func goToRegisterScreen() {
         guard let navParent = self.navigationController else { return }
 
-        do {
-            try router?.routeToRegister(parent: navParent)
-        } catch _ as DIErrors {
-            showDIError()
-        } catch {
-            showErrorAlert(title: "Неизвестаня ошибка")
-        }
+        router?.routeToRegister(parent: navParent)
     }
 
     @objc

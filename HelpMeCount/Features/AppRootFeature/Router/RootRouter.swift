@@ -6,31 +6,24 @@
 //
 
 import UIKit
-import Swinject
 
 class RootRouter: AppRootRouter {
 
-    private let resolver: Resolver
+    private let services: AppServices
 
-    init(resolver: Resolver) {
-        self.resolver = resolver
+    init(services: AppServices) {
+        self.services = services
     }
 
-    func routeToLogin(parent: UINavigationController) throws {
-        guard let authConfigurator = resolver.resolve(AuthorizationConfigurator.self)
-        else { throw DIErrors.unableToResolve }
-
+    func routeToLogin(parent: UINavigationController) {
         let controller = LoginViewController()
-        try authConfigurator.configure(view: controller)
+        AuthorizationConfigurator(services: services).configure(view: controller)
 
         parent.pushViewController(controller, animated: true)
     }
 
-    func routeToAuthorized(parent: UINavigationController) throws {
-        guard let configurator = resolver.resolve(MainFeatureConfigurator.self)
-        else { throw DIErrors.unableToResolve }
-
-        let tabController = try configurator.makeAuthorizedTabBar()
+    func routeToAuthorized(parent: UINavigationController) {
+        let tabController = MainFeatureConfigurator(services: services).makeAuthorizedTabBar()
 
         parent.pushViewController(tabController, animated: true)
     }

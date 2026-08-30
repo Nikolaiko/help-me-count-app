@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9166208A2F027B1A00D6EFDB /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 916620892F027B1A00D6EFDB /* Swinject */; };
 		9166216E2F042C6500D6EFDB /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9166216D2F042C6500D6EFDB /* SnapKit */; };
 /* End PBXBuildFile section */
 
@@ -41,7 +40,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9166208A2F027B1A00D6EFDB /* Swinject in Frameworks */,
 				9166216E2F042C6500D6EFDB /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,7 +83,6 @@
 			);
 			name = HelpMeCount;
 			packageProductDependencies = (
-				916620892F027B1A00D6EFDB /* Swinject */,
 				9166216D2F042C6500D6EFDB /* SnapKit */,
 			);
 			productName = HelpMeCount;
@@ -118,7 +115,6 @@
 			mainGroup = 91B625EE2EA8B30200345880;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				916620882F027B1A00D6EFDB /* XCRemoteSwiftPackageReference "Swinject" */,
 				9166216C2F042C6500D6EFDB /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -353,14 +349,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		916620882F027B1A00D6EFDB /* XCRemoteSwiftPackageReference "Swinject" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Swinject/Swinject";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.10.0;
-			};
-		};
 		9166216C2F042C6500D6EFDB /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -372,11 +360,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		916620892F027B1A00D6EFDB /* Swinject */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 916620882F027B1A00D6EFDB /* XCRemoteSwiftPackageReference "Swinject" */;
-			productName = Swinject;
-		};
 		9166216D2F042C6500D6EFDB /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9166216C2F042C6500D6EFDB /* XCRemoteSwiftPackageReference "SnapKit" */;

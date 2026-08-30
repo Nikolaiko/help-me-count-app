@@ -6,30 +6,36 @@
 //
 
 import Foundation
-import Swinject
 
 class AuthorizationConfigurator {
-    private let resolver: Resolver
 
-    init(resolver: Resolver) {
-        self.resolver = resolver
+    private let services: AppServices
+
+    init(services: AppServices) {
+        self.services = services
     }
 
-    func configure(view: LoginViewController) throws {
-        guard let presenter = resolver.resolve(LoginPresenter.self, argument: view),
-              let interactor = resolver.resolve(LoginInteractor.self, argument: presenter),
-              let router = resolver.resolve(AuthRouter.self)
-        else { throw DIErrors.unableToResolve }
+    func configure(view: LoginViewController) {
+        let presenter = ClassicLoginPresenter(view: view)
+        let worker = ClassicLoginWorker(
+            networkService: services.networkService,
+            tokensStorage: services.tokensStorage
+        )
+        let interactor = ClassicLoginInteractor(presenter: presenter, worker: worker)
+        let router = ClassicAuthRouter(services: services)
 
         view.interactor = interactor
         view.router = router
     }
 
-    func configure(view: RegisterViewController) throws {
-        guard let presenter = resolver.resolve(RegisterPresenter.self, argument: view),
-              let interactor = resolver.resolve(RegisterInteractor.self, argument: presenter),
-              let router = resolver.resolve(AuthRouter.self)
-        else { throw DIErrors.unableToResolve }
+    func configure(view: RegisterViewController) {
+        let presenter = ClassicRegisterPresenter(view: view)
+        let worker = ClassicRegisterWorker(
+            networkService: services.networkService,
+            tokensStorage: services.tokensStorage
+        )
+        let interactor = ClassicRegisterInteractor(presenter: presenter, worker: worker)
+        let router = ClassicAuthRouter(services: services)
 
         view.interactor = interactor
         view.router = router

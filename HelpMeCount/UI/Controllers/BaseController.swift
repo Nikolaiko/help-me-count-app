@@ -9,10 +9,6 @@ import UIKit
 
 class BaseController: UIViewController {
 
-    func showDIError() {
-        showErrorAlert(title: "Ошибка DI")
-    }
-
     func showErrorAlert(title: String, subtitle: String? = nil) {
         guard !(presentedViewController is UIAlertController) else { return }
 

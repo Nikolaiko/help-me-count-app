@@ -6,21 +6,20 @@
 //
 
 import Foundation
-import Swinject
 
 struct AppRootConfigurator {
 
-    private let resolver: Resolver
+    private let services: AppServices
 
-    init(resolver: Resolver) {
-        self.resolver = resolver
+    init(services: AppServices) {
+        self.services = services
     }
 
-    func configure(view: AppRootViewController) throws {
-        guard let presenter = resolver.resolve(AppRootPresenter.self, argument: view as AppRootDisplayLogic),
-              let interactor = resolver.resolve(AppRootInteractor.self, argument: presenter),
-              let router = resolver.resolve(AppRootRouter.self)
-        else { throw DIErrors.unableToResolve }
+    func configure(view: AppRootViewController) {
+        let presenter = RootPresenter(view: view)
+        let worker = AppRootTokenWorker(tokensStorage: services.tokensStorage)
+        let interactor = RootInteractor(presenter: presenter, worker: worker)
+        let router = RootRouter(services: services)
 
         view.interactor = interactor
         view.router = router

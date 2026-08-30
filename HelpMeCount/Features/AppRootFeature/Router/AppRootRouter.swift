@@ -8,6 +8,6 @@
 import UIKit
 
 protocol AppRootRouter {
-    func routeToLogin(parent: UINavigationController) throws
-    func routeToAuthorized(parent: UINavigationController) throws
+    func routeToLogin(parent: UINavigationController)
+    func routeToAuthorized(parent: UINavigationController)
 }

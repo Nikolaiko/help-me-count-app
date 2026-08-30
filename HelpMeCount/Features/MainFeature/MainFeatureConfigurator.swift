@@ -6,59 +6,69 @@
 //
 
 import Foundation
-import Swinject
 
 class MainFeatureConfigurator {
-    private let resolver: Resolver
 
-    init(resolver: Resolver) {
-        self.resolver = resolver
+    private let services: AppServices
+
+    init(services: AppServices) {
+        self.services = services
     }
 
-    func configure(view: MainViewController) throws {
+    func configure(view: MainViewController) {
 
     }
 
     /// Собирает готовый таб-бар авторизованной зоны (actions + profile).
     /// Единая точка сборки — используется всеми роутерами, ведущими в authorized.
-    func makeAuthorizedTabBar() throws -> MainViewController {
+    func makeAuthorizedTabBar() -> MainViewController {
         let actionsTab = ActionsViewController()
-        try configure(view: actionsTab)
+        configure(view: actionsTab)
 
         let profileTab = ProfileViewController()
-        try configure(view: profileTab)
+        configure(view: profileTab)
 
         let tabController = MainViewController(childControllers: [actionsTab, profileTab])
-        try configure(view: tabController)
+        configure(view: tabController)
 
         return tabController
     }
 
-    func configure(view: ProfileViewController) throws {
-        guard let presenter = resolver.resolve(ProfilePresenter.self, argument: view),
-              let interactor = resolver.resolve(ProfileInteractor.self, argument: presenter),
-              let router = resolver.resolve(MainFeatureRouter.self)
-        else { throw DIErrors.unableToResolve }
+    func configure(view: ProfileViewController) {
+        let presenter = ProfileTabPresenter(view: view)
+        let worker = ProfileTabWorker(
+            tokenStorage: services.tokensStorage,
+            actionsStorage: services.actionsStorage
+        )
+        let interactor = ProfileTabInteractor(presenter: presenter, worker: worker)
+        let router = TabControllerRouter(services: services)
 
         view.router = router
         view.interactor = interactor
     }
 
-    func configure(view: ActionsViewController) throws {
-        guard let presenter = resolver.resolve(ActionsListPresenter.self, argument: view),
-              let interactor = resolver.resolve(ActionsListInteractor.self, argument: presenter),
-              let router = resolver.resolve(MainFeatureRouter.self)
-        else { throw DIErrors.unableToResolve }
+    func configure(view: ActionsViewController) {
+        let presenter = ActionsTabPresenter(view: view)
+        let worker = ActionsTabWorker(
+            networkLayer: services.networkService,
+            actionsStorage: services.actionsStorage
+        )
+        let interactor = ActionsTabInteractor(presenter: presenter, worker: worker)
+        interactor.initSubscriptions()
+        let router = TabControllerRouter(services: services)
 
         view.router = router
         view.interactor = interactor
     }
 
-    func configure(view: AddActionViewController) throws {
-        guard let presenter = resolver.resolve(AddActionPresenter.self, argument: view),
-              let interactor = resolver.resolve(AddActionInteractor.self, argument: presenter),
-              let router = resolver.resolve(MainFeatureRouter.self)
-        else { throw DIErrors.unableToResolve }
+    func configure(view: AddActionViewController) {
+        let presenter = CreateActionPresenter(view: view)
+        let worker = CreateActionWorker(
+            networkService: services.networkService,
+            localDataStorage: services.actionsStorage
+        )
+        let interactor = CreateActionInteractor(presenter: presenter, worker: worker)
+        let router = TabControllerRouter(services: services)
 
         view.interactor = interactor
         view.router = router

@@ -6,16 +6,8 @@
 //
 
 import UIKit
-import Swinject
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
-    private static let assembler = Assembler([
-        ServicesAssembly(),
-        AuthAssembly(),
-        MainAssebly(),
-        RootAssembly()
-    ])
 
     var window: UIWindow?
 
@@ -28,18 +20,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         window = UIWindow(windowScene: windowScene)
 
-        let rootController: UIViewController
-        if let configurator = SceneDelegate.assembler.resolver.resolve(AppRootConfigurator.self) {
-            let appController = AppRootViewController()
-            do {
-                try configurator.configure(view: appController)
-                rootController = appController
-            } catch {
-                rootController = CrashErrorController()
-            }
-        } else {
-            rootController = CrashErrorController()
-        }
+        let tokensStorage = UserDefaultsStorage()
+        let services = AppServices(
+            networkService: GeneratedAPI(localService: tokensStorage),
+            tokensStorage: tokensStorage,
+            actionsStorage: SwiftDataStorage()
+        )
+
+        let rootController = AppRootViewController()
+        AppRootConfigurator(services: services).configure(view: rootController)
 
         let navigationController = UINavigationController(rootViewController: rootController)
         navigationController.setNavigationBarHidden(true, animated: false)

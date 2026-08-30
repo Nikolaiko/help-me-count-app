@@ -21,17 +21,11 @@ class AppRootViewController: BaseController, AppRootDisplayLogic {
     func displayLoginStatus(viewData: AppRoot.CheckLoginStatus.ViewData) {
         guard let navParent = self.navigationController else { return }
 
-        do {
-            switch viewData.destination {
-            case .authorized:
-                try router?.routeToAuthorized(parent: navParent)
-            case .login:
-                try router?.routeToLogin(parent: navParent)
-            }
-        } catch _ as DIErrors {
-            showDIError()
-        } catch {
-            showErrorAlert(title: "Неизвестаня ошибка")
+        switch viewData.destination {
+        case .authorized:
+            router?.routeToAuthorized(parent: navParent)
+        case .login:
+            router?.routeToLogin(parent: navParent)
         }
     }
 }

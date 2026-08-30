@@ -6,31 +6,25 @@
 //
 
 import UIKit
-import Swinject
 
 class TabControllerRouter: MainFeatureRouter {
-    private let resolver: Resolver
 
-    init(resolver: Resolver) {
-        self.resolver = resolver
+    private let services: AppServices
+
+    init(services: AppServices) {
+        self.services = services
     }
 
-    func routeToAddAction(parent: UINavigationController) throws {
-        guard let configurator = resolver.resolve(MainFeatureConfigurator.self)
-        else { throw DIErrors.unableToResolve }
-
+    func routeToAddAction(parent: UINavigationController) {
         let viewController = AddActionViewController()
-        try configurator.configure(view: viewController)
+        MainFeatureConfigurator(services: services).configure(view: viewController)
 
         parent.pushViewController(viewController, animated: true)
     }
 
-    func routeToLogin(parent: UINavigationController) throws {
-        guard let authConfigurator = resolver.resolve(AuthorizationConfigurator.self)
-        else { throw DIErrors.unableToResolve }
-
+    func routeToLogin(parent: UINavigationController) {
         let login = LoginViewController()
-        try authConfigurator.configure(view: login)
+        AuthorizationConfigurator(services: services).configure(view: login)
 
         parent.setViewControllers([login], animated: true)
     }
