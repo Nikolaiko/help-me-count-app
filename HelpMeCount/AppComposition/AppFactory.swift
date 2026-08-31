@@ -95,9 +95,9 @@ final class AppFactory: AppRootSceneFactory, AuthorizedSceneFactory, MainSceneFa
         let view = ActionsViewController()
         let presenter = ActionsTabPresenter(view: view)
         let interactor = ActionsTabInteractor(
-            networkLayer: service.api,
             presenter: presenter,
-            actionsStorage: service.actionStorage
+            worker: ActionsListWorker(networkService: service.api,
+                                      actionsStorage: service.actionStorage)
         )
         interactor.initSubscriptions()
         let router = TabControllerRouter(appFactory: self)

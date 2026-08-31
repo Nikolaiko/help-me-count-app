@@ -14,8 +14,8 @@ struct ActionsTabPresenter: ActionsListPresenter {
         self.view = view
     }
 
-    func displayActionsList(actions: [CountableAction]) {
-        view?.refreshActionsList(actions: actions)
+    func displayActionsList(response: RefreshActions.Response) {
+        view?.refreshActionsList(viewData: RefreshActions.ViewData(actions: response.actions))
     }
 
     func displayError(message: String) {

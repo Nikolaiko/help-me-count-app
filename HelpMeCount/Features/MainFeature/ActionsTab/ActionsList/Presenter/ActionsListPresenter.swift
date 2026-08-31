@@ -8,6 +8,6 @@
 import Foundation
 
 protocol ActionsListPresenter {
-    func displayActionsList(actions: [CountableAction])
+    func displayActionsList(response: RefreshActions.Response)
     func displayError(message: String)
 }

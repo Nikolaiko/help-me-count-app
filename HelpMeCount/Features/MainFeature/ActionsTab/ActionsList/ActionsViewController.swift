@@ -38,9 +38,9 @@ class ActionsViewController: BaseController, ActionsView {
         updateActionsList()
     }
 
-    func refreshActionsList(actions: [CountableAction]) {
+    func refreshActionsList(viewData: RefreshActions.ViewData) {
         Task { @MainActor in
-            self.actions = actions
+            self.actions = viewData.actions
             actionsTable.reloadData()
         }
     }
@@ -109,7 +109,7 @@ extension ActionsViewController: UITableViewDataSource {
         cell.setAction(action: actions[indexPath.row])
         cell.plusTapCallback = { [weak self] in
             guard let self else { return }
-            interactor?.addActionRepetition(action: actions[indexPath.row])
+            interactor?.addActionRepetition(request: AddActionRepetition.Request(action: actions[indexPath.row]))
         }
         return cell
     }

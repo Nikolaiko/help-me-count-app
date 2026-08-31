@@ -11,5 +11,5 @@ protocol ActionsView: AnyObject {
     var interactor: ActionsListInteractor? { get set }
     var router: MainFeatureRouter? { get set }
 
-    func refreshActionsList(actions: [CountableAction])
+    func refreshActionsList(viewData: RefreshActions.ViewData)
 }
