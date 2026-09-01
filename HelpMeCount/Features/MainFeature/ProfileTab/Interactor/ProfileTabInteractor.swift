@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ProfileTabInteractor: ProfileInteractor {
+class ProfileTabInteractor: ProfileInteractor, ProfileDataStore {
     private let presenter: ProfilePresenter
     private let worker: ProfileWorker
 

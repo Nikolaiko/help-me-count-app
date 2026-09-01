@@ -10,7 +10,7 @@ import UIKit
 class ActionsViewController: BaseController {
 
     var interactor: ActionsListInteractor?
-    var router: MainFeatureRouter?
+    var router: (ActionsRoutingLogic & ActionsDataPassing)?
 
     private let screenTitle: UILabel = .screenTitle(text: "Список действий")
     private let floatingButton: UIButton = .floatingActionButton(title: "+")
@@ -82,9 +82,7 @@ class ActionsViewController: BaseController {
 
     @objc
     private func addAction() {
-        guard let navParent = self.navigationController else { return }
-
-        router?.routeToAddAction(parent: navParent)
+        router?.routeToAddAction()
     }
 
     @objc

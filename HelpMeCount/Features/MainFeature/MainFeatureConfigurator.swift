@@ -41,7 +41,10 @@ class MainFeatureConfigurator {
             actionsStorage: services.actionsStorage
         )
         let interactor = ProfileTabInteractor(presenter: presenter, worker: worker)
-        let router = TabControllerRouter(services: services)
+        let router = ProfileRouter(services: services)
+
+        router.viewController = view
+        router.dataStore = interactor
 
         view.router = router
         view.interactor = interactor
@@ -55,7 +58,10 @@ class MainFeatureConfigurator {
         )
         let interactor = ActionsTabInteractor(presenter: presenter, worker: worker)
         interactor.initSubscriptions()
-        let router = TabControllerRouter(services: services)
+        let router = ActionsRouter(services: services)
+
+        router.viewController = view
+        router.dataStore = interactor
 
         view.router = router
         view.interactor = interactor
@@ -68,7 +74,10 @@ class MainFeatureConfigurator {
             localDataStorage: services.actionsStorage
         )
         let interactor = CreateActionInteractor(presenter: presenter, worker: worker)
-        let router = TabControllerRouter(services: services)
+        let router = AddActionRouter(services: services)
+
+        router.viewController = view
+        router.dataStore = interactor
 
         view.interactor = interactor
         view.router = router

@@ -21,6 +21,9 @@ struct AppRootConfigurator {
         let interactor = RootInteractor(presenter: presenter, worker: worker)
         let router = RootRouter(services: services)
 
+        router.viewController = view
+        router.dataStore = interactor
+
         view.interactor = interactor
         view.router = router
     }

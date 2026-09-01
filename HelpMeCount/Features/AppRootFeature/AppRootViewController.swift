@@ -10,7 +10,7 @@ import UIKit
 class AppRootViewController: BaseController, AppRootDisplayLogic {
 
     var interactor: AppRootInteractor?
-    var router: AppRootRouter?
+    var router: (AppRootRoutingLogic & AppRootDataPassing)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,13 +19,11 @@ class AppRootViewController: BaseController, AppRootDisplayLogic {
     }
 
     func displayLoginStatus(viewData: AppRoot.CheckLoginStatus.ViewData) {
-        guard let navParent = self.navigationController else { return }
-
         switch viewData.destination {
         case .authorized:
-            router?.routeToAuthorized(parent: navParent)
+            router?.routeToAuthorized()
         case .login:
-            router?.routeToLogin(parent: navParent)
+            router?.routeToLogin()
         }
     }
 }

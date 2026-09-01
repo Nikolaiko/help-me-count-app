@@ -22,7 +22,10 @@ class AuthorizationConfigurator {
             tokensStorage: services.tokensStorage
         )
         let interactor = ClassicLoginInteractor(presenter: presenter, worker: worker)
-        let router = ClassicAuthRouter(services: services)
+        let router = LoginRouter(services: services)
+
+        router.viewController = view
+        router.dataStore = interactor
 
         view.interactor = interactor
         view.router = router
@@ -35,7 +38,10 @@ class AuthorizationConfigurator {
             tokensStorage: services.tokensStorage
         )
         let interactor = ClassicRegisterInteractor(presenter: presenter, worker: worker)
-        let router = ClassicAuthRouter(services: services)
+        let router = RegisterRouter(services: services)
+
+        router.viewController = view
+        router.dataStore = interactor
 
         view.interactor = interactor
         view.router = router

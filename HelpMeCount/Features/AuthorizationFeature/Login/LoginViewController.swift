@@ -40,7 +40,7 @@ class LoginViewController: NavChildController {
     private let loadingIndicator = UIActivityIndicatorView()
 
     var interactor: LoginInteractor?
-    var router: AuthRouter?
+    var router: (LoginRoutingLogic & LoginDataPassing)?
 
     // MARK: Override
 
@@ -102,9 +102,8 @@ class LoginViewController: NavChildController {
     func successLogin() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            guard let navParent = self.navigationController else { return }
 
-            router?.routeToAuthorized(parent: navParent)
+            router?.routeToAuthorized()
         }
     }
 
@@ -198,9 +197,7 @@ class LoginViewController: NavChildController {
 
     @objc
     private func goToRegisterScreen() {
-        guard let navParent = self.navigationController else { return }
-
-        router?.routeToRegister(parent: navParent)
+        router?.routeToRegister()
     }
 
     @objc

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ClassicRegisterInteractor: RegisterInteractor {
+class ClassicRegisterInteractor: RegisterInteractor, RegisterDataStore {
     private let presenter: RegisterPresenter
     private let worker: RegisterWorker
 

@@ -1,16 +1,29 @@
 //
-//  RootRouter.swift
+//  LoginRouter.swift
 //  HelpMeCount
 //
-//  Created by Nikolai Baklanov on 29.12.2025.
+//  Created by Nikolai Baklanov on 31.12.2025.
 //
 
 import UIKit
 
-class RootRouter: AppRootRoutingLogic, AppRootDataPassing {
+protocol LoginRoutingLogic {
+    func routeToRegister()
+    func routeToAuthorized()
+}
 
-    weak var viewController: AppRootViewController?
-    var dataStore: AppRootDataStore?
+protocol LoginDataPassing {
+    var dataStore: LoginDataStore? { get }
+}
+
+protocol LoginDataStore {
+    // Пока сцены не делятся данными напрямую — слот на будущее.
+}
+
+class LoginRouter: LoginRoutingLogic, LoginDataPassing {
+
+    weak var viewController: LoginViewController?
+    var dataStore: LoginDataStore?
 
     private let services: AppServices
 
@@ -18,15 +31,15 @@ class RootRouter: AppRootRoutingLogic, AppRootDataPassing {
         self.services = services
     }
 
-    func routeToLogin() {
+    func routeToRegister() {
         guard let source = viewController,
               let navParent = source.navigationController
         else { return }
 
-        let destination = LoginViewController()
+        let destination = RegisterViewController()
         AuthorizationConfigurator(services: services).configure(view: destination)
 
-        navigateToLoginScene(source: navParent, destination: destination)
+        navigateToRegisterScene(source: navParent, destination: destination)
     }
 
     func routeToAuthorized() {
@@ -41,11 +54,12 @@ class RootRouter: AppRootRoutingLogic, AppRootDataPassing {
 
     // MARK: Navigation
 
-    private func navigateToLoginScene(source: UINavigationController, destination: LoginViewController) {
+    private func navigateToRegisterScene(source: UINavigationController, destination: RegisterViewController) {
         source.pushViewController(destination, animated: true)
     }
 
     private func navigateToAuthorizedScene(source: UINavigationController, destination: MainViewController) {
+        source.popToRootViewController(animated: true)
         source.pushViewController(destination, animated: true)
     }
 }

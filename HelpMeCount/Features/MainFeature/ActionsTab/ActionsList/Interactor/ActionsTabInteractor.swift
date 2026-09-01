@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class ActionsTabInteractor: ActionsListInteractor {
+class ActionsTabInteractor: ActionsListInteractor, ActionsDataStore {
     private let presenter: ActionsListPresenter
     private let worker: ActionsWorker
     private var disposeBag: Set<AnyCancellable> = []

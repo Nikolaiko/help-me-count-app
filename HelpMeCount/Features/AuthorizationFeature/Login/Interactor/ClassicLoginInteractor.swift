@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ClassicLoginInteractor: LoginInteractor {
+class ClassicLoginInteractor: LoginInteractor, LoginDataStore {
     private let presenter: LoginPresenter
     private let worker: LoginWorker
 

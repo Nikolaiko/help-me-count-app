@@ -7,7 +7,15 @@
 
 import UIKit
 
-protocol AppRootRouter {
-    func routeToLogin(parent: UINavigationController)
-    func routeToAuthorized(parent: UINavigationController)
+protocol AppRootRoutingLogic {
+    func routeToLogin()
+    func routeToAuthorized()
+}
+
+protocol AppRootDataPassing {
+    var dataStore: AppRootDataStore? { get }
+}
+
+protocol AppRootDataStore {
+    // Пока сцены не делятся данными напрямую — слот на будущее.
 }

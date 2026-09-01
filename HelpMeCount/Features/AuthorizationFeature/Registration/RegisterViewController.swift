@@ -41,7 +41,7 @@ class RegisterViewController: NavChildController {
 
 
     var interactor: RegisterInteractor?
-    var router: AuthRouter?
+    var router: (RegisterRoutingLogic & RegisterDataPassing)?
 
     // MARK: Override
 
@@ -103,9 +103,8 @@ class RegisterViewController: NavChildController {
     func successRegister() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            guard let navParent = self.navigationController else { return }
 
-            router?.routeToAuthorized(parent: navParent)
+            router?.routeToAuthorized()
         }
     }
 
@@ -189,8 +188,7 @@ class RegisterViewController: NavChildController {
 
     @objc
     private func backToLogin() {
-        guard let navParent = self.navigationController else { return }        
-        router?.routeBackToLogin(parent: navParent)
+        router?.routeBackToLogin()
     }
 
     @objc

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CreateActionInteractor: AddActionInteractor {
+class CreateActionInteractor: AddActionInteractor, AddActionDataStore {
     private let presenter: AddActionPresenter
     private let worker: AddActionWorker
 

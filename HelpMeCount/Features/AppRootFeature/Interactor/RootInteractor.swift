@@ -7,7 +7,7 @@
 
 import Foundation
 
-class RootInteractor: AppRootInteractor {
+class RootInteractor: AppRootInteractor, AppRootDataStore {
     private let presenter: AppRootPresenter
     private let worker: AppRootWorker
 

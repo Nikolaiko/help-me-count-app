@@ -9,7 +9,7 @@ import UIKit
 
 class AddActionViewController: BaseController {
     var interactor: AddActionInteractor?
-    var router: MainFeatureRouter?
+    var router: (AddActionRoutingLogic & AddActionDataPassing)?
 
     private let screenTitle: UILabel = .screenTitle(text: "Список действий")
 
@@ -127,8 +127,7 @@ class AddActionViewController: BaseController {
     @objc
     private func backToActionsList() {
         Task { @MainActor in
-            guard let navParent = self.navigationController else { return }
-            router?.routeBackFromAddAction(parent: navParent)
+            router?.routeBackFromAddAction()
         }
     }
 

@@ -10,7 +10,7 @@ import UIKit
 final class ProfileViewController: BaseController {
 
     var interactor: ProfileInteractor?
-    var router: MainFeatureRouter?
+    var router: (ProfileRoutingLogic & ProfileDataPassing)?
 
     private let screenTitle: UILabel = .screenTitle(text: "Профиль")
     private let actionsTable = UITableView()
@@ -72,9 +72,7 @@ final class ProfileViewController: BaseController {
     }
 
     func returnToLoginScreen() {
-        guard let navParent = self.navigationController else { return }
-
-        router?.routeToLogin(parent: navParent)
+        router?.routeToLogin()
     }
 }
 
