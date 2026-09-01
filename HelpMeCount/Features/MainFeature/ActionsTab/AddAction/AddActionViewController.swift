@@ -12,6 +12,7 @@ class AddActionViewController: BaseController {
     var router: (AddActionRoutingLogic & AddActionDataPassing)?
 
     private let screenTitle: UILabel = .screenTitle(text: "Список действий")
+    private let createdAtLabel: UILabel = .simpleLabel(text: "")
 
     private let actionTitleField = LabeledTextField(title: "Название действия", placeholder: "Название действия")
 
@@ -51,6 +52,12 @@ class AddActionViewController: BaseController {
         setupViews()
         makeConstraints()
 
+        // Демонстрация канонического data-passing между сценами: дата и время
+        // приходят из ActionsRouter.passDataToAddActionScene через dataStore.
+        if let createdAt = (interactor as? AddActionDataStore)?.createdAt {
+            createdAtLabel.text = "Создано: " + DateFormatter.localizedString(from: createdAt, dateStyle: .short, timeStyle: .medium)
+        }
+
         updateName(name: actionTitleField.getCurrentText())
         updateMaxCount(count: maxRepeatsField.getCurrentText())
         updateCurrentCount(count: currentRepeatsField.getCurrentText())
@@ -82,6 +89,7 @@ class AddActionViewController: BaseController {
         buttonsStack.addArrangedSubview(addButton)
 
         view.addSubview(screenTitle)
+        view.addSubview(createdAtLabel)
         view.addSubview(inputFieldsStack)
         view.addSubview(buttonsStack)
     }
@@ -96,8 +104,13 @@ class AddActionViewController: BaseController {
             currentView.centerX.equalTo(view)
         }
 
+        createdAtLabel.snp.makeConstraints { currentView in
+            currentView.top.equalTo(screenTitle.snp.bottom).offset(8)
+            currentView.centerX.equalTo(view)
+        }
+
         inputFieldsStack.snp.makeConstraints { currentView in
-            currentView.top.equalTo(screenTitle.snp.bottom).offset(20)
+            currentView.top.equalTo(createdAtLabel.snp.bottom).offset(20)
             currentView.left.equalTo(view).offset(70)
             currentView.right.equalTo(view).offset(-70)
         }

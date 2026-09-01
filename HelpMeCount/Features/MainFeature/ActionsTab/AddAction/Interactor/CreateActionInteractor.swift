@@ -15,6 +15,8 @@ class CreateActionInteractor: AddActionInteractor, AddActionDataStore {
     private var newActionMaxCount: Int?
     private var newActionCurrentCount: Int?
 
+    var createdAt: Date?
+
     init(presenter: AddActionPresenter, worker: AddActionWorker) {
         self.presenter = presenter
         self.worker = worker

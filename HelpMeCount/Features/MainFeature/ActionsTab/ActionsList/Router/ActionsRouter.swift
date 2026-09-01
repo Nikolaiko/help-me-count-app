@@ -16,7 +16,7 @@ protocol ActionsDataPassing {
 }
 
 protocol ActionsDataStore {
-    // Пока сцены не делятся данными напрямую — слот на будущее.
+    var currentDate: Date? { get }
 }
 
 class ActionsRouter: ActionsRoutingLogic, ActionsDataPassing {
@@ -38,6 +38,7 @@ class ActionsRouter: ActionsRoutingLogic, ActionsDataPassing {
         let destination = AddActionViewController()
         MainFeatureConfigurator(services: services).configure(view: destination)
 
+        passDataToAddActionScene(source: dataStore, destination: destination.router?.dataStore)
         navigateToAddActionScene(source: navParent, destination: destination)
     }
 
@@ -45,5 +46,11 @@ class ActionsRouter: ActionsRoutingLogic, ActionsDataPassing {
 
     private func navigateToAddActionScene(source: UINavigationController, destination: AddActionViewController) {
         source.pushViewController(destination, animated: true)
+    }
+
+    // MARK: Passing data
+
+    private func passDataToAddActionScene(source: ActionsDataStore?, destination: AddActionDataStore?) {
+        destination?.createdAt = source?.currentDate
     }
 }

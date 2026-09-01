@@ -13,6 +13,8 @@ class ActionsTabInteractor: ActionsListInteractor, ActionsDataStore {
     private let worker: ActionsWorker
     private var disposeBag: Set<AnyCancellable> = []
 
+    var currentDate: Date? { Date() }
+
     init(presenter: ActionsListPresenter, worker: ActionsWorker) {
         self.presenter = presenter
         self.worker = worker

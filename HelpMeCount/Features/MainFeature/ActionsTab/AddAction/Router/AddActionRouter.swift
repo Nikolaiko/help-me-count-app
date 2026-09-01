@@ -15,8 +15,8 @@ protocol AddActionDataPassing {
     var dataStore: AddActionDataStore? { get }
 }
 
-protocol AddActionDataStore {
-    // Пока сцены не делятся данными напрямую — слот на будущее.
+protocol AddActionDataStore: AnyObject {
+    var createdAt: Date? { get set }
 }
 
 class AddActionRouter: AddActionRoutingLogic, AddActionDataPassing {
