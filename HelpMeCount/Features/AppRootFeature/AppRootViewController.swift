@@ -18,11 +18,11 @@ class AppRootViewController: BaseController, AppRootView {
         interactor?.checkLoginStatus()
     }
 
-    func isUserLogged(isLogged: Bool) {
+    func isUserLogged(viewData: CheckLoginStatus.ViewData) {
         guard let navParent = self.navigationController else { return }
 
         do {
-            if isLogged {
+            if viewData.isLogged {
                 try router?.navigateToAuthorized(parent: navParent)
             } else {
                 try router?.navigateToLogin(parent: navParent)

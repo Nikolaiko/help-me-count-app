@@ -25,34 +25,34 @@ class ClassicRegisterInteractor: RegisterInteractor {
         self.networkService = networkService
     }
 
-    func updateLogin(newValue: String) {
-        self.login = newValue
-        self.presenter.setRegisterEnabled(isEnabled: validateInput())
+    func updateLogin(request: UpdateRegisterLogin.Request) {
+        self.login = request.value
+        self.presenter.setRegisterEnabled(response: ValidateRegisterForm.Response(isEnabled: validateInput()))
     }
 
-    func updatePassword(newValue: String) {
-        self.password = newValue
-        self.presenter.setRegisterEnabled(isEnabled: validateInput())
+    func updatePassword(request: UpdateRegisterPassword.Request) {
+        self.password = request.value
+        self.presenter.setRegisterEnabled(response: ValidateRegisterForm.Response(isEnabled: validateInput()))
     }
 
     func registerUser() {
         presenter.hideErrorText()
-        presenter.setIsLoading(isLoading: true)
+        presenter.setIsLoading(response: SetRegisterLoading.Response(isLoading: true))
 
         Task {
-            defer { presenter.setIsLoading(isLoading: false) }
+            defer { presenter.setIsLoading(response: SetRegisterLoading.Response(isLoading: false)) }
             let result = await networkService.registerUser(login: login, password: password)
             switch result {
             case .success(let token):
                 guard let savedToken = localStorage.saveUserToken(newToken: token)
                 else {
-                    presenter.showError(text: "Falied to save token")
+                    presenter.showError(response: ShowRegisterError.Response(text: "Falied to save token"))
                     return
                 }
 
                 presenter.successRegistration()
-            case .failure(let error):                
-                presenter.showError(text: "Register error")
+            case .failure(let error):
+                presenter.showError(response: ShowRegisterError.Response(text: "Register error"))
             }
         }
     }

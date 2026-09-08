@@ -63,9 +63,9 @@ class AddActionViewController: BaseController, AddActionView {
         cancelButton.addTarget(self, action: #selector(backToActionsList), for: .touchUpInside)
     }
 
-    func setAddButtonEnabled(enabled: Bool) {
+    func setAddButtonEnabled(viewData: ValidateNewAction.ViewData) {
         Task { @MainActor in
-            addButton.isEnabled = enabled
+            addButton.isEnabled = viewData.enabled
         }
     }
 
@@ -111,17 +111,17 @@ class AddActionViewController: BaseController, AddActionView {
     }
 
     private func updateName(name: String) {
-        interactor?.updateActionName(name: name)
+        interactor?.updateActionName(request: UpdateActionName.Request(name: name))
     }
 
     private func updateMaxCount(count: String) {
         let convertedInt = Int(count)
-        interactor?.updateMaxCount(count: convertedInt)
+        interactor?.updateMaxCount(request: UpdateMaxCount.Request(count: convertedInt))
     }
 
     private func updateCurrentCount(count: String) {
         let convertedInt = Int(count)
-        interactor?.updateCurrentCount(count: convertedInt)
+        interactor?.updateCurrentCount(request: UpdateCurrentCount.Request(count: convertedInt))
     }
 
     @objc

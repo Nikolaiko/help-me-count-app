@@ -14,7 +14,7 @@ class RootPresenter: AppRootPresenter {
         self.view = view
     }
 
-    func isUserLogged(isLogged: Bool) {
-        view?.isUserLogged(isLogged: isLogged)
+    func isUserLogged(response: CheckLoginStatus.Response) {
+        view?.isUserLogged(viewData: CheckLoginStatus.ViewData(isLogged: response.isLogged))
     }
 }

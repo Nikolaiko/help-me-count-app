@@ -8,5 +8,5 @@
 import Foundation
 
 protocol AppRootPresenter {
-    func isUserLogged(isLogged: Bool)
+    func isUserLogged(response: CheckLoginStatus.Response)
 }

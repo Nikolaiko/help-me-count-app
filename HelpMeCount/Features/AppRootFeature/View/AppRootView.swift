@@ -11,5 +11,5 @@ protocol AppRootView: AnyObject {
     var interactor: AppRootInteractor? { get set }
     var router: AppRootRouter? { get set }
 
-    func isUserLogged(isLogged: Bool)
+    func isUserLogged(viewData: CheckLoginStatus.ViewData)
 }

@@ -9,9 +9,9 @@
 import Foundation
 
 protocol RegisterPresenter {
-    func setRegisterEnabled(isEnabled: Bool)
-    func setIsLoading(isLoading: Bool)
-    func showError(text: String)
+    func setRegisterEnabled(response: ValidateRegisterForm.Response)
+    func setIsLoading(response: SetRegisterLoading.Response)
+    func showError(response: ShowRegisterError.Response)
     func hideErrorText()
     func successRegistration()
 }

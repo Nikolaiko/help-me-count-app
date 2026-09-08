@@ -11,9 +11,9 @@ protocol RegistrationController: AnyObject {
     var router: AuthRouter? { get set }
     var interactor: RegisterInteractor? { get set }
 
-    func setLoginEnabled(isEnabled: Bool)
-    func setIsLoading(isLoading: Bool)
-    func showErrorText(errorText: String)
+    func setLoginEnabled(viewData: ValidateRegisterForm.ViewData)
+    func setIsLoading(viewData: SetRegisterLoading.ViewData)
+    func showErrorText(viewData: ShowRegisterError.ViewData)
     func hideError()
     func successRegister()
 }

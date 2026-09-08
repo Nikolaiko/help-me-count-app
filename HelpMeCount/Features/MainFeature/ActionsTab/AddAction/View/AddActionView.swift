@@ -11,6 +11,6 @@ protocol AddActionView: AnyObject {
     var interactor: AddActionInteractor? { get set }
     var router: MainFeatureRouter? { get set }
 
-    func setAddButtonEnabled(enabled: Bool)
+    func setAddButtonEnabled(viewData: ValidateNewAction.ViewData)
     func newActionAdded()
 }

@@ -8,6 +8,6 @@
 import Foundation
 
 protocol AddActionPresenter {
-    func setAddButtonEnabled(enabled: Bool)
+    func setAddButtonEnabled(response: ValidateNewAction.Response)
     func newActionAdded()
 }

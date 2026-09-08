@@ -41,7 +41,8 @@ class ActionsTabInteractor: ActionsListInteractor {
         }
     }
 
-    func addActionRepetition(action: CountableAction) {
+    func addActionRepetition(request: AddActionRepetition.Request) {
+        let action = request.action
         let currentRepeats = action.currentRepeats + 1 > action.maxRepeats ? 1 : action.currentRepeats + 1
         let newAction = CountableAction(id: action.id,
                                         title: action.title,

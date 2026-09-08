@@ -11,9 +11,9 @@ protocol LoginView: AnyObject {
     var interactor: LoginInteractor? { get set }
     var router: AuthRouter? { get set }
 
-    func setLoginEnabled(isEnabled: Bool)
-    func setIsLoading(isLoading: Bool)
-    func showErrorText(errorText: String)
+    func setLoginEnabled(viewData: ValidateLoginForm.ViewData)
+    func setIsLoading(viewData: SetLoginLoading.ViewData)
+    func showErrorText(viewData: ShowLoginError.ViewData)
     func hideError()
     func successLogin()
 }

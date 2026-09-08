@@ -8,7 +8,7 @@
 import Foundation
 
 protocol LoginInteractor {
-    func updateLogin(newValue: String)
-    func updatePassword(newValue: String)
+    func updateLogin(request: UpdateLogin.Request)
+    func updatePassword(request: UpdatePassword.Request)
     func loginUser()
 }

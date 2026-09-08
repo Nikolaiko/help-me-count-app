@@ -15,16 +15,16 @@ class ClassicRegisterPresenter: RegisterPresenter {
         self.view = view
     }
 
-    func setRegisterEnabled(isEnabled: Bool) {
-        view?.setLoginEnabled(isEnabled: isEnabled)
+    func setRegisterEnabled(response: ValidateRegisterForm.Response) {
+        view?.setLoginEnabled(viewData: ValidateRegisterForm.ViewData(isEnabled: response.isEnabled))
     }
 
-    func setIsLoading(isLoading: Bool) {
-        view?.setIsLoading(isLoading: isLoading)
+    func setIsLoading(response: SetRegisterLoading.Response) {
+        view?.setIsLoading(viewData: SetRegisterLoading.ViewData(isLoading: response.isLoading))
     }
 
-    func showError(text: String) {
-        view?.showErrorText(errorText: text)
+    func showError(response: ShowRegisterError.Response) {
+        view?.showErrorText(viewData: ShowRegisterError.ViewData(text: response.text))
     }
 
     func hideErrorText() {

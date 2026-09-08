@@ -57,18 +57,19 @@ class LoginViewController: NavChildController, LoginView {
 
     // MARK: Public functions
 
-    func setLoginEnabled(isEnabled: Bool) {
+    func setLoginEnabled(viewData: ValidateLoginForm.ViewData) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
 
-            self.loginButton.isEnabled = isEnabled
+            self.loginButton.isEnabled = viewData.isEnabled
         }
     }
 
-    func setIsLoading(isLoading: Bool) {
+    func setIsLoading(viewData: SetLoginLoading.ViewData) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
 
+            let isLoading = viewData.isLoading
             self.registerButton.isEnabled = !isLoading
             self.loginButton.isEnabled = !isLoading
             self.loginTextField.isEnabled = !isLoading
@@ -82,11 +83,11 @@ class LoginViewController: NavChildController, LoginView {
         }
     }
 
-    func showErrorText(errorText: String) {
+    func showErrorText(viewData: ShowLoginError.ViewData) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
 
-            self.errorLabel.text = errorText
+            self.errorLabel.text = viewData.text
             self.errorLabel.isHidden = false
         }
     }
@@ -217,11 +218,11 @@ class LoginViewController: NavChildController, LoginView {
 
     @objc
     func loginDidChange(_ textField: UITextField) {
-        interactor?.updateLogin(newValue: textField.text ?? "")
+        interactor?.updateLogin(request: UpdateLogin.Request(value: textField.text ?? ""))
     }
 
     @objc
     func passwordDidChange(_ textField: UITextField) {
-        interactor?.updatePassword(newValue: textField.text ?? "")
+        interactor?.updatePassword(request: UpdatePassword.Request(value: textField.text ?? ""))
     }
 }

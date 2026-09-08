@@ -57,18 +57,19 @@ class RegisterViewController: NavChildController, RegistrationController {
 
     // MARK: Public functions
 
-    func setLoginEnabled(isEnabled: Bool) {
+    func setLoginEnabled(viewData: ValidateRegisterForm.ViewData) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
 
-            self.registerButton.isEnabled = isEnabled
+            self.registerButton.isEnabled = viewData.isEnabled
         }
     }
 
-    func setIsLoading(isLoading: Bool) {
+    func setIsLoading(viewData: SetRegisterLoading.ViewData) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
 
+            let isLoading = viewData.isLoading
             self.registerButton.isEnabled = !isLoading
             self.backButton.isEnabled = !isLoading
             self.loginTextField.isEnabled = !isLoading
@@ -82,11 +83,11 @@ class RegisterViewController: NavChildController, RegistrationController {
         }
     }
 
-    func showErrorText(errorText: String) {
+    func showErrorText(viewData: ShowRegisterError.ViewData) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
 
-            self.errorLabel.text = errorText
+            self.errorLabel.text = viewData.text
             self.errorLabel.isHidden = false
         }
     }
@@ -205,12 +206,12 @@ class RegisterViewController: NavChildController, RegistrationController {
 
     @objc
     func loginDidChange(_ textField: UITextField) {
-        interactor?.updateLogin(newValue: textField.text ?? "")
+        interactor?.updateLogin(request: UpdateRegisterLogin.Request(value: textField.text ?? ""))
     }
 
     @objc
     func passwordDidChange(_ textField: UITextField) {
-        interactor?.updatePassword(newValue: textField.text ?? "")
+        interactor?.updatePassword(request: UpdateRegisterPassword.Request(value: textField.text ?? ""))
     }
 }
 

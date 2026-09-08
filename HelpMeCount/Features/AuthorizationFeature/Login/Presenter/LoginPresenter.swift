@@ -8,9 +8,9 @@
 import Foundation
 
 protocol LoginPresenter {
-    func setLoginEnabled(isEnabled: Bool)
-    func setIsLoading(isLoading: Bool)
+    func setLoginEnabled(response: ValidateLoginForm.Response)
+    func setIsLoading(response: SetLoginLoading.Response)
     func successLogin()
-    func showError(text: String)
+    func showError(response: ShowLoginError.Response)
     func hideErrorText()
 }

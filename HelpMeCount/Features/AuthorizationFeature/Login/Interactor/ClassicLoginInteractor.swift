@@ -24,34 +24,34 @@ class ClassicLoginInteractor: LoginInteractor {
         self.networkService = networkService
     }
 
-    func updateLogin(newValue: String) {
-        self.login = newValue
-        self.presenter.setLoginEnabled(isEnabled: validateInput())
+    func updateLogin(request: UpdateLogin.Request) {
+        self.login = request.value
+        self.presenter.setLoginEnabled(response: ValidateLoginForm.Response(isEnabled: validateInput()))
     }
 
-    func updatePassword(newValue: String) {
-        self.password = newValue
-        self.presenter.setLoginEnabled(isEnabled: validateInput())
+    func updatePassword(request: UpdatePassword.Request) {
+        self.password = request.value
+        self.presenter.setLoginEnabled(response: ValidateLoginForm.Response(isEnabled: validateInput()))
     }
 
     func loginUser() {
         presenter.hideErrorText()
-        presenter.setIsLoading(isLoading: true)
+        presenter.setIsLoading(response: SetLoginLoading.Response(isLoading: true))
 
         Task {
-            defer { presenter.setIsLoading(isLoading: false) }
+            defer { presenter.setIsLoading(response: SetLoginLoading.Response(isLoading: false)) }
             let result = await networkService.loginUser(login: login, password: password)
             switch result {
             case .success(let token):
                 guard let savedToken = localStorage.saveUserToken(newToken: token)
                 else {
-                    presenter.showError(text: "Falied to save token")
+                    presenter.showError(response: ShowLoginError.Response(text: "Falied to save token"))
                     return
                 }
 
                 presenter.successLogin()
-            case .failure(let error):                
-                presenter.showError(text: "Login error")
+            case .failure(let error):
+                presenter.showError(response: ShowLoginError.Response(text: "Login error"))
             }
         }
     }

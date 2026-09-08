@@ -40,19 +40,19 @@ class CreateActionInteractor: AddActionInteractor {
         }
     }
 
-    func updateActionName(name: String) {
-        newActionName = name
-        presenter.setAddButtonEnabled(enabled: validate())
+    func updateActionName(request: UpdateActionName.Request) {
+        newActionName = request.name
+        presenter.setAddButtonEnabled(response: ValidateNewAction.Response(enabled: validate()))
     }
 
-    func updateMaxCount(count: Int?) {
-        newActionMaxCount = count
-        presenter.setAddButtonEnabled(enabled: validate())
+    func updateMaxCount(request: UpdateMaxCount.Request) {
+        newActionMaxCount = request.count
+        presenter.setAddButtonEnabled(response: ValidateNewAction.Response(enabled: validate()))
     }
 
-    func updateCurrentCount(count: Int?) {
-        newActionCurrentCount = count
-        presenter.setAddButtonEnabled(enabled: validate())
+    func updateCurrentCount(request: UpdateCurrentCount.Request) {
+        newActionCurrentCount = request.count
+        presenter.setAddButtonEnabled(response: ValidateNewAction.Response(enabled: validate()))
     }
 
     private func validate() -> Bool {

@@ -14,8 +14,8 @@ struct CreateActionPresenter: AddActionPresenter {
         self.view = view
     }
 
-    func setAddButtonEnabled(enabled: Bool) {
-        view?.setAddButtonEnabled(enabled: enabled)
+    func setAddButtonEnabled(response: ValidateNewAction.Response) {
+        view?.setAddButtonEnabled(viewData: ValidateNewAction.ViewData(enabled: response.enabled))
     }
 
     func newActionAdded() {

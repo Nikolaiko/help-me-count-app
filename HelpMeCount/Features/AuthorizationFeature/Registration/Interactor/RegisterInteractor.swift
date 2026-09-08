@@ -9,7 +9,7 @@
 import Foundation
 
 protocol RegisterInteractor {
-    func updateLogin(newValue: String)
-    func updatePassword(newValue: String)
+    func updateLogin(request: UpdateRegisterLogin.Request)
+    func updatePassword(request: UpdateRegisterPassword.Request)
     func registerUser()
 }
