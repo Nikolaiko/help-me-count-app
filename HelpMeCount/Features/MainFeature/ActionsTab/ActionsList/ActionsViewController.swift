@@ -10,7 +10,7 @@ import UIKit
 class ActionsViewController: BaseController, ActionsView {
 
     var interactor: ActionsListInteractor?
-    var router: MainFeatureRouter?
+    var router: ActionsListRouter?
 
     private let screenTitle: UILabel = .screenTitle(text: "Список действий")
     private let floatingButton: UIButton = .floatingActionButton(title: "+")
@@ -82,10 +82,8 @@ class ActionsViewController: BaseController, ActionsView {
 
     @objc
     private func addAction() {
-        guard let navParent = self.navigationController else { return }
-
         do {
-            try router?.navigateToAddAction(parent: navParent)
+            try router?.navigateToAddAction()
         } catch {
             showErrorAlert(title: "Error during navigation")
         }
@@ -96,6 +94,8 @@ class ActionsViewController: BaseController, ActionsView {
         interactor?.resfreshActionsList()
         refreshControl.endRefreshing()
     }
+
+    func getNavController() -> UINavigationController? { self.navigationController }
 }
 
 extension ActionsViewController: UITableViewDataSource {

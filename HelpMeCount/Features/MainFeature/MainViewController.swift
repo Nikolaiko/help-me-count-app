@@ -28,4 +28,12 @@ class MainViewController: UITabBarController {
 
         viewControllers = childTabs
     }
+
+    func passDataActionsList(message: String) {
+        for x in childTabs {
+            if let actions = x as? ActionsView {
+                actions.interactor?.message = message
+            }
+        }
+    }
 }

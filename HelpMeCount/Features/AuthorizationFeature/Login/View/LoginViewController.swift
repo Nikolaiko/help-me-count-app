@@ -103,10 +103,9 @@ class LoginViewController: NavChildController, LoginView {
     func successLogin() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            guard let navParent = self.navigationController else { return }
 
             do {
-                try router?.goToAuthorizedScreen(parent: navParent)
+                try router?.goToAuthorizedScreen()
             } catch _ as DIErrors {
                 showDIError()
             } catch {
@@ -114,6 +113,8 @@ class LoginViewController: NavChildController, LoginView {
             }
         }
     }
+
+    func getNavController() -> UINavigationController? { self.navigationController }
 
     // MARK: Private functions
 
@@ -205,10 +206,8 @@ class LoginViewController: NavChildController, LoginView {
 
     @objc
     private func goToRegisterScreen() {
-        guard let navParent = self.navigationController else { return }
-
         do {
-            try router?.goToRegister(parent: navParent)
+            try router?.goToRegister()
         } catch _ as DIErrors {
             showDIError()
         } catch {

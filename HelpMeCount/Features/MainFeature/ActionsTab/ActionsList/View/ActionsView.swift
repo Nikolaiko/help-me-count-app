@@ -5,11 +5,11 @@
 //  Created by Nikolai Baklanov on 15.08.2026.
 //
 
-import Foundation
+import UIKit
 
-protocol ActionsView: AnyObject {
+protocol ActionsView: NavigatableView {
     var interactor: ActionsListInteractor? { get set }
-    var router: MainFeatureRouter? { get set }
+    var router: ActionsListRouter? { get set }
 
     func refreshActionsList(viewData: RefreshActions.ViewData)
 }

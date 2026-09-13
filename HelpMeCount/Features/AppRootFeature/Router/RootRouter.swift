@@ -7,7 +7,8 @@
 
 import UIKit
 
-class RootRouter: AppRootRouter {
+final class AppRootViewControllerRouter: AppRootRouter {
+    weak var controller: AppRootView?
 
     private let appFactory: AppRootSceneFactory
 
@@ -15,13 +16,17 @@ class RootRouter: AppRootRouter {
         self.appFactory = appFactory
     }
 
-    func navigateToLogin(parent: UINavigationController) throws {
+    func navigateToLogin() throws {
+        guard let navParent = controller?.getNavController() else { throw NavigationErrors.parentNotFound }
+
         let view = appFactory.makeLogin()
-        parent.pushViewController(view, animated: true)
+        navParent.pushViewController(view, animated: true)
     }
 
-    func navigateToAuthorized(parent: UINavigationController) throws {
+    func navigateToAuthorized() throws {
+        guard let navParent = controller?.getNavController() else { throw NavigationErrors.parentNotFound }
+
         let tabController = appFactory.makeAuthorizedTabBar()
-        parent.pushViewController(tabController, animated: true)
+        navParent.pushViewController(tabController, animated: true)
     }
 }

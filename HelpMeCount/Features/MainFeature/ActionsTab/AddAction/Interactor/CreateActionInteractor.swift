@@ -16,6 +16,13 @@ class CreateActionInteractor: AddActionInteractor {
     private var newActionMaxCount: Int?
     private var newActionCurrentCount: Int?
 
+    private var currentDate: Date?
+
+    var passedDate: Date {
+        get { currentDate ?? Date() }
+        set { currentDate = newValue }
+    }
+
     init(presenter: AddActionPresenter,
          networkService: NetworkService,
          localDataStorage: LocalActionsStorage) {

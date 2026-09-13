@@ -103,10 +103,9 @@ class RegisterViewController: NavChildController, RegistrationController {
     func successRegister() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            guard let navParent = self.navigationController else { return }
 
             do {
-                try router?.goToAuthorizedScreen(parent: navParent)
+                try router?.goToAuthorizedScreen()
             } catch _ as DIErrors {
                 showDIError()
             } catch {
@@ -114,6 +113,8 @@ class RegisterViewController: NavChildController, RegistrationController {
             }
         }
     }
+
+    func getNavController() -> UINavigationController? { self.navigationController }
 
     // MARK: Private functions
 
@@ -195,8 +196,13 @@ class RegisterViewController: NavChildController, RegistrationController {
 
     @objc
     private func backToLogin() {
-        guard let navParent = self.navigationController else { return }        
-        router?.backToLogin(parent: navParent)
+        do {
+            try router?.backToLogin()
+        } catch _ as DIErrors {
+            showDIError()
+        } catch {
+            showErrorAlert(title: "Неизвестаня ошибка")
+        }
     }
 
     @objc

@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol RegistrationController: AnyObject {
+protocol RegistrationController: NavigatableView {
     var router: AuthRouter? { get set }
     var interactor: RegisterInteractor? { get set }
 

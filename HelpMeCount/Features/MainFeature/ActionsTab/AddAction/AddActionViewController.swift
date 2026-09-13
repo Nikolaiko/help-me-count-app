@@ -9,7 +9,7 @@ import UIKit
 
 class AddActionViewController: BaseController, AddActionView {
     var interactor: AddActionInteractor?
-    var router: MainFeatureRouter?
+    var router: AddActionRouter?
 
     private let screenTitle: UILabel = .screenTitle(text: "Список действий")
 
@@ -110,6 +110,8 @@ class AddActionViewController: BaseController, AddActionView {
         }
     }
 
+    func getNavController() -> UINavigationController? { self.navigationController }
+
     private func updateName(name: String) {
         interactor?.updateActionName(request: UpdateActionName.Request(name: name))
     }
@@ -127,8 +129,11 @@ class AddActionViewController: BaseController, AddActionView {
     @objc
     private func backToActionsList() {
         Task { @MainActor in
-            guard let navParent = self.navigationController else { return }
-            router?.backFromAddAction(parent: navParent)
+            do {
+                try router?.backFromAddActions()
+            } catch {
+                showErrorAlert(title: "Error during navigation")
+            }
         }
     }
 

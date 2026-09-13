@@ -7,8 +7,12 @@
 
 import Foundation
 
-protocol ActionsListInteractor {
+protocol ActionsListInteractor: ActionsListDateProvider & ActionsListMessageReceiver {
     func initSubscriptions()
     func resfreshActionsList()
     func addActionRepetition(request: AddActionRepetition.Request)
+}
+
+protocol ActionsListMessageReceiver {
+    var message: String? { get set }
 }

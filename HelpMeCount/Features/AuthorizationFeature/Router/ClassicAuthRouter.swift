@@ -7,25 +7,33 @@
 
 import UIKit
 
-class ClassicAuthRouter: AuthRouter {
+final class AuthViewControllerRouter: AuthRouter {
+    weak var controller: NavigatableView?
+
     private let appFactory: AuthorizedSceneFactory
 
     init(appFactory: AuthorizedSceneFactory) {
         self.appFactory = appFactory
     }
 
-    func goToRegister(parent: UINavigationController) throws {
+    func goToRegister() throws {
+        guard let navParent = controller?.getNavController() else { throw NavigationErrors.parentNotFound }
+
         let controller = appFactory.makeRegister()
-        parent.pushViewController(controller, animated: true)
+        navParent.pushViewController(controller, animated: true)
     }
 
-    func goToAuthorizedScreen(parent: UINavigationController) throws {
+    func goToAuthorizedScreen() throws {
+        guard let navParent = controller?.getNavController() else { throw NavigationErrors.parentNotFound }
+
         let view = appFactory.makeAuthorizedTabBar()
-        parent.popToRootViewController(animated: true)
-        parent.pushViewController(view, animated: true)
+        navParent.popToRootViewController(animated: true)
+        navParent.pushViewController(view, animated: true)
     }
 
-    func backToLogin(parent: UINavigationController) {
-        parent.popViewController(animated: true)
+    func backToLogin() throws {
+        guard let navParent = controller?.getNavController() else { throw NavigationErrors.parentNotFound }
+
+        navParent.popViewController(animated: true)
     }
 }

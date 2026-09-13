@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol LoginView: AnyObject {
+protocol LoginView: NavigatableView {
     var interactor: LoginInteractor? { get set }
     var router: AuthRouter? { get set }
 

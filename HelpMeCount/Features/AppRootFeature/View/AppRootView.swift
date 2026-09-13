@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol AppRootView: AnyObject {
+protocol AppRootView: NavigatableView {
     var interactor: AppRootInteractor? { get set }
     var router: AppRootRouter? { get set }
 

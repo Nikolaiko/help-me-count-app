@@ -5,11 +5,11 @@
 //  Created by Nikolai Baklanov on 15.08.2026.
 //
 
-import Foundation
+import UIKit
 
-protocol AddActionView: AnyObject {
+protocol AddActionView: NavigatableView {
     var interactor: AddActionInteractor? { get set }
-    var router: MainFeatureRouter? { get set }
+    var router: AddActionRouter? { get set }
 
     func setAddButtonEnabled(viewData: ValidateNewAction.ViewData)
     func newActionAdded()

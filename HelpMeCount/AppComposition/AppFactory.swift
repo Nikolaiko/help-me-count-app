@@ -34,7 +34,8 @@ final class AppFactory: AppRootSceneFactory, AuthorizedSceneFactory, MainSceneFa
         let view = AppRootViewController()
         let presenter = RootPresenter(view: view)
         let interactor = RootInteractor(presenter: presenter, localService: service.tokenStorage)
-        let router = RootRouter(appFactory: self)
+        let router = AppRootViewControllerRouter(appFactory: self)
+        router.controller = view
 
         view.interactor = interactor
         view.router = router
@@ -46,7 +47,8 @@ final class AppFactory: AppRootSceneFactory, AuthorizedSceneFactory, MainSceneFa
         let view = LoginViewController()
         let presenter = ClassicLoginPresenter(view: view)
         let interactor = ClassicLoginInteractor(presenter: presenter, localStorage: service.tokenStorage, networkService: service.api)
-        let router = ClassicAuthRouter(appFactory: self)
+        let router = AuthViewControllerRouter(appFactory: self)
+        router.controller = view
 
         view.interactor = interactor
         view.router = router
@@ -62,7 +64,8 @@ final class AppFactory: AppRootSceneFactory, AuthorizedSceneFactory, MainSceneFa
             localStorage: service.tokenStorage,
             networkService: service.api
         )
-        let router = ClassicAuthRouter(appFactory: self)
+        let router = AuthViewControllerRouter(appFactory: self)
+        router.controller = view
 
         view.interactor = interactor
         view.router = router
@@ -84,8 +87,9 @@ final class AppFactory: AppRootSceneFactory, AuthorizedSceneFactory, MainSceneFa
             networkService: service.api,
             localDataStorage: service.actionStorage
         )
-        let router = TabControllerRouter(appFactory: self)
-
+        let router = AddActionViewControllerRouter()
+        router.controller = view
+        
         view.interactor = interactor
         view.router = router
         return view
@@ -100,7 +104,8 @@ final class AppFactory: AppRootSceneFactory, AuthorizedSceneFactory, MainSceneFa
                                       actionsStorage: service.actionStorage)
         )
         interactor.initSubscriptions()
-        let router = TabControllerRouter(appFactory: self)
+        let router = ActionsViewControllerRouter(appFactory: self)
+        router.controller = view
 
         view.interactor = interactor
         view.router = router
@@ -115,7 +120,8 @@ final class AppFactory: AppRootSceneFactory, AuthorizedSceneFactory, MainSceneFa
             tokenStorage: service.tokenStorage,
             actionsStorage: service.actionStorage
         )
-        let router = TabControllerRouter(appFactory: self)
+        let router = ProfileViewControllerRouter()
+        router.controller = view
 
         view.interactor = interactor
         view.router = router

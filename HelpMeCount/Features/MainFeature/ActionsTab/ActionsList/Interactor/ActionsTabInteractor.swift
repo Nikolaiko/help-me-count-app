@@ -13,6 +13,13 @@ class ActionsTabInteractor: ActionsListInteractor {
     private let worker: ListWorker
     private var disposeBag: Set<AnyCancellable> = []
 
+    private var currentMessage: String?
+
+    var message: String? {
+        get { currentMessage }
+        set { currentMessage = newValue }
+    }
+
     init(presenter: ActionsListPresenter, worker: ListWorker) {
         self.presenter = presenter
         self.worker = worker
@@ -39,6 +46,10 @@ class ActionsTabInteractor: ActionsListInteractor {
                 }
             }
         }
+    }
+
+    func currentDate() -> Date {
+        Date()
     }
 
     func addActionRepetition(request: AddActionRepetition.Request) {

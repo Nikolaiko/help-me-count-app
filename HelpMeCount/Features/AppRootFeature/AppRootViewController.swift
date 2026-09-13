@@ -19,13 +19,11 @@ class AppRootViewController: BaseController, AppRootView {
     }
 
     func isUserLogged(viewData: CheckLoginStatus.ViewData) {
-        guard let navParent = self.navigationController else { return }
-
         do {
             if viewData.isLogged {
-                try router?.navigateToAuthorized(parent: navParent)
+                try router?.navigateToAuthorized()
             } else {
-                try router?.navigateToLogin(parent: navParent)
+                try router?.navigateToLogin()
             }
         } catch _ as DIErrors {
             showDIError()
@@ -33,4 +31,6 @@ class AppRootViewController: BaseController, AppRootView {
             showErrorAlert(title: "Неизвестаня ошибка")
         }
     }
+
+    func getNavController() -> UINavigationController? { self.navigationController }
 }

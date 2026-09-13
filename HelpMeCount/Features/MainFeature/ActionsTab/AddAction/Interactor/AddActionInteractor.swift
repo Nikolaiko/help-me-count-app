@@ -7,9 +7,13 @@
 
 import Foundation
 
-protocol AddActionInteractor {
+protocol AddActionInteractor: PassDataStorage {
     func createNewAction()
     func updateActionName(request: UpdateActionName.Request)
     func updateMaxCount(request: UpdateMaxCount.Request)
     func updateCurrentCount(request: UpdateCurrentCount.Request)
+}
+
+protocol PassDataStorage {
+    var passedDate: Date { get set }
 }

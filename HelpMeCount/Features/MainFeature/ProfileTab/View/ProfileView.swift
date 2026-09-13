@@ -7,9 +7,9 @@
 
 import Foundation
 
-protocol ProfileView: AnyObject {
+protocol ProfileView: NavigatableView {
     var interactor: ProfileInteractor? { get set }
-    var router: MainFeatureRouter? { get set }
+    var router: ProfileRouter? { get set }
 
     func showLogoutConfirmation()
     func returnToLoginScreen()
